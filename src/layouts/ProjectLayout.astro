@@ -36,6 +36,8 @@ const { title, description, ogImage, ogImageAlt, features = [], cta } = Astro.pr
 ---
 
 <PageLayout title={title} description={description} ogImage={ogImage} ogImageAlt={ogImageAlt}>
+  <slot name="head" slot="head" />
+
   <!-- Hero -->
   <section class="project-hero" aria-labelledby="project-title">
     <h1 id="project-title">{title}</h1>
