@@ -1,0 +1,68 @@
+---
+/**
+ * ProjectLayout — showcase layout for individual project pages.
+ *
+ * Wraps PageLayout and adds:
+ *   - Hero section with project title and description
+ *   - Feature grid rendered from frontmatter
+ *   - CTA button
+ *   - MDX body content slot
+ *
+ * Used by: /projects/[slug] routes (e.g., /projects/isnad-graph)
+ */
+import PageLayout from "./PageLayout.astro";
+
+interface Feature {
+  title: string;
+  description: string;
+  icon?: string;
+}
+
+interface CTA {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  features?: Feature[];
+  cta?: CTA;
+}
+
+const { title, description, ogImage, ogImageAlt, features = [], cta } = Astro.props;
+---
+
+<PageLayout title={title} description={description} ogImage={ogImage} ogImageAlt={ogImageAlt}>
+  <!-- Hero -->
+  <section class="project-hero" aria-labelledby="project-title">
+    <h1 id="project-title">{title}</h1>
+    <p class="project-description">{description}</p>
+
+    {cta && (
+      <a href={cta.href} class="cta-button" role="link">
+        {cta.label}
+      </a>
+    )}
+  </section>
+
+  <!-- Features grid -->
+  {features.length > 0 && (
+    <section class="features-grid" aria-label="Key features">
+      {features.map((feature) => (
+        <article class="feature-card">
+          {feature.icon && <span class="feature-icon" aria-hidden="true">{feature.icon}</span>}
+          <h2>{feature.title}</h2>
+          <p>{feature.description}</p>
+        </article>
+      ))}
+    </section>
+  )}
+
+  <!-- MDX body content -->
+  <section class="project-content prose">
+    <slot />
+  </section>
+</PageLayout>
