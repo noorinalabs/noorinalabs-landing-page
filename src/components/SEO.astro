@@ -1,0 +1,46 @@
+---
+/**
+ * SEO — structured data component for JSON-LD.
+ *
+ * Renders Organization and WebSite schemas by default.
+ * Accepts optional per-page structured data via the `schemas` prop.
+ *
+ * Usage:
+ *   <SEO slot="head" />
+ *   <SEO slot="head" schemas={[myCustomSchema]} />
+ */
+
+interface Props {
+  /** Additional JSON-LD schemas to render alongside the defaults */
+  schemas?: Record<string, unknown>[];
+}
+
+const { schemas = [] } = Astro.props;
+
+const siteUrl =
+  Astro.site?.toString().replace(/\/$/, "") ?? "https://noorinalabs.org";
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "NoorinALabs",
+  url: siteUrl,
+  description: "Open tools for Islamic scholarly research.",
+  logo: `${siteUrl}/images/og/default.png`,
+};
+
+const webSiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "NoorinALabs",
+  url: siteUrl,
+};
+
+const allSchemas = [organizationSchema, webSiteSchema, ...schemas];
+---
+
+{
+  allSchemas.map((schema) => (
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  ))
+}
