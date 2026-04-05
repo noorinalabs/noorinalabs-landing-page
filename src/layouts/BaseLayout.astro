@@ -1,0 +1,108 @@
+---
+import "../styles/global.css";
+
+/**
+ * BaseLayout — the HTML shell for every page.
+ *
+ * Responsibilities:
+ *   - <html>, <head>, <body> boilerplate
+ *   - Global meta tags, Open Graph defaults, favicon
+ *   - Shared CSS/font imports
+ *   - Skip-to-content link for accessibility
+ *
+ * This layout does NOT include navigation or footer — those belong in
+ * PageLayout or ProjectLayout, which wrap this one.
+ */
+
+interface Props {
+  /** Page <title> */
+  title: string;
+  /** Meta description */
+  description?: string;
+  /** Open Graph image (absolute URL or site-relative path) */
+  ogImage?: string;
+  /** Open Graph image alt text */
+  ogImageAlt?: string;
+  /** Canonical URL override */
+  canonicalUrl?: string;
+}
+
+const {
+  title,
+  description = "NoorinALabs — open tools for Islamic scholarly research.",
+  ogImage = "/images/og/default.png",
+  ogImageAlt = "NoorinALabs",
+  canonicalUrl,
+} = Astro.props;
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? "";
+const canonical = canonicalUrl ?? Astro.url.href;
+const resolvedOgImage = ogImage.startsWith("http") ? ogImage : `${siteUrl}${ogImage}`;
+---
+
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{title} | NoorinALabs</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={resolvedOgImage} />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="NoorinALabs" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={resolvedOgImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+
+    <!-- Favicon (placeholder — replace with brand asset) -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Slot for per-page <head> additions (structured data, preloads, etc.) -->
+    <slot name="head" />
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <slot />
+
+    <!-- Slot for page-level scripts -->
+    <slot name="scripts" />
+  </body>
+</html>
+
+<style is:global>
+  /* Minimal reset — design system will supply the full token set */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    z-index: 999;
+    padding: 0.5rem 1rem;
+    background: var(--color-surface, #fff);
+    color: var(--color-text, #000);
+  }
+
+  .skip-link:focus {
+    left: 0;
+  }
+</style>
