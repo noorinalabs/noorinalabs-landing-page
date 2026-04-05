@@ -1,0 +1,55 @@
+---
+/**
+ * Isnad Graph project page — renders src/content/projects/isnad-graph.mdx
+ * through ProjectLayout with hero, feature grid, CTA, and JSON-LD.
+ */
+import { getEntry, render } from "astro:content";
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+
+const entry = await getEntry("projects", "isnad-graph");
+if (!entry) throw new Error("Missing content entry: projects/isnad-graph");
+
+const { Content } = await render(entry);
+const { title, description, ogImage, features, cta } = entry.data;
+
+/* ------------------------------------------------------------------ */
+/*  JSON-LD structured data (SoftwareApplication schema)              */
+/* ------------------------------------------------------------------ */
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? "";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: title,
+  description,
+  url: `${siteUrl}/projects/isnad-graph`,
+  applicationCategory: "EducationalApplication",
+  operatingSystem: "Web",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+  author: {
+    "@type": "Organization",
+    name: "NoorinALabs",
+    url: siteUrl,
+  },
+};
+---
+
+<ProjectLayout
+  title={title}
+  description={description}
+  ogImage={ogImage?.src}
+  ogImageAlt={ogImage?.alt}
+  features={features}
+  cta={cta}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+
+  <Content />
+</ProjectLayout>

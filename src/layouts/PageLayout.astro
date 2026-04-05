@@ -42,6 +42,8 @@ const footerNav = {
 ---
 
 <BaseLayout title={title} description={description} ogImage={ogImage} ogImageAlt={ogImageAlt}>
+  <slot name="head" slot="head" />
+
   <!-- Header -->
   <header role="banner">
     <nav aria-label="Primary navigation">
