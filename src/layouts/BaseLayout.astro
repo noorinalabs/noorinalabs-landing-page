@@ -1,0 +1,55 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "NoorinALabs — open tools for Islamic scholarly research.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{title} | NoorinALabs</title>
+    <meta name="description" content={description} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    z-index: 999;
+    padding: 0.5rem 1rem;
+    background: var(--color-surface, #fff);
+    color: var(--color-text, #000);
+  }
+
+  .skip-link:focus {
+    left: 0;
+  }
+</style>
