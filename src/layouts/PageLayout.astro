@@ -1,0 +1,94 @@
+---
+/**
+ * PageLayout — standard page wrapper with header navigation and footer.
+ *
+ * Wraps BaseLayout and adds:
+ *   - Site header with navigation
+ *   - <main> landmark with id for skip-link
+ *   - Site footer with secondary links
+ *
+ * Used by: Homepage (/), About (/about), and any general page.
+ */
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+}
+
+const { title, description, ogImage, ogImageAlt } = Astro.props;
+
+/* --------------------------------------------------------------- */
+/*  Navigation data                                                */
+/* --------------------------------------------------------------- */
+
+const headerNav = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Projects", href: "/#projects" },
+];
+
+const footerNav = {
+  projects: [
+    { label: "Isnad Graph", href: "/projects/isnad-graph" },
+  ],
+  organization: [
+    { label: "About", href: "/about" },
+    { label: "GitHub", href: "https://github.com/noorinalabs" },
+  ],
+};
+---
+
+<BaseLayout title={title} description={description} ogImage={ogImage} ogImageAlt={ogImageAlt}>
+  <!-- Header -->
+  <header role="banner">
+    <nav aria-label="Primary navigation">
+      <a href="/" class="site-logo" aria-label="NoorinALabs home">
+        <!-- Logo slot — design system component will replace this -->
+        NoorinALabs
+      </a>
+
+      <ul role="list">
+        {headerNav.map((item) => (
+          <li>
+            <a href={item.href}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content -->
+  <main id="main-content">
+    <slot />
+  </main>
+
+  <!-- Footer -->
+  <footer role="contentinfo">
+    <div class="footer-grid">
+      <div>
+        <h2 class="footer-heading">Projects</h2>
+        <ul role="list">
+          {footerNav.projects.map((item) => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="footer-heading">Organization</h2>
+        <ul role="list">
+          {footerNav.organization.map((item) => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <p class="footer-copyright">
+      &copy; {new Date().getFullYear()} NoorinALabs. All rights reserved.
+    </p>
+  </footer>
+</BaseLayout>
