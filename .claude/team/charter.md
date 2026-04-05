@@ -1,6 +1,6 @@
-# Repo Charter — noorinalabs_landing_page
+# Repo Charter — noorinalabs-landing-page
 
-This charter supplements the org-level charter at `noorinalabs_main/.claude/team/charter.md`. All org charter rules apply.
+This charter supplements the org-level charter at `noorinalabs-main/.claude/team/charter.md`. All org charter rules apply.
 
 ## team_name
 
