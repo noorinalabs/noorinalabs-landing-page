@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "lint": "eslint . && prettier --check .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "lighthouse": "lighthouse http://localhost:4321 --output html --output-path ./lighthouse-report.html --chrome-flags=\"--headless --no-sandbox\""
   },
   "repository": {
     "type": "git",
