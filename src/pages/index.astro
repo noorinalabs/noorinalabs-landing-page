@@ -1,11 +1,14 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
+import SEO from "../components/SEO.astro";
 ---
 
 <PageLayout
   title="Home"
   description="NoorinALabs builds open tools for Islamic scholarly research — starting with the Isnad Graph, a computational hadith analysis platform."
 >
+  <SEO slot="head" />
+
   <!-- Hero -->
   <section class="hero" aria-labelledby="hero-heading">
     <div class="hero-pattern" aria-hidden="true"></div>
