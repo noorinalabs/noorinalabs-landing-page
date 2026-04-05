@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+/*
+ * Design system token integration placeholder.
+ * When @noorinalabs/design-system is available, import tokens here:
+ *   @import "@noorinalabs/design-system/tokens.css";
+ *
+ * Custom theme extensions can be added via @theme:
+ *   @theme {
+ *     --color-brand-primary: ...;
+ *     --font-heading: ...;
+ *   }
+ */
