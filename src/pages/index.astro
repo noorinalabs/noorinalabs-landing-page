@@ -14,12 +14,13 @@ import SEO from "../components/SEO.astro";
     <div class="hero-pattern" aria-hidden="true"></div>
     <div class="hero-content">
       <h1 id="hero-heading" class="hero-title">
-        Open Tools for<br />Islamic Scholarly Research
+        Illuminating Fourteen Centuries<br />of Islamic Scholarship
       </h1>
       <p class="hero-subtitle">
-        NoorinALabs brings computational analysis to the Islamic scholarly
-        tradition — making centuries of knowledge navigable, searchable, and
-        accessible to researchers, students, and curious minds.
+        The Islamic scholarly tradition represents over fourteen centuries of
+        accumulated human knowledge. Noorina Labs builds open tools to make this
+        heritage navigable, searchable, and accessible to researchers, students,
+        and curious minds worldwide.
       </p>
       <div class="hero-actions">
         <a href="https://isnad-graph.noorinalabs.com" class="btn-primary">
@@ -30,210 +31,227 @@ import SEO from "../components/SEO.astro";
     </div>
   </section>
 
-  <!-- What We Do -->
-  <section class="section" aria-labelledby="mission-heading">
+  <!-- Four Pillars -->
+  <section class="section" aria-labelledby="pillars-heading">
     <div class="section-container">
-      <h2 id="mission-heading" class="section-title">What We Do</h2>
-      <div class="mission-grid">
-        <div class="mission-text">
-          <p>
-            Islamic scholarship has produced one of the most rigorous systems of
-            knowledge verification in human history. For over a millennium,
-            scholars have catalogued chains of narration, evaluated the
-            reliability of narrators, and traced the pathways through which
-            knowledge was transmitted.
-          </p>
-          <p>
-            NoorinALabs builds open-source tools that bring modern computational
-            methods to this tradition — not to replace scholarly judgment, but
-            to make the underlying data more accessible and the connections more
-            visible.
+      <h2 id="pillars-heading" class="section-title">Our Pillars</h2>
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <h3 class="pillar-title">Open Research</h3>
+          <p class="pillar-description">
+            All code, data pipelines, and research are open source. Transparency
+            builds trust and invites collaboration across institutions and
+            traditions.
           </p>
         </div>
-        <div class="mission-highlight">
-          <blockquote>
-            <p>
-              "Verily, this knowledge is religion, so be careful from whom you
-              take your religion."
-            </p>
-            <cite>— Imam Muhammad ibn Sirin</cite>
-          </blockquote>
+        <div class="pillar-card">
+          <h3 class="pillar-title">Global Reach</h3>
+          <p class="pillar-description">
+            Built for the global ummah and the wider scholarly community. Our
+            tools serve 1.9 billion Muslims and researchers of all backgrounds.
+          </p>
+        </div>
+        <div class="pillar-card">
+          <h3 class="pillar-title">Source-Neutral</h3>
+          <p class="pillar-description">
+            We draw from published scholarly works across traditions. Every data
+            point is traceable to its source, ensuring academic rigor.
+          </p>
+        </div>
+        <div class="pillar-card">
+          <h3 class="pillar-title">Community-Built</h3>
+          <p class="pillar-description">
+            Developed in collaboration with scholars, students, and developers
+            who share a commitment to preserving Islamic intellectual heritage.
+          </p>
+        </div>
+      </div>
+      <div class="principle-banner">
+        <blockquote>
+          <p>
+            "Noorina Labs will never privilege one school of thought over
+            another. Our platform illuminates — it does not arbitrate."
+          </p>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Problem -->
+  <section class="section section-alt" aria-labelledby="problem-heading">
+    <div class="section-container">
+      <h2 id="problem-heading" class="section-title">The Problem</h2>
+      <p class="section-intro">
+        Despite centuries of rigorous scholarship, there is no computational
+        tool that connects the dots across traditions. Researchers today still
+        cannot easily answer fundamental questions:
+      </p>
+      <ul class="question-list" role="list">
+        <li>
+          How do I look up a narrator who appears in both Sunni and Shia
+          collections?
+        </li>
+        <li>
+          Which hadith have parallel transmissions across different canonical
+          sources?
+        </li>
+        <li>
+          What does the network structure of narration chains reveal about
+          knowledge transmission?
+        </li>
+        <li>
+          Where do Sunni and Shia scholarly traditions overlap in their narrator
+          evaluations?
+        </li>
+        <li>
+          What patterns emerge in how hadiths are attributed to specific
+          Companions?
+        </li>
+      </ul>
+      <div class="stats-row">
+        <div class="stat">
+          <span class="stat-number">1.9B</span>
+          <span class="stat-label">Muslims worldwide</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">14+</span>
+          <span class="stat-label">centuries of scholarship</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">0</span>
+          <span class="stat-label">cross-tradition graph tools</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Featured Project -->
-  <section
-    id="projects"
-    class="section section-alt"
-    aria-labelledby="project-heading"
-  >
+  <!-- Isnad Graph Capabilities -->
+  <section id="projects" class="section" aria-labelledby="capabilities-heading">
     <div class="section-container">
-      <h2 id="project-heading" class="section-title">Featured Project</h2>
-      <div class="project-card">
-        <div class="project-card-icon" aria-hidden="true">
-          <svg
-            viewBox="0 0 64 64"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            width="64"
-            height="64"
-          >
-            <circle cx="32" cy="12" r="6" stroke="currentColor" stroke-width="2"
-            ></circle>
-            <circle cx="12" cy="44" r="6" stroke="currentColor" stroke-width="2"
-            ></circle>
-            <circle cx="52" cy="44" r="6" stroke="currentColor" stroke-width="2"
-            ></circle>
-            <circle cx="32" cy="52" r="4" stroke="currentColor" stroke-width="2"
-            ></circle>
-            <line
-              x1="32"
-              y1="18"
-              x2="14"
-              y2="39"
-              stroke="currentColor"
-              stroke-width="2"></line>
-            <line
-              x1="32"
-              y1="18"
-              x2="50"
-              y2="39"
-              stroke="currentColor"
-              stroke-width="2"></line>
-            <line
-              x1="16"
-              y1="48"
-              x2="28"
-              y2="52"
-              stroke="currentColor"
-              stroke-width="2"></line>
-            <line
-              x1="48"
-              y1="48"
-              x2="36"
-              y2="52"
-              stroke="currentColor"
-              stroke-width="2"></line>
-          </svg>
-        </div>
-        <div class="project-card-content">
-          <h3 class="project-card-title">The Isnad Graph</h3>
-          <p class="project-card-description">
-            A computational hadith analysis platform that maps chains of
-            narration (<span lang="ar">أسانيد</span>) as an interactive,
-            searchable graph. Search across collections, explore narrator
-            networks, and trace transmission pathways through a modern research
-            interface.
+      <h2 id="capabilities-heading" class="section-title">
+        The Isnad Graph Platform
+      </h2>
+      <p class="section-intro">
+        Our first product brings computational analysis to one of the oldest
+        systems of knowledge verification in human history.
+      </p>
+      <div class="capabilities-grid">
+        <div class="capability-card">
+          <h3 class="capability-title">Cross-Collection Search</h3>
+          <p class="capability-description">
+            Search narrators and hadiths across multiple canonical collections
+            simultaneously, with results linked to their full isnad chains.
           </p>
-          <ul class="project-card-features" role="list">
-            <li>Cross-collection search across major hadith sources</li>
-            <li>Interactive graph visualization of narrator networks</li>
-            <li>Biographical profiles with teacher-student relationships</li>
-            <li>
-              Cross-tradition comparison across Sunni and Shia collections
-            </li>
-            <li>Every data point traced to published scholarly works</li>
-          </ul>
-          <a href="https://isnad-graph.noorinalabs.com" class="btn-primary">
-            Explore the Isnad Graph
-          </a>
+        </div>
+        <div class="capability-card">
+          <h3 class="capability-title">Graph Explorer</h3>
+          <p class="capability-description">
+            Navigate chains of narration as a dynamic, interactive network.
+            Zoom, filter, and trace transmission paths between narrators.
+          </p>
+        </div>
+        <div class="capability-card">
+          <h3 class="capability-title">Cross-Tradition Comparison</h3>
+          <p class="capability-description">
+            Compare narrator assessments and transmission pathways across Sunni
+            and Shia scholarly traditions in a single unified graph.
+          </p>
+        </div>
+        <div class="capability-card">
+          <h3 class="capability-title">Historical Context</h3>
+          <p class="capability-description">
+            Access biographical data, teacher-student relationships, and
+            reliability assessments drawn from classical rijal literature.
+          </p>
+        </div>
+        <div class="capability-card">
+          <h3 class="capability-title">Collection-Level Analysis</h3>
+          <p class="capability-description">
+            Explore patterns within and across hadith collections, including
+            shared narrators, common chains, and attribution distributions.
+          </p>
+        </div>
+      </div>
+      <div class="section-cta">
+        <a href="https://isnad-graph.noorinalabs.com" class="btn-primary">
+          Explore the Isnad Graph
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Now -->
+  <section class="section section-alt" aria-labelledby="why-now-heading">
+    <div class="section-container">
+      <h2 id="why-now-heading" class="section-title">Why Now</h2>
+      <div class="why-now-grid">
+        <div class="why-now-card">
+          <h3 class="why-now-title">Computational Tools Have Matured</h3>
+          <p class="why-now-description">
+            Graph databases, network analysis algorithms, and interactive
+            visualization frameworks have reached a level of maturity that makes
+            this work possible at scale.
+          </p>
+        </div>
+        <div class="why-now-card">
+          <h3 class="why-now-title">Open Data Is Available</h3>
+          <p class="why-now-description">
+            Digitized hadith collections and scholarly databases have reached
+            critical mass, making it feasible to build comprehensive,
+            cross-referenced datasets.
+          </p>
+        </div>
+        <div class="why-now-card">
+          <h3 class="why-now-title">Institutional Appetite Is Growing</h3>
+          <p class="why-now-description">
+            Universities, research institutions, and Islamic organizations
+            worldwide are actively seeking digital tools that respect scholarly
+            rigor while embracing modern technology.
+          </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Why NoorinALabs -->
-  <section class="section" aria-labelledby="why-heading">
+  <!-- Partnership & Support -->
+  <section class="section" aria-labelledby="partnership-heading">
     <div class="section-container">
-      <h2 id="why-heading" class="section-title">Why NoorinALabs</h2>
-      <div class="values-grid">
-        <div class="value-card">
-          <div class="value-icon" aria-hidden="true">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-            >
-              <path
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"
-                fill="currentColor"></path>
-            </svg>
-          </div>
-          <h3 class="value-title">Open Source</h3>
-          <p class="value-description">
-            All our tools are open source. Transparency is essential when
-            working with knowledge that carries deep scholarly and spiritual
-            significance.
+      <h2 id="partnership-heading" class="section-title">Partner With Us</h2>
+      <p class="section-intro">
+        We are building the infrastructure for the next generation of Islamic
+        scholarly research. There are several ways to be part of this work.
+      </p>
+      <div class="partnership-grid">
+        <div class="partnership-card">
+          <h3 class="partnership-title">Research Partnership</h3>
+          <p class="partnership-description">
+            Collaborate on data curation, validation, and scholarly review.
+            Academic partners help ensure our tools meet the highest standards
+            of rigor and accuracy.
           </p>
         </div>
-
-        <div class="value-card">
-          <div class="value-icon" aria-hidden="true">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-            >
-              <path
-                d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"
-                fill="currentColor"></path>
-            </svg>
-          </div>
-          <h3 class="value-title">Scholarly Rigor</h3>
-          <p class="value-description">
-            Every data point traces back to published scholarly works. We do not
-            replace scholarly judgment — we make the evidence more accessible.
+        <div class="partnership-card">
+          <h3 class="partnership-title">Institutional License</h3>
+          <p class="partnership-description">
+            Universities and research organizations can integrate the Isnad
+            Graph into their curriculum and research workflows with dedicated
+            support and custom data access.
           </p>
         </div>
-
-        <div class="value-card">
-          <div class="value-icon" aria-hidden="true">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-            >
-              <path
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-                fill="currentColor"></path>
-            </svg>
-          </div>
-          <h3 class="value-title">Accessible to All</h3>
-          <p class="value-description">
-            From seasoned researchers to curious first-time visitors, our tools
-            are designed to welcome everyone into the scholarly tradition.
+        <div class="partnership-card">
+          <h3 class="partnership-title">Grant & Philanthropic</h3>
+          <p class="partnership-description">
+            Support the preservation and accessibility of Islamic scholarly
+            heritage through grants, endowments, or direct contribution to our
+            open-source mission.
           </p>
         </div>
-
-        <div class="value-card">
-          <div class="value-icon" aria-hidden="true">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-            >
-              <path
-                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"
-                fill="currentColor"></path>
-            </svg>
-          </div>
-          <h3 class="value-title">Community Driven</h3>
-          <p class="value-description">
-            Built in collaboration with scholars, students, and developers who
-            share a commitment to preserving and exploring Islamic intellectual
-            heritage.
-          </p>
-        </div>
+      </div>
+      <div class="section-cta">
+        <p class="contact-line">
+          Interested? Reach out at
+          <a href="mailto:info@noorinalabs.com">info@noorinalabs.com</a>
+        </p>
       </div>
     </div>
   </section>
@@ -435,155 +453,50 @@ import SEO from "../components/SEO.astro";
     font-weight: 700;
     color: var(--color-navy-800);
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem;
   }
 
-  /* Mission */
-  .mission-grid {
-    display: grid;
-    gap: 3rem;
-    align-items: start;
-  }
-
-  @media (min-width: 768px) {
-    .mission-grid {
-      grid-template-columns: 1.5fr 1fr;
-    }
-  }
-
-  .mission-text {
+  .section-intro {
     font-family: var(--font-body);
     font-size: 1.05rem;
     line-height: 1.8;
-    color: var(--color-neutral-700);
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-  }
-
-  .mission-highlight blockquote {
-    border-left: 3px solid var(--color-gold-500);
-    padding: 1.5rem 1.5rem 1.5rem 2rem;
-    background: var(--color-navy-50);
-    border-radius: 0 0.5rem 0.5rem 0;
-  }
-
-  .mission-highlight blockquote p {
-    font-family: var(--font-heading);
-    font-size: 1.1rem;
-    font-style: italic;
-    line-height: 1.7;
-    color: var(--color-navy-700);
-    margin-bottom: 0.75rem;
-  }
-
-  .mission-highlight cite {
-    font-family: var(--font-body);
-    font-size: 0.875rem;
-    color: var(--color-neutral-500);
-    font-style: normal;
-  }
-
-  /* Project Card */
-  .project-card {
-    display: grid;
-    gap: 2rem;
-    padding: 2.5rem;
-    background: white;
-    border-radius: 0.75rem;
-    border: 1px solid var(--color-neutral-200);
-    box-shadow: 0 1px 3px rgb(0 0 0 / 0.06);
-  }
-
-  @media (min-width: 768px) {
-    .project-card {
-      grid-template-columns: auto 1fr;
-      align-items: start;
-    }
-  }
-
-  .project-card-icon {
-    color: var(--color-navy-600);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .project-card-title {
-    font-family: var(--font-heading);
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--color-navy-800);
-    margin-bottom: 1rem;
-  }
-
-  .project-card-description {
-    font-family: var(--font-body);
-    font-size: 1rem;
-    line-height: 1.7;
     color: var(--color-neutral-600);
-    margin-bottom: 1.25rem;
+    text-align: center;
+    max-width: 42rem;
+    margin: 0 auto 3rem;
   }
 
-  .project-card-features {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 1.5rem;
-    display: grid;
-    gap: 0.5rem;
+  .section-cta {
+    text-align: center;
+    margin-top: 2.5rem;
   }
 
-  .project-card-features li {
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-    color: var(--color-neutral-600);
-    padding-left: 1.5rem;
-    position: relative;
-  }
-
-  .project-card-features li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.55em;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--color-gold-500);
-  }
-
-  /* Values Grid */
-  .values-grid {
+  /* Four Pillars */
+  .pillars-grid {
     display: grid;
     gap: 2rem;
     grid-template-columns: 1fr;
+    margin-top: 2rem;
   }
 
   @media (min-width: 640px) {
-    .values-grid {
+    .pillars-grid {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
   @media (min-width: 1024px) {
-    .values-grid {
+    .pillars-grid {
       grid-template-columns: repeat(4, 1fr);
     }
   }
 
-  .value-card {
+  .pillar-card {
     text-align: center;
     padding: 2rem 1.5rem;
   }
 
-  .value-icon {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1rem;
-    color: var(--color-navy-600);
-  }
-
-  .value-title {
+  .pillar-title {
     font-family: var(--font-heading);
     font-size: 1.15rem;
     font-weight: 700;
@@ -591,11 +504,221 @@ import SEO from "../components/SEO.astro";
     margin-bottom: 0.75rem;
   }
 
-  .value-description {
+  .pillar-description {
     font-family: var(--font-body);
     font-size: 0.925rem;
     line-height: 1.7;
     color: var(--color-neutral-600);
+  }
+
+  .principle-banner {
+    margin-top: 3rem;
+    text-align: center;
+  }
+
+  .principle-banner blockquote {
+    border-left: 3px solid var(--color-gold-500);
+    padding: 1.5rem 2rem;
+    background: var(--color-navy-50);
+    border-radius: 0 0.5rem 0.5rem 0;
+    display: inline-block;
+    text-align: left;
+    max-width: 42rem;
+  }
+
+  .principle-banner blockquote p {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--color-navy-700);
+  }
+
+  /* The Problem */
+  .question-list {
+    list-style: none;
+    padding: 0;
+    max-width: 42rem;
+    margin: 0 auto 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .question-list li {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-neutral-700);
+    padding-left: 1.75rem;
+    position: relative;
+  }
+
+  .question-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-gold-500);
+  }
+
+  .stats-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 2rem;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-number {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--color-navy-800);
+    line-height: 1.2;
+  }
+
+  .stat-label {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    color: var(--color-neutral-500);
+  }
+
+  /* Capabilities */
+  .capabilities-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .capabilities-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .capabilities-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .capability-card {
+    padding: 2rem;
+    background: var(--color-neutral-50);
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-neutral-200);
+  }
+
+  .capability-title {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-navy-800);
+    margin-bottom: 0.75rem;
+  }
+
+  .capability-description {
+    font-family: var(--font-body);
+    font-size: 0.925rem;
+    line-height: 1.7;
+    color: var(--color-neutral-600);
+  }
+
+  /* Why Now */
+  .why-now-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr;
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .why-now-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .why-now-card {
+    padding: 2rem;
+    background: white;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-neutral-200);
+  }
+
+  .why-now-title {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-navy-800);
+    margin-bottom: 0.75rem;
+  }
+
+  .why-now-description {
+    font-family: var(--font-body);
+    font-size: 0.925rem;
+    line-height: 1.7;
+    color: var(--color-neutral-600);
+  }
+
+  /* Partnership */
+  .partnership-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 768px) {
+    .partnership-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .partnership-card {
+    padding: 2rem;
+    background: var(--color-neutral-50);
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-neutral-200);
+  }
+
+  .partnership-title {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-navy-800);
+    margin-bottom: 0.75rem;
+  }
+
+  .partnership-description {
+    font-family: var(--font-body);
+    font-size: 0.925rem;
+    line-height: 1.7;
+    color: var(--color-neutral-600);
+  }
+
+  .contact-line {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    color: var(--color-neutral-600);
+  }
+
+  .contact-line a {
+    color: var(--color-navy-700);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .contact-line a:hover {
+    color: var(--color-gold-600);
   }
 
   /* Reduced motion */
