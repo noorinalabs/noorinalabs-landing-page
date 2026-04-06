@@ -18,12 +18,17 @@ import SEO from "../components/SEO.astro";
       </h1>
       <p class="hero-subtitle">
         The Islamic scholarly tradition represents over fourteen centuries of
-        accumulated human knowledge. Noorina Labs builds open tools to make this
-        heritage navigable, searchable, and accessible to researchers, students,
-        and curious minds worldwide.
+        accumulated human knowledge. NoorinALabs builds open computational tools
+        to make this tradition navigable, searchable, and accessible to all.
       </p>
+      <div class="hero-pillars">
+        <span class="pillar">Open research</span>
+        <span class="pillar">Global reach</span>
+        <span class="pillar">Source-neutral</span>
+        <span class="pillar">Community-built</span>
+      </div>
       <div class="hero-actions">
-        <a href="https://isnad-graph.noorinalabs.com" class="btn-primary">
+        <a href="/projects/isnad-graph" class="btn-primary">
           Explore the Isnad Graph
         </a>
         <a href="/about" class="btn-secondary"> Learn About Us </a>
@@ -31,49 +36,16 @@ import SEO from "../components/SEO.astro";
     </div>
   </section>
 
-  <!-- Four Pillars -->
-  <section class="section" aria-labelledby="pillars-heading">
-    <div class="section-container">
-      <h2 id="pillars-heading" class="section-title">Our Pillars</h2>
-      <div class="pillars-grid">
-        <div class="pillar-card">
-          <h3 class="pillar-title">Open Research</h3>
-          <p class="pillar-description">
-            All code, data pipelines, and research are open source. Transparency
-            builds trust and invites collaboration across institutions and
-            traditions.
-          </p>
-        </div>
-        <div class="pillar-card">
-          <h3 class="pillar-title">Global Reach</h3>
-          <p class="pillar-description">
-            Built for the global ummah and the wider scholarly community. Our
-            tools serve 1.9 billion Muslims and researchers of all backgrounds.
-          </p>
-        </div>
-        <div class="pillar-card">
-          <h3 class="pillar-title">Source-Neutral</h3>
-          <p class="pillar-description">
-            We draw from published scholarly works across traditions. Every data
-            point is traceable to its source, ensuring academic rigor.
-          </p>
-        </div>
-        <div class="pillar-card">
-          <h3 class="pillar-title">Community-Built</h3>
-          <p class="pillar-description">
-            Developed in collaboration with scholars, students, and developers
-            who share a commitment to preserving Islamic intellectual heritage.
-          </p>
-        </div>
-      </div>
-      <div class="principle-banner">
-        <blockquote>
-          <p>
-            "Noorina Labs will never privilege one school of thought over
-            another. Our platform illuminates — it does not arbitrate."
-          </p>
-        </blockquote>
-      </div>
+  <!-- Guiding Principle -->
+  <section class="section" aria-labelledby="principle-heading">
+    <div class="section-container principle-container">
+      <blockquote class="principle-quote">
+        <p>
+          Noorina Labs will never privilege one school of thought, one
+          collection, or one interpretive tradition over another. Our platform
+          illuminates — it does not arbitrate.
+        </p>
+      </blockquote>
     </div>
   </section>
 
@@ -82,33 +54,35 @@ import SEO from "../components/SEO.astro";
     <div class="section-container">
       <h2 id="problem-heading" class="section-title">The Problem</h2>
       <p class="section-intro">
-        Despite centuries of rigorous scholarship, there is no computational
-        tool that connects the dots across traditions. Researchers today still
-        cannot easily answer fundamental questions:
+        Despite fourteen centuries of meticulous scholarship and 1.9 billion
+        Muslims worldwide, there are zero cross-tradition graph tools for
+        studying hadith transmission. Existing digital resources remain siloed
+        by collection, school, and language. Five fundamental questions remain
+        unanswerable without modern computational tools:
       </p>
-      <ul class="question-list" role="list">
+      <ol class="problem-questions" role="list">
         <li>
-          How do I look up a narrator who appears in both Sunni and Shia
-          collections?
+          Can a researcher look up a narrator across Sunni and Shia collections
+          in a single search?
         </li>
         <li>
-          Which hadith have parallel transmissions across different canonical
-          sources?
+          Can we identify parallel transmissions of the same hadith through
+          independent chains?
         </li>
         <li>
-          What does the network structure of narration chains reveal about
-          knowledge transmission?
+          Can we visualize the network structure of narration — who transmitted
+          to whom, and through how many paths?
         </li>
         <li>
-          Where do Sunni and Shia scholarly traditions overlap in their narrator
-          evaluations?
+          Can we map the overlap between Sunni and Shia narrator networks to
+          find common scholarly ground?
         </li>
         <li>
-          What patterns emerge in how hadiths are attributed to specific
-          Companions?
+          Can we trace attribution patterns back to individual Companions to
+          understand the roots of the tradition?
         </li>
-      </ul>
-      <div class="stats-row">
+      </ol>
+      <div class="problem-stats">
         <div class="stat">
           <span class="stat-number">1.9B</span>
           <span class="stat-label">Muslims worldwide</span>
@@ -128,52 +102,53 @@ import SEO from "../components/SEO.astro";
   <!-- Isnad Graph Capabilities -->
   <section id="projects" class="section" aria-labelledby="capabilities-heading">
     <div class="section-container">
-      <h2 id="capabilities-heading" class="section-title">
-        The Isnad Graph Platform
-      </h2>
+      <h2 id="capabilities-heading" class="section-title">The Isnad Graph</h2>
       <p class="section-intro">
-        Our first product brings computational analysis to one of the oldest
-        systems of knowledge verification in human history.
+        A computational hadith analysis platform that maps chains of narration (<span
+          lang="ar">أسانيد</span
+        >) as an interactive, searchable graph. Our first product answers the
+        questions that existing tools cannot.
       </p>
       <div class="capabilities-grid">
         <div class="capability-card">
-          <h3 class="capability-title">Cross-Collection Search</h3>
-          <p class="capability-description">
-            Search narrators and hadiths across multiple canonical collections
-            simultaneously, with results linked to their full isnad chains.
+          <h3>Cross-Collection Search</h3>
+          <p>
+            Search narrators and hadith across major Sunni and Shia collections
+            simultaneously — no more switching between siloed databases.
           </p>
         </div>
         <div class="capability-card">
-          <h3 class="capability-title">Graph Explorer</h3>
-          <p class="capability-description">
-            Navigate chains of narration as a dynamic, interactive network.
-            Zoom, filter, and trace transmission paths between narrators.
+          <h3>Graph Explorer</h3>
+          <p>
+            Visualize narrator networks as an interactive graph. Zoom, filter,
+            and trace transmission paths between any two narrators.
           </p>
         </div>
         <div class="capability-card">
-          <h3 class="capability-title">Cross-Tradition Comparison</h3>
-          <p class="capability-description">
-            Compare narrator assessments and transmission pathways across Sunni
-            and Shia scholarly traditions in a single unified graph.
+          <h3>Cross-Tradition Comparison</h3>
+          <p>
+            Compare narrator assessments across Sunni and Shia traditions
+            side-by-side. Discover shared narrators and divergent evaluations.
           </p>
         </div>
         <div class="capability-card">
-          <h3 class="capability-title">Historical Context</h3>
-          <p class="capability-description">
-            Access biographical data, teacher-student relationships, and
-            reliability assessments drawn from classical rijal literature.
+          <h3>Historical Context</h3>
+          <p>
+            Biographical profiles with teacher-student relationships,
+            reliability assessments, and geographical data drawn from classical
+            rijal literature.
           </p>
         </div>
         <div class="capability-card">
-          <h3 class="capability-title">Collection-Level Analysis</h3>
-          <p class="capability-description">
-            Explore patterns within and across hadith collections, including
-            shared narrators, common chains, and attribution distributions.
+          <h3>Collection-Level Analysis</h3>
+          <p>
+            Understand the structure of individual hadith collections — most
+            frequent narrators, chain patterns, and transmission networks.
           </p>
         </div>
       </div>
       <div class="section-cta">
-        <a href="https://isnad-graph.noorinalabs.com" class="btn-primary">
+        <a href="/projects/isnad-graph" class="btn-primary">
           Explore the Isnad Graph
         </a>
       </div>
@@ -186,27 +161,27 @@ import SEO from "../components/SEO.astro";
       <h2 id="why-now-heading" class="section-title">Why Now</h2>
       <div class="why-now-grid">
         <div class="why-now-card">
-          <h3 class="why-now-title">Computational Tools Have Matured</h3>
-          <p class="why-now-description">
-            Graph databases, network analysis algorithms, and interactive
-            visualization frameworks have reached a level of maturity that makes
-            this work possible at scale.
+          <h3>Computational tools have matured</h3>
+          <p>
+            Graph databases, network analysis, and natural language processing
+            have reached the point where they can meaningfully support — not
+            replace — hadith scholarship.
           </p>
         </div>
         <div class="why-now-card">
-          <h3 class="why-now-title">Open Data Is Available</h3>
-          <p class="why-now-description">
-            Digitized hadith collections and scholarly databases have reached
-            critical mass, making it feasible to build comprehensive,
-            cross-referenced datasets.
+          <h3>Open data is available</h3>
+          <p>
+            Digitized hadith collections and biographical dictionaries are now
+            accessible in structured formats, making computational analysis
+            possible for the first time.
           </p>
         </div>
         <div class="why-now-card">
-          <h3 class="why-now-title">Institutional Appetite Is Growing</h3>
-          <p class="why-now-description">
-            Universities, research institutions, and Islamic organizations
-            worldwide are actively seeking digital tools that respect scholarly
-            rigor while embracing modern technology.
+          <h3>Institutional appetite is growing</h3>
+          <p>
+            Universities, research centers, and Islamic institutions are
+            actively seeking digital tools to support hadith studies and make
+            scholarship more accessible globally.
           </p>
         </div>
       </div>
@@ -216,43 +191,54 @@ import SEO from "../components/SEO.astro";
   <!-- Partnership & Support -->
   <section class="section" aria-labelledby="partnership-heading">
     <div class="section-container">
-      <h2 id="partnership-heading" class="section-title">Partner With Us</h2>
+      <h2 id="partnership-heading" class="section-title">
+        Partnership & Support
+      </h2>
       <p class="section-intro">
-        We are building the infrastructure for the next generation of Islamic
-        scholarly research. There are several ways to be part of this work.
+        NoorinALabs is building infrastructure for the next generation of
+        Islamic scholarly research. We work with institutions, researchers, and
+        funders who share our commitment to open, rigorous, and inclusive tools.
       </p>
       <div class="partnership-grid">
         <div class="partnership-card">
-          <h3 class="partnership-title">Research Partnership</h3>
-          <p class="partnership-description">
-            Collaborate on data curation, validation, and scholarly review.
-            Academic partners help ensure our tools meet the highest standards
-            of rigor and accuracy.
+          <h3>Research Partnership</h3>
+          <p>
+            Collaborate on data curation, scholarly review, and new analytical
+            features. We work closely with domain experts to ensure every tool
+            meets the standards of the tradition.
           </p>
         </div>
         <div class="partnership-card">
-          <h3 class="partnership-title">Institutional License</h3>
-          <p class="partnership-description">
-            Universities and research organizations can integrate the Isnad
-            Graph into their curriculum and research workflows with dedicated
-            support and custom data access.
+          <h3>Institutional License</h3>
+          <p>
+            Integrate the Isnad Graph into your university or research center.
+            Custom deployments, dedicated support, and curriculum integration
+            available for academic institutions.
           </p>
         </div>
         <div class="partnership-card">
-          <h3 class="partnership-title">Grant & Philanthropic</h3>
-          <p class="partnership-description">
-            Support the preservation and accessibility of Islamic scholarly
-            heritage through grants, endowments, or direct contribution to our
-            open-source mission.
+          <h3>Grant & Philanthropic</h3>
+          <p>
+            Support open-source infrastructure for Islamic scholarship. Grants
+            and donations fund data ingestion, new features, and free access for
+            students and independent researchers.
           </p>
         </div>
       </div>
-      <div class="section-cta">
-        <p class="contact-line">
-          Interested? Reach out at
-          <a href="mailto:info@noorinalabs.com">info@noorinalabs.com</a>
-        </p>
-      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section section-alt" aria-labelledby="contact-heading">
+    <div class="section-container contact-container">
+      <h2 id="contact-heading" class="section-title">Get in Touch</h2>
+      <p class="section-intro">
+        Whether you are a researcher, institution, funder, or curious learner,
+        we would love to hear from you.
+      </p>
+      <a href="mailto:info@noorinalabs.com" class="btn-primary">
+        info@noorinalabs.com
+      </a>
     </div>
   </section>
 </PageLayout>
@@ -368,7 +354,26 @@ import SEO from "../components/SEO.astro";
     line-height: 1.7;
     color: var(--color-navy-100);
     max-width: 38rem;
-    margin: 0 auto 2.5rem;
+    margin: 0 auto 2rem;
+  }
+
+  .hero-pillars {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  .pillar {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-gold-300);
+    padding: 0.35rem 1rem;
+    border: 1px solid var(--color-navy-500);
+    border-radius: 2rem;
+    letter-spacing: 0.02em;
   }
 
   .hero-actions {
@@ -453,17 +458,17 @@ import SEO from "../components/SEO.astro";
     font-weight: 700;
     color: var(--color-navy-800);
     text-align: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 3rem;
   }
 
   .section-intro {
     font-family: var(--font-body);
     font-size: 1.05rem;
     line-height: 1.8;
-    color: var(--color-neutral-600);
+    color: var(--color-neutral-700);
     text-align: center;
-    max-width: 42rem;
-    margin: 0 auto 3rem;
+    max-width: 48rem;
+    margin: 0 auto 2.5rem;
   }
 
   .section-cta {
@@ -471,101 +476,44 @@ import SEO from "../components/SEO.astro";
     margin-top: 2.5rem;
   }
 
-  /* Four Pillars */
-  .pillars-grid {
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: 1fr;
-    margin-top: 2rem;
+  /* Guiding Principle */
+  .principle-container {
+    max-width: 48rem;
   }
 
-  @media (min-width: 640px) {
-    .pillars-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .pillars-grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-
-  .pillar-card {
-    text-align: center;
-    padding: 2rem 1.5rem;
-  }
-
-  .pillar-title {
-    font-family: var(--font-heading);
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--color-navy-800);
-    margin-bottom: 0.75rem;
-  }
-
-  .pillar-description {
-    font-family: var(--font-body);
-    font-size: 0.925rem;
-    line-height: 1.7;
-    color: var(--color-neutral-600);
-  }
-
-  .principle-banner {
-    margin-top: 3rem;
-    text-align: center;
-  }
-
-  .principle-banner blockquote {
+  .principle-quote {
     border-left: 3px solid var(--color-gold-500);
-    padding: 1.5rem 2rem;
+    padding: 1.5rem 1.5rem 1.5rem 2rem;
     background: var(--color-navy-50);
     border-radius: 0 0.5rem 0.5rem 0;
-    display: inline-block;
-    text-align: left;
-    max-width: 42rem;
   }
 
-  .principle-banner blockquote p {
+  .principle-quote p {
     font-family: var(--font-heading);
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-style: italic;
     line-height: 1.7;
     color: var(--color-navy-700);
   }
 
-  /* The Problem */
-  .question-list {
-    list-style: none;
-    padding: 0;
-    max-width: 42rem;
-    margin: 0 auto 3rem;
+  /* Problem Section */
+  .problem-questions {
+    max-width: 48rem;
+    margin: 0 auto 2.5rem;
+    padding-left: 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
   }
 
-  .question-list li {
+  .problem-questions li {
     font-family: var(--font-body);
     font-size: 1rem;
     line-height: 1.7;
     color: var(--color-neutral-700);
-    padding-left: 1.75rem;
-    position: relative;
   }
 
-  .question-list li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.6em;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--color-gold-500);
-  }
-
-  .stats-row {
+  .problem-stats {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -583,7 +531,7 @@ import SEO from "../components/SEO.astro";
     font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 700;
     color: var(--color-navy-800);
-    line-height: 1.2;
+    line-height: 1.1;
   }
 
   .stat-label {
@@ -592,10 +540,10 @@ import SEO from "../components/SEO.astro";
     color: var(--color-neutral-500);
   }
 
-  /* Capabilities */
+  /* Capabilities Grid */
   .capabilities-grid {
     display: grid;
-    gap: 2rem;
+    gap: 1.5rem;
     grid-template-columns: 1fr;
   }
 
@@ -618,7 +566,7 @@ import SEO from "../components/SEO.astro";
     border: 1px solid var(--color-neutral-200);
   }
 
-  .capability-title {
+  .capability-card h3 {
     font-family: var(--font-heading);
     font-size: 1.1rem;
     font-weight: 700;
@@ -626,19 +574,18 @@ import SEO from "../components/SEO.astro";
     margin-bottom: 0.75rem;
   }
 
-  .capability-description {
+  .capability-card p {
     font-family: var(--font-body);
     font-size: 0.925rem;
     line-height: 1.7;
     color: var(--color-neutral-600);
   }
 
-  /* Why Now */
+  /* Why Now Grid */
   .why-now-grid {
     display: grid;
     gap: 2rem;
     grid-template-columns: 1fr;
-    margin-top: 2rem;
   }
 
   @media (min-width: 768px) {
@@ -648,13 +595,11 @@ import SEO from "../components/SEO.astro";
   }
 
   .why-now-card {
-    padding: 2rem;
-    background: white;
-    border-radius: 0.75rem;
-    border: 1px solid var(--color-neutral-200);
+    text-align: center;
+    padding: 2rem 1.5rem;
   }
 
-  .why-now-title {
+  .why-now-card h3 {
     font-family: var(--font-heading);
     font-size: 1.1rem;
     font-weight: 700;
@@ -662,14 +607,14 @@ import SEO from "../components/SEO.astro";
     margin-bottom: 0.75rem;
   }
 
-  .why-now-description {
+  .why-now-card p {
     font-family: var(--font-body);
     font-size: 0.925rem;
     line-height: 1.7;
     color: var(--color-neutral-600);
   }
 
-  /* Partnership */
+  /* Partnership Grid */
   .partnership-grid {
     display: grid;
     gap: 2rem;
@@ -689,7 +634,7 @@ import SEO from "../components/SEO.astro";
     border: 1px solid var(--color-neutral-200);
   }
 
-  .partnership-title {
+  .partnership-card h3 {
     font-family: var(--font-heading);
     font-size: 1.1rem;
     font-weight: 700;
@@ -697,28 +642,16 @@ import SEO from "../components/SEO.astro";
     margin-bottom: 0.75rem;
   }
 
-  .partnership-description {
+  .partnership-card p {
     font-family: var(--font-body);
     font-size: 0.925rem;
     line-height: 1.7;
     color: var(--color-neutral-600);
   }
 
-  .contact-line {
-    font-family: var(--font-body);
-    font-size: 1.05rem;
-    color: var(--color-neutral-600);
-  }
-
-  .contact-line a {
-    color: var(--color-navy-700);
-    font-weight: 600;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  .contact-line a:hover {
-    color: var(--color-gold-600);
+  /* Contact */
+  .contact-container {
+    text-align: center;
   }
 
   /* Reduced motion */
