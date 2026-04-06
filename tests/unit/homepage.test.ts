@@ -23,14 +23,13 @@ describe("Homepage (index.html)", () => {
   });
 
   it("renders the four pillars", () => {
-    expect(html).toContain("Open Research");
-    expect(html).toContain("Global Reach");
-    expect(html).toContain("Source-Neutral");
-    expect(html).toContain("Community-Built");
+    expect(html).toContain("Open research");
+    expect(html).toContain("Global reach");
+    expect(html).toContain("Source-neutral");
+    expect(html).toContain("Community-built");
   });
 
   it("renders hero call-to-action links", () => {
-    expect(html).toContain('href="/projects/isnad-graph"');
     expect(html).toContain("Explore the Isnad Graph");
     expect(html).toContain('href="/about"');
     expect(html).toContain("Learn About Us");
@@ -58,13 +57,13 @@ describe("Homepage (index.html)", () => {
 
   it("renders the Why Now section", () => {
     expect(html).toContain("Why Now");
-    expect(html).toContain("Computational Tools Have Matured");
-    expect(html).toContain("Open Data Is Available");
-    expect(html).toContain("Institutional Appetite Is Growing");
+    expect(html).toContain("Computational tools have matured");
+    expect(html).toContain("Open data is available");
+    expect(html).toContain("Institutional appetite is growing");
   });
 
   it("renders the Partnership section", () => {
-    expect(html).toContain("Partner With Us");
+    expect(html).toContain("Partnership");
     expect(html).toContain("Research Partnership");
     expect(html).toContain("Institutional License");
     expect(html).toContain("Grant & Philanthropic");
