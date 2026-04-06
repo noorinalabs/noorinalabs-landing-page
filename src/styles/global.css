@@ -1,9 +1,15 @@
 @import "tailwindcss";
+@import "@noorinalabs/design-system/styles.css";
 
 /*
- * Design system token integration placeholder.
- * When @noorinalabs/design-system is available, import tokens here:
- *   @import "@noorinalabs/design-system/tokens.css";
+ * Landing-page theme overrides
+ * ==============================
+ * The design system provides semantic tokens (--color-primary, --color-background, etc.)
+ * via @noorinalabs/design-system/styles.css.
+ *
+ * The landing page retains its navy/gold palette as Tailwind @theme extensions so that
+ * existing utility classes (bg-navy-800, text-gold-400, etc.) continue to work.
+ * These map to the same visual identity but are scoped to the landing page.
  */
 
 @theme {
@@ -40,7 +46,4 @@
   --color-neutral-700: #44403c;
   --color-neutral-800: #292524;
   --color-neutral-900: #1c1917;
-
-  --font-heading: "Georgia", "Times New Roman", serif;
-  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
 }
