@@ -13,7 +13,7 @@ describe("SEO — JSON-LD structured data", () => {
 
   it("renders Organization schema", () => {
     expect(html).toContain('"@type":"Organization"');
-    expect(html).toContain('"name":"NoorinALabs"');
+    expect(html).toContain('"name":"Noorina Labs"');
   });
 
   it("renders WebSite schema", () => {

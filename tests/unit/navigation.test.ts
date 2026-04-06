@@ -12,8 +12,8 @@ describe("Navigation", () => {
   const html = readPage("index.html");
 
   it("renders the site logo linking to home", () => {
-    expect(html).toContain('aria-label="NoorinALabs home"');
-    expect(html).toContain("NoorinALabs");
+    expect(html).toContain('aria-label="Noorina Labs home"');
+    expect(html).toContain("Noorina Labs");
   });
 
   it("renders primary navigation links", () => {
@@ -33,7 +33,7 @@ describe("Navigation", () => {
   });
 
   it("renders footer copyright", () => {
-    expect(html).toContain("NoorinALabs. All rights reserved.");
+    expect(html).toContain("Noorina Labs. All rights reserved.");
   });
 
   it("includes skip-to-content link", () => {

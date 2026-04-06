@@ -1,7 +1,7 @@
 {
   "name": "noorinalabs-landing-page",
   "version": "0.1.0",
-  "description": "NoorinALabs organization landing page",
+  "description": "Noorina Labs organization landing page",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
@@ -18,7 +18,7 @@
     "url": "git+https://github.com/noorinalabs/noorinalabs-landing-page.git"
   },
   "keywords": [],
-  "author": "NoorinALabs",
+  "author": "Noorina Labs",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/noorinalabs/noorinalabs-landing-page/issues"

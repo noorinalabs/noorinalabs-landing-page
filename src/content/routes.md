@@ -1,6 +1,6 @@
 # Page Routes
 
-Documented route structure for the NoorinALabs landing page.
+Documented route structure for the Noorina Labs landing page.
 
 ---
 

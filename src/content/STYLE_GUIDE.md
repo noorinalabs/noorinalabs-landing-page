@@ -1,6 +1,6 @@
 # Content Style Guide
 
-Guidelines for writing content across the NoorinALabs landing page. Every
+Guidelines for writing content across the Noorina Labs landing page. Every
 contributor — human or AI — should follow these conventions to maintain a
 consistent, respectful, and accessible voice.
 

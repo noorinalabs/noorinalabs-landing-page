@@ -4,7 +4,7 @@ This file provides guidance to Claude Code when working in the landing page repo
 
 ## Project Overview
 
-**noorinalabs-landing-page** is the organization landing page for NoorinALabs, serving as the public-facing entry point for the suite of Islamic scholarly research tools. The site introduces NoorinALabs' mission, showcases projects (starting with the Isnad Graph), and provides navigation to the platform.
+**noorinalabs-landing-page** is the organization landing page for Noorina Labs, serving as the public-facing entry point for the suite of Islamic scholarly research tools. The site introduces Noorina Labs' mission, showcases projects (starting with the Isnad Graph), and provides navigation to the platform.
 
 ## Tech Stack
 

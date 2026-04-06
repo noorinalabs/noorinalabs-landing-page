@@ -19,7 +19,7 @@ describe("BaseLayout", () => {
   });
 
   it("renders title with site suffix", () => {
-    expect(html).toContain("<title>Home | NoorinALabs</title>");
+    expect(html).toContain("<title>Home | Noorina Labs</title>");
   });
 
   it("renders meta description", () => {

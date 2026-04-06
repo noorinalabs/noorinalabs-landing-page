@@ -145,7 +145,7 @@ graph TD
 - **Responsibilities:**
   - Applies @noorinalabs/design-system tokens and components to page designs
   - Creates wireframes, mockups, and interaction specs
-  - Ensures visual consistency with the NoorinALabs brand
+  - Ensures visual consistency with the Noorina Labs brand
   - Conducts accessibility audits (WCAG 2.2 AA minimum)
   - Reviews frontend PRs for visual/UX compliance
 

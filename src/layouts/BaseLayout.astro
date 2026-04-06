@@ -29,9 +29,9 @@ interface Props {
 
 const {
   title,
-  description = "NoorinALabs — open tools for Islamic scholarly research.",
+  description = "Noorina Labs — open tools for Islamic scholarly research.",
   ogImage = "/images/og/default.png",
-  ogImageAlt = "NoorinALabs",
+  ogImageAlt = "Noorina Labs",
   canonicalUrl,
 } = Astro.props;
 
@@ -48,7 +48,7 @@ const resolvedOgImage = ogImage.startsWith("http")
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>{title} | NoorinALabs</title>
+    <title>{title} | Noorina Labs</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
 
@@ -59,7 +59,7 @@ const resolvedOgImage = ogImage.startsWith("http")
     <meta property="og:image" content={resolvedOgImage} />
     <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:site_name" content="NoorinALabs" />
+    <meta property="og:site_name" content="Noorina Labs" />
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
