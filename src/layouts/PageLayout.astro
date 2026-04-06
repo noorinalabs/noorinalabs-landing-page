@@ -1,0 +1,232 @@
+---
+/**
+ * PageLayout — standard page wrapper with header navigation and footer.
+ *
+ * Wraps BaseLayout and adds:
+ *   - Site header with navigation
+ *   - <main> landmark with id for skip-link
+ *   - Site footer with secondary links
+ *
+ * Used by: Homepage (/), About (/about), and any general page.
+ */
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+}
+
+const { title, description, ogImage, ogImageAlt } = Astro.props;
+
+/* --------------------------------------------------------------- */
+/*  Navigation data                                                */
+/* --------------------------------------------------------------- */
+
+const headerNav = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Projects", href: "/#projects" },
+];
+
+const footerNav = {
+  projects: [{ label: "Isnad Graph", href: "/projects/isnad-graph" }],
+  organization: [
+    { label: "About", href: "/about" },
+    { label: "GitHub", href: "https://github.com/noorinalabs" },
+  ],
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={ogImage}
+  ogImageAlt={ogImageAlt}
+>
+  <slot name="head" slot="head" />
+
+  <!-- Header -->
+  <header role="banner">
+    <nav aria-label="Primary navigation">
+      <a href="/" class="site-logo" aria-label="NoorinALabs home">
+        <!-- Logo slot — design system component will replace this -->
+        NoorinALabs
+      </a>
+
+      <ul role="list">
+        {
+          headerNav.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main content -->
+  <main id="main-content">
+    <slot />
+  </main>
+
+  <!-- Footer -->
+  <footer role="contentinfo">
+    <div class="footer-grid">
+      <div>
+        <h2 class="footer-heading">Projects</h2>
+        <ul role="list">
+          {
+            footerNav.projects.map((item) => (
+              <li>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="footer-heading">Organization</h2>
+        <ul role="list">
+          {
+            footerNav.organization.map((item) => (
+              <li>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <p class="footer-copyright">
+      &copy; {new Date().getFullYear()} NoorinALabs. All rights reserved.
+    </p>
+  </footer>
+</BaseLayout>
+
+<style>
+  header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    padding: 1rem 1.5rem;
+  }
+
+  header nav {
+    max-width: 64rem;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .site-logo {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-neutral-50);
+    text-decoration: none;
+  }
+
+  .site-logo:focus-visible {
+    outline: 2px solid var(--color-gold-300);
+    outline-offset: 2px;
+  }
+
+  header ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  header a {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--color-navy-100);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  header a:hover {
+    color: var(--color-gold-400);
+  }
+
+  header a:focus-visible {
+    outline: 2px solid var(--color-gold-300);
+    outline-offset: 2px;
+  }
+
+  footer {
+    background: var(--color-navy-900);
+    color: var(--color-navy-200);
+    padding: 3rem 1.5rem 2rem;
+  }
+
+  .footer-grid {
+    max-width: 64rem;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .footer-heading {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-neutral-100);
+    margin-bottom: 0.75rem;
+  }
+
+  footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  footer a {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    color: var(--color-navy-200);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  footer a:hover {
+    color: var(--color-gold-400);
+  }
+
+  footer a:focus-visible {
+    outline: 2px solid var(--color-gold-300);
+    outline-offset: 2px;
+  }
+
+  .footer-copyright {
+    max-width: 64rem;
+    margin: 0 auto;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    color: var(--color-navy-400);
+    border-top: 1px solid var(--color-navy-700);
+    padding-top: 1.5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    header a,
+    footer a {
+      transition: none;
+    }
+  }
+</style>
