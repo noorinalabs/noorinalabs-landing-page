@@ -21,3 +21,10 @@ Thumbs.db
 
 # Lighthouse reports
 lighthouse-report.html
+
+# Playwright
+test-results/
+playwright-report/
+
+# Vitest
+coverage/
