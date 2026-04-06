@@ -1,4 +1,5 @@
 @import "tailwindcss";
+/* TODO: Import @noorinalabs/design-system/styles.css once GitHub Packages publishing is verified end-to-end (#21) */
 
 /*
  * Landing-page theme overrides
