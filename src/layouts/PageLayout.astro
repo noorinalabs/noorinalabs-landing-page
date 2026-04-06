@@ -31,9 +31,7 @@ const headerNav = [
 ];
 
 const footerNav = {
-  projects: [
-    { label: "Isnad Graph", href: "/projects/isnad-graph" },
-  ],
+  projects: [{ label: "Isnad Graph", href: "/projects/isnad-graph" }],
   organization: [
     { label: "About", href: "/about" },
     { label: "GitHub", href: "https://github.com/noorinalabs" },
@@ -41,7 +39,12 @@ const footerNav = {
 };
 ---
 
-<BaseLayout title={title} description={description} ogImage={ogImage} ogImageAlt={ogImageAlt}>
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={ogImage}
+  ogImageAlt={ogImageAlt}
+>
   <slot name="head" slot="head" />
 
   <!-- Header -->
@@ -53,11 +56,13 @@ const footerNav = {
       </a>
 
       <ul role="list">
-        {headerNav.map((item) => (
-          <li>
-            <a href={item.href}>{item.label}</a>
-          </li>
-        ))}
+        {
+          headerNav.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))
+        }
       </ul>
     </nav>
   </header>
@@ -73,18 +78,26 @@ const footerNav = {
       <div>
         <h2 class="footer-heading">Projects</h2>
         <ul role="list">
-          {footerNav.projects.map((item) => (
-            <li><a href={item.href}>{item.label}</a></li>
-          ))}
+          {
+            footerNav.projects.map((item) => (
+              <li>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))
+          }
         </ul>
       </div>
 
       <div>
         <h2 class="footer-heading">Organization</h2>
         <ul role="list">
-          {footerNav.organization.map((item) => (
-            <li><a href={item.href}>{item.label}</a></li>
-          ))}
+          {
+            footerNav.organization.map((item) => (
+              <li>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))
+          }
         </ul>
       </div>
     </div>
