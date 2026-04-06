@@ -9,6 +9,8 @@
     "preview": "astro preview",
     "lint": "eslint . && prettier --check .",
     "format": "prettier --write .",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
     "lighthouse": "lighthouse http://localhost:4321 --output html --output-path ./lighthouse-report.html --chrome-flags=\"--headless --no-sandbox\""
   },
   "repository": {
@@ -30,13 +32,17 @@
   },
   "devDependencies": {
     "@astrojs/sitemap": "^3.7.2",
+    "@axe-core/playwright": "^4.11.1",
+    "@playwright/test": "^1.59.1",
     "@typescript-eslint/eslint-plugin": "^8.58.0",
     "@typescript-eslint/parser": "^8.58.0",
     "eslint": "^10.2.0",
     "eslint-plugin-astro": "^1.6.0",
+    "happy-dom": "^20.8.9",
     "lighthouse": "^13.0.3",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.2"
   }
 }

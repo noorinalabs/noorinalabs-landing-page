@@ -4,7 +4,7 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://noorinalabs.org",
+  site: "https://www.noorinalabs.com",
   integrations: [mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],

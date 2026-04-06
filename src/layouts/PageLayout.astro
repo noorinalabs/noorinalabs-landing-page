@@ -31,10 +31,14 @@ const headerNav = [
 ];
 
 const footerNav = {
-  projects: [{ label: "Isnad Graph", href: "/projects/isnad-graph" }],
+  projects: [
+    { label: "Isnad Graph", href: "https://isnad-graph.noorinalabs.com" },
+    { label: "About the Isnad Graph", href: "/projects/isnad-graph" },
+  ],
   organization: [
     { label: "About", href: "/about" },
     { label: "GitHub", href: "https://github.com/noorinalabs" },
+    { label: "Contact Us", href: "mailto:info@noorinalabs.com" },
   ],
 };
 ---
@@ -101,6 +105,11 @@ const footerNav = {
         </ul>
       </div>
     </div>
+
+    <p class="footer-contact">
+      For inquiries, reach us at
+      <a href="mailto:info@noorinalabs.com">info@noorinalabs.com</a>
+    </p>
 
     <p class="footer-copyright">
       &copy; {new Date().getFullYear()} NoorinALabs. All rights reserved.
@@ -213,14 +222,22 @@ const footerNav = {
     outline-offset: 2px;
   }
 
+  .footer-contact {
+    max-width: 64rem;
+    margin: 0 auto 1rem;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    color: var(--color-navy-300);
+    border-top: 1px solid var(--color-navy-700);
+    padding-top: 1.5rem;
+  }
+
   .footer-copyright {
     max-width: 64rem;
     margin: 0 auto;
     font-family: var(--font-body);
     font-size: 0.8rem;
     color: var(--color-navy-400);
-    border-top: 1px solid var(--color-navy-700);
-    padding-top: 1.5rem;
   }
 
   @media (prefers-reduced-motion: reduce) {
