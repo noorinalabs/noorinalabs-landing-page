@@ -19,15 +19,15 @@ test.describe("Responsive behavior", () => {
     await expect(footer).toBeVisible();
   });
 
-  test("value cards are rendered", async ({ page }) => {
+  test("capability cards are rendered", async ({ page }) => {
     await page.goto("/");
-    const cards = page.locator(".value-card");
-    await expect(cards).toHaveCount(4);
+    const cards = page.locator(".capability-card");
+    await expect(cards).toHaveCount(5);
   });
 
-  test("project card is rendered", async ({ page }) => {
+  test("partnership cards are rendered", async ({ page }) => {
     await page.goto("/");
-    const card = page.locator(".project-card");
-    await expect(card).toBeVisible();
+    const cards = page.locator(".partnership-card");
+    await expect(cards).toHaveCount(3);
   });
 });
