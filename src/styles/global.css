@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "@noorinalabs/design-system/styles.css";
+@import "../../node_modules/@noorinalabs/design-system/dist/styles.css";
 
 /*
  * Landing-page theme overrides
