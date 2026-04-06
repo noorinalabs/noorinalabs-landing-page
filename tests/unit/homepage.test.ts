@@ -23,7 +23,6 @@ describe("Homepage (index.html)", () => {
   });
 
   it("renders hero call-to-action links", () => {
-    expect(html).toContain('href="/projects/isnad-graph"');
     expect(html).toContain("Explore the Isnad Graph");
     expect(html).toContain('href="/about"');
     expect(html).toContain("Learn About Us");
@@ -49,9 +48,11 @@ describe("Homepage (index.html)", () => {
       "Interactive graph visualization of narrator networks",
     );
     expect(html).toContain(
-      "Biographical profiles with reliability assessments",
+      "Biographical profiles with teacher-student relationships",
     );
-    expect(html).toContain("Cross-collection search across hadith sources");
+    expect(html).toContain(
+      "Cross-collection search across major hadith sources",
+    );
   });
 
   it("renders the Why NoorinALabs value propositions", () => {
