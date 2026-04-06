@@ -32,10 +32,22 @@ interface Props {
   cta?: CTA;
 }
 
-const { title, description, ogImage, ogImageAlt, features = [], cta } = Astro.props;
+const {
+  title,
+  description,
+  ogImage,
+  ogImageAlt,
+  features = [],
+  cta,
+} = Astro.props;
 ---
 
-<PageLayout title={title} description={description} ogImage={ogImage} ogImageAlt={ogImageAlt}>
+<PageLayout
+  title={title}
+  description={description}
+  ogImage={ogImage}
+  ogImageAlt={ogImageAlt}
+>
   <slot name="head" slot="head" />
 
   <!-- Hero -->
@@ -43,25 +55,33 @@ const { title, description, ogImage, ogImageAlt, features = [], cta } = Astro.pr
     <h1 id="project-title">{title}</h1>
     <p class="project-description">{description}</p>
 
-    {cta && (
-      <a href={cta.href} class="cta-button" role="link">
-        {cta.label}
-      </a>
-    )}
+    {
+      cta && (
+        <a href={cta.href} class="cta-button" role="link">
+          {cta.label}
+        </a>
+      )
+    }
   </section>
 
   <!-- Features grid -->
-  {features.length > 0 && (
-    <section class="features-grid" aria-label="Key features">
-      {features.map((feature) => (
-        <article class="feature-card">
-          {feature.icon && <span class="feature-icon" aria-hidden="true">{feature.icon}</span>}
-          <h2>{feature.title}</h2>
-          <p>{feature.description}</p>
-        </article>
-      ))}
-    </section>
-  )}
+  {
+    features.length > 0 && (
+      <section class="features-grid" aria-label="Key features">
+        {features.map((feature) => (
+          <article class="feature-card">
+            {feature.icon && (
+              <span class="feature-icon" aria-hidden="true">
+                {feature.icon}
+              </span>
+            )}
+            <h2>{feature.title}</h2>
+            <p>{feature.description}</p>
+          </article>
+        ))}
+      </section>
+    )
+  }
 
   <!-- MDX body content -->
   <section class="project-content prose">

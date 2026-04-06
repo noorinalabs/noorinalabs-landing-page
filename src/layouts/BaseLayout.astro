@@ -37,7 +37,9 @@ const {
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? "";
 const canonical = canonicalUrl ?? Astro.url.href;
-const resolvedOgImage = ogImage.startsWith("http") ? ogImage : `${siteUrl}${ogImage}`;
+const resolvedOgImage = ogImage.startsWith("http")
+  ? ogImage
+  : `${siteUrl}${ogImage}`;
 ---
 
 <!doctype html>

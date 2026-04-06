@@ -6,10 +6,10 @@ Documented route structure for the NoorinALabs landing page.
 
 ## Route Map
 
-| Route | Source | Layout | Collection | Description |
-|-------|--------|--------|------------|-------------|
-| `/` | `src/pages/index.astro` | `PageLayout` | — | Homepage: hero, mission statement, project showcase cards |
-| `/about` | `src/pages/about.astro` | `PageLayout` | `pages` | Mission page: renders `src/content/pages/about.mdx` |
+| Route                   | Source                               | Layout          | Collection | Description                                                          |
+| ----------------------- | ------------------------------------ | --------------- | ---------- | -------------------------------------------------------------------- |
+| `/`                     | `src/pages/index.astro`              | `PageLayout`    | —          | Homepage: hero, mission statement, project showcase cards            |
+| `/about`                | `src/pages/about.astro`              | `PageLayout`    | `pages`    | Mission page: renders `src/content/pages/about.mdx`                  |
 | `/projects/isnad-graph` | `src/pages/projects/[...slug].astro` | `ProjectLayout` | `projects` | Project feature page: renders `src/content/projects/isnad-graph.mdx` |
 
 ---
@@ -47,10 +47,10 @@ BaseLayout.astro
 
 ### Header Navigation
 
-| Label | Href | Notes |
-|-------|------|-------|
-| Home | `/` | Always visible |
-| About | `/about` | |
+| Label    | Href         | Notes                                           |
+| -------- | ------------ | ----------------------------------------------- |
+| Home     | `/`          | Always visible                                  |
+| About    | `/about`     |                                                 |
 | Projects | `/#projects` | Scrolls to project showcase section on homepage |
 
 ### Footer Links
@@ -72,8 +72,8 @@ BaseLayout.astro
 
 These routes are anticipated but not yet implemented:
 
-| Route | Description |
-|-------|-------------|
-| `/projects/[slug]` | Additional project pages as new tools launch |
-| `/blog` | Devlog or research notes (content collection: `blog`) |
-| `/ar/...` | Arabic-language mirror (i18n expansion) |
+| Route              | Description                                           |
+| ------------------ | ----------------------------------------------------- |
+| `/projects/[slug]` | Additional project pages as new tools launch          |
+| `/blog`            | Devlog or research notes (content collection: `blog`) |
+| `/ar/...`          | Arabic-language mirror (i18n expansion)               |

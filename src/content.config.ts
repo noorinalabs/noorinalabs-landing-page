@@ -40,7 +40,10 @@ const projects = defineCollection({
         z.object({
           title: z.string(),
           description: z.string(),
-          icon: z.string().optional().describe("Icon identifier from the design system"),
+          icon: z
+            .string()
+            .optional()
+            .describe("Icon identifier from the design system"),
         }),
       )
       .default([]),

@@ -12,12 +12,12 @@ consistent, respectful, and accessible voice.
 researchers to curious first-time visitors. Our tone balances academic precision
 with warmth and clarity.
 
-| Do | Don't |
-|---|---|
-| Explain technical terms on first use | Assume readers know Arabic terminology |
-| Use clear, direct sentences | Use jargon-heavy or overly formal language |
-| Show respect for Islamic tradition | Treat religious sources casually |
-| Invite the reader in | Lecture or gatekeep |
+| Do                                   | Don't                                      |
+| ------------------------------------ | ------------------------------------------ |
+| Explain technical terms on first use | Assume readers know Arabic terminology     |
+| Use clear, direct sentences          | Use jargon-heavy or overly formal language |
+| Show respect for Islamic tradition   | Treat religious sources casually           |
+| Invite the reader in                 | Lecture or gatekeep                        |
 
 ### Key Principles
 
@@ -117,9 +117,9 @@ Until then, all content lives at the collection root without a locale prefix.
 ## Arabic Terms and Transliteration
 
 - On first use, provide the Arabic term followed by a brief English definition:
-  *isnad* (chain of narration).
-- Use standard academic transliteration where practical (e.g., *hadith*, not
-  *hadeeth*).
+  _isnad_ (chain of narration).
+- Use standard academic transliteration where practical (e.g., _hadith_, not
+  _hadeeth_).
 - Wrap Arabic-script text in `<span lang="ar">` for correct directionality.
 
 ---
@@ -127,7 +127,7 @@ Until then, all content lives at the collection root without a locale prefix.
 ## Formatting Conventions
 
 - **Bold** for emphasis — use sparingly.
-- *Italics* for Arabic transliterations and foreign terms.
+- _Italics_ for Arabic transliterations and foreign terms.
 - Use ordered lists (`1.`) for sequential steps; unordered lists (`-`) for
   non-sequential items.
 - One sentence per line in MDX source for cleaner diffs.
