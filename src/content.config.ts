@@ -1,5 +1,5 @@
 /**
- * Content collection definitions for the NoorinALabs landing page.
+ * Content collection definitions for the Noorina Labs landing page.
  *
  * Collections use Zod schemas for type-safe frontmatter validation.
  * Astro v6 content collections require explicit loaders.
