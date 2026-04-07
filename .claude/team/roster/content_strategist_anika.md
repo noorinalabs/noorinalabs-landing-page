@@ -55,3 +55,10 @@ Thoughtful and precise with language — naturally, since words are her craft. W
 ## Reports To
 - **Project Lead** (Marcia Vasquez-Paredes)
 - **Coordinates with:** UX Designer (Cédric), Frontend Engineer (Kofi)
+
+## Performance History
+
+### Session 4 (2026-04-06)
+- **Done well:** Pitch deck content quality was excellent — scholarly, mission-driven copy
+- **Needs improvement:** Did not run `npm test` before creating PRs. Content changes broke unit test assertions that checked for specific text strings. Must run full test suite before pushing.
+- **Trust:** 3 (neutral — content quality offset process issue)
