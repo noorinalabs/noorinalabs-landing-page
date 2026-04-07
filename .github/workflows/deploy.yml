@@ -82,6 +82,7 @@ jobs:
             echo "$GH_PACKAGES_TOKEN" | docker login ghcr.io -u noorinalabs --password-stdin
             docker compose -p noorinalabs -f compose/docker-compose.prod.yml --env-file .env pull landing
             docker compose -p noorinalabs -f compose/docker-compose.prod.yml --env-file .env up -d landing
+            docker compose -p noorinalabs -f compose/docker-compose.prod.yml --env-file .env restart caddy
 
             echo "==> Waiting for landing service to stabilize..."
             for i in $(seq 1 12); do
