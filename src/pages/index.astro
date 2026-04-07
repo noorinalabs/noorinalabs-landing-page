@@ -371,10 +371,13 @@ import SEO from "../components/SEO.astro";
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--color-gold-300);
-    padding: 0.35rem 1rem;
-    border: 1px solid var(--color-navy-500);
-    border-radius: 2rem;
     letter-spacing: 0.02em;
+  }
+
+  .hero-pillars .pillar:not(:last-child)::after {
+    content: "\00b7";
+    margin-left: 0.75rem;
+    color: var(--color-navy-400);
   }
 
   .hero-actions {
