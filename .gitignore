@@ -28,3 +28,19 @@ playwright-report/
 
 # Vitest
 coverage/
+
+# Node.js
+npm-debug.log*
+yarn-debug.log*
+.eslintcache
+*.tsbuildinfo
+
+# Logs
+*.log
+
+# Cache
+.cache/
+
+# Temp
+tmp/
+temp/
