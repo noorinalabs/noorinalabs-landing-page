@@ -1,0 +1,53 @@
+# Pre-commit hooks for noorinalabs-landing-page
+# Install: pre-commit install
+# Docs: https://pre-commit.com/
+#
+# Hook execution order (fail-fast, cheapest first):
+#   1. ESLint
+#   2. Prettier format check
+#   3. Astro type check
+#   4. Build + unit tests
+#
+# Prerequisites:
+#   - Node.js 22+ with npm
+
+repos:
+  # --- Secret detection ---
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.24.3
+    hooks:
+      - id: gitleaks
+        name: gitleaks
+
+  # --- Local hooks ---
+  - repo: local
+    hooks:
+      - id: eslint
+        name: eslint
+        entry: npx eslint .
+        language: system
+        pass_filenames: false
+        types_or: [ts, tsx, javascript]
+        stages: [pre-commit]
+
+      - id: prettier
+        name: prettier
+        entry: bash -c 'npx prettier --check "src/**/*.{ts,tsx,astro,css,md,json}"'
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+
+      - id: astro-check
+        name: astro-check
+        entry: npx astro check
+        language: system
+        pass_filenames: false
+        types_or: [ts, tsx]
+        stages: [pre-commit]
+
+      - id: build-and-test
+        name: build-and-test
+        entry: bash -c 'npm run build && npm test'
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]

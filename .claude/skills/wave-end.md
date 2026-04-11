@@ -6,6 +6,7 @@ description: Finalize a wave (review, merge, cleanup)
 Finalize the current wave.
 
 ## Instructions
+
 1. List all open PRs targeting the current deployments branch
 2. For each PR:
    a. Check CI status — do NOT proceed if failing

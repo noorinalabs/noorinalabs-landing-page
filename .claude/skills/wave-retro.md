@@ -26,6 +26,7 @@ gh run list --branch {PR_BRANCH} --json conclusion,name
 ```
 
 Collect:
+
 - Review comments (must-fix items, tech-debt items)
 - CI pass/fail counts per PR
 - Time from PR creation to merge
@@ -60,6 +61,7 @@ git worktree add /tmp/trust-matrix-update CEO/0000-Trust_Matrix
 ```
 
 Update `/tmp/trust-matrix-update/.claude/team/trust_matrix.md` with directional trust changes based on wave performance:
+
 - Reliable delivery, clean reviews → increase trust (+1, max 5)
 - CI failures, must-fix items, broken commitments → decrease trust (-1, min 1)
 - No significant signal → no change
@@ -78,22 +80,27 @@ Append a retro entry to `.claude/team/feedback_log.md`:
 ## Retrospective: Phase {N} Wave {M} — {DATE}
 
 ### Team Performance
+
 {summary of wave metrics: PRs merged, issues closed, CI health}
 
 ### Per-Engineer Assessments
+
 {from step 3}
 
 ### Top 3 Going Well
+
 1. {finding}
 2. {finding}
 3. {finding}
 
 ### Top 3 Pain Points
+
 1. {finding}
 2. {finding}
 3. {finding}
 
 ### Proposed Process Changes
+
 1. {change} — Rationale: {why}
 2. {change} — Rationale: {why}
 ```

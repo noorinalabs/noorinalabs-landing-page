@@ -23,6 +23,7 @@ Track all feedback events here. Format:
 ### Per-Engineer Assessments
 
 ### Kofi Mensah-Williams
+
 - PRs: #10 (scaffolding), #13 (hero/homepage)
 - CI failures: 1 cancelled run on #13 branch
 - Must-fix items received: 0
@@ -31,6 +32,7 @@ Track all feedback events here. Format:
 - Severity: minor (delivery timing, not quality)
 
 ### Anika Diop-Sarr
+
 - PRs: #9 (content architecture), #11 (about + projects pages)
 - CI failures: 0
 - Must-fix items received: 0
@@ -39,6 +41,7 @@ Track all feedback events here. Format:
 - Severity: none
 
 ### Nazia Rahman
+
 - PRs: #8 (CI/CD), #12 (SEO/performance), #15 (CI fix)
 - CI failures: 2 on SEO branch (ESLint --ext flag incompatible with flat config); 3 on deployment branch (Prettier formatting + Node 20 vs 22)
 - Must-fix items received: 0
@@ -47,30 +50,37 @@ Track all feedback events here. Format:
 - Severity: none
 
 ### Cedric Novak
+
 - PRs: none (no design PRs in Phase 1)
 - Assessment: No signal — Cedric was assigned on issues #3 and #5 but no design-specific PRs were created. Design work may have been implicit in Kofi's implementation. Will monitor in future phases.
 - Severity: none
 
 ### Top 3 Going Well
+
 1. **Content quality** — Anika's style guide, MDX content, and layout architecture set a strong foundation. Real copy from day one, not Lorem Ipsum.
 2. **Quick CI remediation** — Nazia identified and fixed the CI failures (Node 22 + Prettier) rapidly after PR #14 exposed them.
 3. **Merge conflict resolution** — Integration of 6 PRs into the deployment branch was handled smoothly despite overlapping files (BaseLayout, astro.config, package-lock).
 
 ### Top 3 Pain Points
+
 1. **No peer reviews on any PR** — Charter requires at least 1 peer review per PR. All 7 PRs were merged with only the Project Lead's review comment. This is a clear charter violation.
 2. **CI not verified before presenting integration PR** — PR #14 was presented to the user with failing CI. The user caught the Prettier and Node version issues. The team should have run CI validation before declaring the wave complete.
 3. **Kofi consistently last to deliver** — In Wave 1, scaffolding (#10) was a blocker merged after both Nazia (#8) and Anika (#9). In Wave 2, hero (#13) was the last PR. While quality was good, this pattern creates risk for future waves with tighter sequencing.
 
 ### Proposed Process Changes
+
 1. **Mandatory CI green-check before wave completion** — No wave may be declared complete or integration PR presented until CI passes on the deployment branch. Rationale: User caught failing CI on PR #14; the team should have caught this first.
 2. **Enforce peer review requirement** — Each PR must have at least 1 GitHub review (not just a comment) from a peer before merge to the deployment branch. Rationale: Charter section "Code Review & Peer Review" was violated on all 7 PRs.
 3. **Blocking work prioritized first** — When a task is on the critical path (e.g., scaffolding), the assigned engineer should be spawned first and given priority. Rationale: Kofi's scaffolding was blocking Anika and Nazia in Wave 1.
 
 ## [2026-04-05] — Marcia Vasquez-Paredes → Kofi Mensah-Williams — Severity: minor
+
 Kofi was last to deliver in both Wave 1 (scaffolding, which was blocking) and Wave 2 (hero section). Quality was good — scaffolding was clean and hero section received strong praise. But delivery timing creates risk when others depend on his output. Monitoring going forward.
 
 ## [2026-04-05] — Marcia Vasquez-Paredes → Anika Diop-Sarr — Severity: none (positive)
+
 Outstanding Phase 1 performance. Content architecture and style guide set the tone for the entire project. Real, substantive copy from day one. Proactive dependency management (adding sitemap/lighthouse deps for Nazia). Trust increased to 4.
 
 ## [2026-04-05] — Marcia Vasquez-Paredes → Nazia Rahman — Severity: none (positive)
+
 Strong Phase 1 performance. CI/CD was first PR merged. Quick turnaround on the CI fix. SEO infrastructure was clean. Proactively created tech-debt tracking issue. Trust increased to 4.

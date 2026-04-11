@@ -19,13 +19,13 @@ This file provides guidance to Claude Code when working in the landing page repo
 
 ## Team
 
-| Role | Name | Level | File |
-|------|------|-------|------|
-| Project Lead | Marcia Vasquez-Paredes | Senior Manager | `roster/project_lead_marcia.md` |
-| UX/Visual Designer | Cedric Novak | Senior | `roster/ux_designer_cedric.md` |
-| Frontend Engineer | Kofi Mensah-Williams | Senior | `roster/frontend_engineer_kofi.md` |
-| Content Strategist | Anika Diop-Sarr | Senior | `roster/content_strategist_anika.md` |
-| QA/Performance Engineer | Nazia Rahman | Senior | `roster/qa_engineer_nazia.md` |
+| Role                    | Name                   | Level          | File                                 |
+| ----------------------- | ---------------------- | -------------- | ------------------------------------ |
+| Project Lead            | Marcia Vasquez-Paredes | Senior Manager | `roster/project_lead_marcia.md`      |
+| UX/Visual Designer      | Cedric Novak           | Senior         | `roster/ux_designer_cedric.md`       |
+| Frontend Engineer       | Kofi Mensah-Williams   | Senior         | `roster/frontend_engineer_kofi.md`   |
+| Content Strategist      | Anika Diop-Sarr        | Senior         | `roster/content_strategist_anika.md` |
+| QA/Performance Engineer | Nazia Rahman           | Senior         | `roster/qa_engineer_nazia.md`        |
 
 ## Team Workflow
 

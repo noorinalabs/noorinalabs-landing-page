@@ -17,6 +17,7 @@ gh pr list --state merged --base "deployments/phase{N}/wave-{M}" --json number,t
 ### 2. Extract issue references from PRs
 
 For each merged PR, parse the body for:
+
 - `Closes #N`
 - `Fixes #N`
 - `Resolves #N`
@@ -32,6 +33,7 @@ gh issue list --state open --label "p{N}-wave-{M}" --json number,title,labels
 ### 4. Identify orphans
 
 An orphan is an open issue that:
+
 - Is labeled with the wave label (`p{N}-wave-{M}`)
 - Was referenced by a merged PR's `Closes`/`Fixes`/`Resolves` but was not auto-closed
 
