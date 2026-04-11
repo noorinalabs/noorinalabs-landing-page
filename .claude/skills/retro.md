@@ -6,6 +6,7 @@ description: Run a wave retrospective
 Run a wave retrospective for the this project.
 
 ## Instructions
+
 1. Collect all PRs merged into the current wave's deployments branch: `gh pr list --state merged --base deployments/phase{N}/wave{M}`
 2. Collect all issues closed during this wave
 3. Collect all tech-debt issues created during this wave

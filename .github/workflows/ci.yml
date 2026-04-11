@@ -29,7 +29,7 @@ jobs:
           node-version: 22
           cache: npm
           registry-url: https://npm.pkg.github.com
-          scope: '@noorinalabs'
+          scope: "@noorinalabs"
 
       - name: Install dependencies
         run: npm ci
@@ -70,7 +70,7 @@ jobs:
           node-version: 22
           cache: npm
           registry-url: https://npm.pkg.github.com
-          scope: '@noorinalabs'
+          scope: "@noorinalabs"
 
       - name: Install dependencies
         run: npm ci

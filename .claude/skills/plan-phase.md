@@ -7,6 +7,7 @@ args: Phase number
 Plan a phase of work for the this project.
 
 ## Instructions
+
 1. Read the phase scope from memory/project docs
 2. Decompose into GitHub Issues with acceptance criteria
 3. Assign to team members (FIRSTNAME_LASTNAME labels)

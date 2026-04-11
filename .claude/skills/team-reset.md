@@ -26,7 +26,7 @@ List all active roster members with their roles and status.
 Send a `shutdown_request` message to ALL active agents:
 
 ```json
-{"type": "shutdown_request", "reason": "Team reset initiated"}
+{ "type": "shutdown_request", "reason": "Team reset initiated" }
 ```
 
 Wait 5 seconds for agents to acknowledge.

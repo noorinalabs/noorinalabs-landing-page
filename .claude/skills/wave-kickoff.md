@@ -36,6 +36,7 @@ gh label create "p{N}-wave-{M}" --description "Phase {N} Wave {M}" --color "8B5C
 ### 3. Collect issue list and assignments
 
 Prompt the user for:
+
 - List of issue numbers for this wave
 - Assignee for each issue (FIRSTNAME_LASTNAME label)
 - Peer review pairings (reviewer for each engineer)
@@ -79,6 +80,7 @@ Please begin implementation.
 ### 6. Output execution plan
 
 Generate and display a structured execution plan with:
+
 - **Priority ordering:** hotfixes first, then security fixes, then bugs, then features (per charter § Wave Planning & Priority)
 - **Issue table:** number, title, assignee, reviewer, priority tier
 - **Dependencies:** any cross-PR dependencies identified
