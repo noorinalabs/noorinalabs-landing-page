@@ -19,11 +19,6 @@ Thumbs.db
 .idea/
 .vscode/
 
-# Claude Code project data (session-local)
-.claude/projects/
-.claude/annunaki/errors.jsonl
-.claude/annunaki/errors.jsonl.bak.*
-
 # Lighthouse reports
 lighthouse-report.html
 
