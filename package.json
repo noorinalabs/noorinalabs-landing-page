@@ -26,6 +26,9 @@
   "homepage": "https://github.com/noorinalabs/noorinalabs-landing-page#readme",
   "dependencies": {
     "@astrojs/mdx": "^5.0.3",
+    "@fontsource/ibm-plex-sans": "^5.2.8",
+    "@fontsource/ibm-plex-serif": "^5.2.7",
+    "@fontsource/noto-naskh-arabic": "^5.2.11",
     "@noorinalabs/design-system": "^0.0.2",
     "@tailwindcss/vite": "^4.2.2",
     "astro": "^6.1.3",
