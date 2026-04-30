@@ -43,9 +43,31 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          # Tag scheme (isnad-graph#815 Contract v6 = option C, canonical at
+          # https://github.com/noorinalabs/noorinalabs-isnad-graph/issues/815#issuecomment-4301538921):
+          #   sha-<short>   — immutable per-push; written here on every event
+          #   latest        — mutable pointer; written here on push to main
+          #   stg-<short>   — immutable per-push, stg namespace; written here
+          #                   ONLY on push to main. Tag history = stg deploy log.
+          #   stg-latest    — moving pointer to most-recent stg-<short>; written
+          #                   here ONLY on push to main.
+          #   prod-<short>  — immutable per-promotion, prod namespace; written
+          #                   by deploy#84 ONLY, NOT this file.
+          #   prod-latest   — moving pointer; written by deploy#84 ONLY.
+          # Tag-count invariants enforced by noorinalabs-deploy
+          # .github/workflows/image-tag-invariants.yml (four tags per push).
+          # NOTE: this job only runs via `workflow_run` from CI (constrained
+          # to `branches: [main]`) or `workflow_dispatch` from main. Both
+          # imply main, so the stg-* tags do not need an extra enable guard.
           tags: |
+            # Short SHA (e.g., sha-a1b2c3d) — IMMUTABLE anchor
+            type=sha,prefix=sha-,format=short
+            # Latest — mutable pointer
             type=raw,value=latest
-            type=sha,prefix=
+            # stg-<short> per-push in stg namespace — IMMUTABLE
+            type=sha,prefix=stg-,format=short
+            # stg-latest moving pointer
+            type=raw,value=stg-latest
 
       - name: Build and push
         uses: docker/build-push-action@v6
