@@ -31,6 +31,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # buildx + provenance=true wraps the manifest in an OCI image index
+      # (mediaType: application/vnd.oci.image.index.v1+json) even for a
+      # single platform. This makes landing-page's manifest shape uniform
+      # with api / frontend / user-service so the multi-arch parity check
+      # in noorinalabs-deploy/.github/workflows/promote.yml no longer needs
+      # a single-arch special case (deploy#242 / closes the option-A path
+      # left open by deploy#240).
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
@@ -74,6 +84,12 @@ jobs:
         with:
           context: .
           push: true
+          # Single-platform build, but buildx + provenance=true emits an
+          # OCI image index manifest. Verified shape:
+          #   docker buildx imagetools inspect --raw <ref> | jq -r .mediaType
+          #   → application/vnd.oci.image.index.v1+json
+          platforms: linux/amd64
+          provenance: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           secrets: |
