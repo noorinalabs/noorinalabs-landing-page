@@ -5,6 +5,13 @@ on:
     branches: [main, "deployments/**"]
   pull_request:
     branches: [main, "deployments/**"]
+    # Explicit `paths: ['**']` is semantically equivalent to omitting the
+    # filter (GitHub treats no-paths as match-all), but the harness hook
+    # `validate_workflow_paths_coverage.py` parser misreads bare
+    # `on.pull_request:` as "covers nothing" — see noorinalabs-main#289.
+    # Listed explicitly here so PRs that touch `.github/workflows/**` clear
+    # the hook's coverage check. Revert once #289 lands.
+    paths: ["**"]
 
 concurrency:
   group: ci-${{ github.ref }}
