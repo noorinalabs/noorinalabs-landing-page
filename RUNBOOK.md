@@ -66,44 +66,42 @@ The Dockerfile is two-stage: `node:22-alpine` builds, `nginx:alpine` serves `dis
 | Workflow | File | Triggers | Purpose |
 |---|---|---|---|
 | CI | `.github/workflows/ci.yml` | `push` / `pull_request` to `main` and `deployments/**` | ESLint, Prettier, `astro check`, build, Vitest unit tests; Playwright E2E in a follow-up job |
-| Deploy | `.github/workflows/deploy.yml` | `workflow_run` (CI succeeded on `main`) or `workflow_dispatch` | Build + push image to GHCR with v6 tags; SSH to VPS to roll out |
+| Publish to GHCR | `.github/workflows/deploy.yml` | `workflow_run` (CI succeeded on `main`) or `workflow_dispatch` | Build + push image to GHCR with v6 tags. **Publish only — does not deploy.** Production rollout flows through `noorinalabs-deploy` (see §4). |
 
-The deploy workflow only runs when the upstream `CI` workflow's `workflow_run` conclusion is `success`, so a red CI on `main` blocks deploy automatically.
+The publish workflow only runs when the upstream `CI` workflow's `workflow_run` conclusion is `success`, so a red CI on `main` blocks the build automatically.
 
 ---
 
 ## 4. Deploy to production
 
+Landing-page deploy is a two-stage flow split across two repos:
+
+- **This repo** publishes container images to GHCR. It does NOT SSH-deploy from push (the legacy push-time `deploy` job was removed in [#77](https://github.com/noorinalabs/noorinalabs-landing-page/issues/77) / PR #82, 2026-05-06 — it had been a leftover from the original one-VPS topology and started timing out against `vars.VPS_HOST` once W10 split stg/prod, see deploy#86 / main#212).
+- **`noorinalabs-deploy`** owns the SSH deploy. Stg fans in via `deploy-stg.yml`'s `repository_dispatch` handler; prod is promoted via `promote.yml` → `deploy-prod.yml`.
+
 ### 4.1 Normal path (auto on merge to `main`)
 
 1. PR merges to `main`.
 2. `CI` workflow runs (lint + types + build + unit + E2E). On green:
-3. `Deploy` workflow `build-and-push` job builds with `docker/build-push-action@v6` (single-platform `linux/amd64` with `provenance=true`, which produces an OCI image index — required for the multi-arch parity check in `noorinalabs-deploy/.github/workflows/promote.yml`). Tags pushed:
+3. `Publish to GHCR` workflow's `build-and-push` job builds with `docker/build-push-action@v6` (single-platform `linux/amd64` with `provenance=true`, which produces an OCI image index — required for the multi-arch parity check in `noorinalabs-deploy/.github/workflows/promote.yml`). Tags pushed:
    - `sha-<short>` (immutable per-push)
    - `latest` (mutable pointer)
    - `stg-<short>` (immutable, stg namespace)
    - `stg-latest` (moving pointer to most-recent stg-)
-4. `Deploy` workflow `deploy` job SSHes into the VPS (`vars.VPS_HOST`, user `deploy`, key `secrets.DEPLOY_SSH_PRIVATE_KEY`) and runs:
-   ```bash
-   cd /opt/noorinalabs-deploy
-   git fetch origin main && git reset --hard origin/main
-   docker login ghcr.io -u noorinalabs --password-stdin
-   docker compose -p noorinalabs -f compose/docker-compose.prod.yml --env-file .env pull landing
-   docker compose -p noorinalabs -f compose/docker-compose.prod.yml --env-file .env up -d landing
-   docker compose -p noorinalabs -f compose/docker-compose.prod.yml --env-file .env restart caddy
-   ```
-5. The script polls `docker inspect --format='{{.State.Health.Status}}' noorinalabs-landing-1` for up to 60s. On `healthy`: success. On timeout: dumps `--tail=50` logs and exits non-zero.
+4. **Stg rollout** is handled by `noorinalabs-deploy/.github/workflows/deploy-stg.yml` via the `deploy-noorinalabs-landing-page` `repository_dispatch` event. That workflow SSHes into the stg VPS, pulls `stg-latest`, and recreates the `landing` service. (Landing-page itself does not dispatch — the fan-in is configured upstream in deploy-stg.)
+5. **Prod rollout** is gated and explicit; see §4.3.
 
-### 4.2 Manual trigger
+### 4.2 Manual trigger (publish only)
 
-GitHub UI → Actions → **Deploy** → **Run workflow** on `main`. Same steps as 4.1 but skips the upstream `CI` `workflow_run` gate.
+GitHub UI → Actions → **Publish to GHCR** → **Run workflow** on `main`. This rebuilds + pushes images but does NOT roll out to any VPS. To force a prod rollout from a manually-published build, use the `noorinalabs-deploy` flow (§4.3) or the legacy single-VPS workflow (§4.4) explicitly.
 
 ### 4.3 Promotion to prod via `noorinalabs-deploy`
 
 Landing-page is part of the centralized `promote.yml` flow in `noorinalabs-deploy`:
 
 - Default promotion set: `api,frontend,user-service,landing`.
-- Promotion retags the resolved `stg-<short>` image as `prod-<short>` + `prod-latest` and triggers `deploy-prod.yml`. Landing-page does NOT push `prod-*` tags itself.
+- Promotion retags the resolved `stg-<short>` image as `prod-<short>` + `prod-latest` and auto-dispatches `deploy-prod.yml`. Landing-page does NOT push `prod-*` tags itself.
+- `deploy-prod.yml` accepts a per-service `landing_tag` input (prod-* shape; defaults to `prod-latest`), exports it to the VPS as `LANDING_IMAGE_TAG`, then `docker compose ... pull api frontend landing user-service` + `up -d --force-recreate`.
 - Stg-verify gate (`promote.yml` § stg-verify) hard-blocks promotion unless the latest `verify-deploy.yml` run was `success` within `stg_verify_max_age_hours` (default 24h).
 
 ### 4.4 Legacy single-VPS path
@@ -159,20 +157,17 @@ Open a follow-up PR to `noorinalabs-deploy` immediately so the manual `.env` edi
 
 ## 6. Common failure modes
 
-### 6.1 Deploy-to-VPS workflow red on `main`
+### 6.1 Publish-time SSH-deploy job (resolved 2026-05-06)
 
-**Currently tracked:** [landing-page#77](https://github.com/noorinalabs/noorinalabs-landing-page/issues/77) — Deploy job has been failing post-build since 2026-05-04. Build & Push succeeds, the deploy step fails. PR CI remains green, so PRs are not blocked. Triage out-of-band; do not retry blindly.
+Historical note for context. From P2W10 through 2026-05-06 this workflow contained a `deploy: Deploy to VPS` job that SSH'd into `vars.VPS_HOST` after the build. It had been a leftover from the original (`a32a249`) one-VPS topology and started failing 2026-05-04 once the W10 stg/prod split made that target unreachable from the publish workflow's role. Tracked as [landing-page#77](https://github.com/noorinalabs/noorinalabs-landing-page/issues/77), resolved by PR #82 (merged 2026-05-07T02:41:20Z) — the `deploy` job was deleted; the workflow renamed `Deploy` → `Publish to GHCR`.
 
-**Triage steps:**
-1. `gh run list --repo noorinalabs/noorinalabs-landing-page --workflow=deploy.yml -L 5` and inspect the failed run.
-2. The deploy step prints `Attempt N/12: landing=<status>`. Common failures: `not_found` (container didn't start — image pull or compose error) vs repeated `unhealthy` / `starting` (curl probe failed inside the container).
-3. SSH to the VPS and read the most recent landing logs:
-   ```bash
-   ssh deploy@$VPS_HOST
-   docker compose -p noorinalabs -f /opt/noorinalabs-deploy/compose/docker-compose.prod.yml logs --tail=200 landing
-   docker inspect noorinalabs-landing-1 --format='{{json .State.Health}}' | jq
-   ```
-4. Verify Caddy can reach it: `docker compose ... exec caddy wget -qO- http://landing:80/ | head -5`.
+**Why this matters for triage today:** if you encounter a stuck or failing landing-page deploy, do NOT look in this workflow's run history for the SSH step — it no longer exists. Real deploys live in:
+
+- `noorinalabs-deploy/.github/workflows/deploy-stg.yml` (stg fan-in, `repository_dispatch` event `deploy-noorinalabs-landing-page`)
+- `noorinalabs-deploy/.github/workflows/deploy-prod.yml` (prod, gated by `promote.yml`)
+- `noorinalabs-deploy/.github/workflows/deploy-landing-page.yml` (legacy single-VPS, manual only — see §4.4; tracking decom: deploy#86)
+
+For a current "site is down / new image didn't take effect" triage path, see §6.5.
 
 ### 6.2 `npm ci` fails with `401 Unauthorized` for `@noorinalabs/design-system`
 
@@ -190,11 +185,20 @@ Run locally: `npx astro check`. Fix the reported file/line. Common cause: conten
 
 E2E job runs `--project=desktop-chromium` only. Re-run the failed job once. If it fails twice with the same trace, treat it as a real regression — pull the `playwright-report` artifact (retained 14 days) and read the trace.
 
-### 6.5 Caddy returns 502 / 503 for `noorinalabs.com`
+### 6.5 Caddy returns 502 / 503 for `noorinalabs.com` (current deploy triage)
 
-- Container down: `docker ps --filter name=noorinalabs-landing-1`. If absent, the deploy never landed — check the workflow run.
-- Health failing: see §6.1 step 3.
-- Caddy network confusion: `docker network inspect noorinalabs_default | jq '.[0].Containers'` should list both `landing` and `caddy`. If not, `docker compose ... up -d caddy landing` to recreate. Caddy was specifically restarted in the deploy script (line 123 of `deploy.yml`) to handle DNS cache after image swap.
+This is the live path — start here when the public site is unhealthy.
+
+1. **Container present?** `docker ps --filter name=noorinalabs-landing-1`. If absent, the deploy never landed — check the most recent `noorinalabs-deploy` deploy-prod / deploy-stg run for the rollout that should have started it.
+2. **Container health?**
+   ```bash
+   ssh deploy@$VPS_HOST
+   docker inspect noorinalabs-landing-1 --format='{{json .State.Health}}' | jq
+   docker compose -p noorinalabs -f /opt/noorinalabs-deploy/compose/docker-compose.prod.yml logs --tail=200 landing
+   ```
+   Common failures: image pull error (GHCR creds), compose env-file drift, or the curl `/` probe failing inside the container.
+3. **Caddy network reachability:** `docker network inspect noorinalabs_default | jq '.[0].Containers'` should list both `landing` and `caddy`. If not, `docker compose ... up -d caddy landing` to recreate.
+4. **Stale Caddy upstream:** Caddy may cache the prior backend address after a `landing` recreate. The current `noorinalabs-deploy` deploy-stg / deploy-prod rollouts handle this with their own `restart caddy` / `--force-recreate` step; if you do a manual VPS rollback (§5.3) you must restart Caddy yourself: `docker compose -p noorinalabs -f compose/docker-compose.prod.yml --env-file .env restart caddy`.
 
 ### 6.6 nginx 404 for a route that exists in `src/pages/`
 
@@ -202,7 +206,7 @@ Static-only — every page must exist as a file under `dist/` after build. If `n
 
 ### 6.7 OCI image-index parity check fails in `promote.yml`
 
-`promote.yml` requires the manifest mediaType `application/vnd.oci.image.index.v1+json`. This is only produced when `docker/build-push-action@v6` is invoked with `provenance: true` (currently set in `deploy.yml` line 92). If it changes to `provenance: false`, the parity check fails. Verify with:
+`promote.yml` requires the manifest mediaType `application/vnd.oci.image.index.v1+json`. This is only produced when `docker/build-push-action@v6` is invoked with `provenance: true` (currently set on the **Build and push** step in `.github/workflows/deploy.yml`). If it changes to `provenance: false`, the parity check fails. Verify with:
 
 ```bash
 docker buildx imagetools inspect --raw ghcr.io/noorinalabs/noorinalabs-landing-page:stg-latest | jq -r .mediaType
@@ -210,7 +214,7 @@ docker buildx imagetools inspect --raw ghcr.io/noorinalabs/noorinalabs-landing-p
 
 ### 6.8 `latest` and `stg-latest` drift
 
-The image-tag-invariants check (`noorinalabs-deploy/.github/workflows/image-tag-invariants.yml`) requires every push to main to emit four tags. If `deploy.yml`'s metadata-action tag list is edited and one is dropped, this gate will fail and block downstream promotions. Re-add the missing tag pattern; do not bypass.
+The image-tag-invariants check (`noorinalabs-deploy/.github/workflows/image-tag-invariants.yml`) requires every push to main to emit four tags. If the **Extract metadata** step's tag list in `.github/workflows/deploy.yml` is edited and one is dropped, this gate will fail and block downstream promotions. Re-add the missing tag pattern; do not bypass.
 
 ---
 
@@ -240,8 +244,10 @@ This is a **public marketing site, not a load-bearing API**. Outage severity is 
 ## 8. References
 
 - Image-tag Contract v6 canonical: [isnad-graph#815 comment 4301538921](https://github.com/noorinalabs/noorinalabs-isnad-graph/issues/815#issuecomment-4301538921)
-- Promotion workflow: `noorinalabs-deploy/.github/workflows/promote.yml`
+- Stg fan-in: `noorinalabs-deploy/.github/workflows/deploy-stg.yml` (`repository_dispatch` event `deploy-noorinalabs-landing-page`)
+- Prod promotion: `noorinalabs-deploy/.github/workflows/promote.yml` → `deploy-prod.yml` (per-service `landing_tag` input)
 - Rollback workflow: `noorinalabs-deploy/.github/workflows/rollback.yml`
-- Production compose: `noorinalabs-deploy/compose/docker-compose.prod.yml` (`landing` service ~line 224)
+- Legacy single-VPS deploy (deprecated, manual-only break-glass): `noorinalabs-deploy/.github/workflows/deploy-landing-page.yml` — decom tracked in deploy#86
+- Production compose: `noorinalabs-deploy/compose/docker-compose.prod.yml` (`landing` service)
 - Caddy routing: `noorinalabs-deploy/caddy/Caddyfile` (`{$BASE_DOMAIN}` block)
-- Open hot-fix: [#77](https://github.com/noorinalabs/noorinalabs-landing-page/issues/77)
+- Resolved publish-workflow regression: [#77](https://github.com/noorinalabs/noorinalabs-landing-page/issues/77) / PR #82 (2026-05-06)
