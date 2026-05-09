@@ -42,7 +42,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # buildx + provenance=true wraps the manifest in an OCI image index
       # (mediaType: application/vnd.oci.image.index.v1+json) even for a
