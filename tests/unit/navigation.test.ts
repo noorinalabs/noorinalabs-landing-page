@@ -23,6 +23,18 @@ describe("Navigation", () => {
     expect(html).toContain(">Projects</");
   });
 
+  it("renders mobile-nav toggle with disclosure attributes", () => {
+    expect(html).toContain("data-nav-toggle");
+    expect(html).toContain('aria-controls="primary-nav"');
+    expect(html).toContain('aria-expanded="false"');
+    expect(html).toContain('aria-label="Open navigation menu"');
+  });
+
+  it("renders primary-nav list with disclosure target id", () => {
+    expect(html).toContain('id="primary-nav"');
+    expect(html).toContain("data-nav-list");
+  });
+
   it("renders footer with project links", () => {
     expect(html).toContain("Isnad Graph");
   });
