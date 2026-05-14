@@ -18,6 +18,12 @@
  *   --color-gold-500  ← --color-brand-gold   (oklch(0.75 0.12 80))
  * Other scale steps stay LP-local since DS only ships three brand tones; the scale's
  * other rungs interpolate hue/chroma around those anchors.
+ *
+ * NOTE: --color-brand-navy and --color-brand-gold are shipped in DS 0.0.3+ but the
+ * LP currently pins ^0.0.2. Inline OKLCH fallbacks on the var() references keep the
+ * 500 tier resolving correctly at the pinned version; once #73 lands the DS 0.0.3
+ * bump, the upstream tokens take over and the fallbacks become inert. Self-healing
+ * transition — no follow-up sweep needed.
  */
 
 @theme {
@@ -27,9 +33,7 @@
   --color-navy-200: oklch(0.83 0.038 265);
   --color-navy-300: oklch(0.72 0.055 265);
   --color-navy-400: oklch(0.6 0.072 265);
-  --color-navy-500: var(
-    --color-brand-navy
-  ); /* DS-aligned: oklch(0.25 0.05 265) */
+  --color-navy-500: var(--color-brand-navy, oklch(0.25 0.05 265));
   --color-navy-600: oklch(0.4 0.058 265);
   --color-navy-700: oklch(0.32 0.052 265);
   --color-navy-800: oklch(0.24 0.045 265);
@@ -42,9 +46,7 @@
   --color-gold-200: oklch(0.9 0.062 80);
   --color-gold-300: oklch(0.84 0.09 80);
   --color-gold-400: oklch(0.8 0.11 80);
-  --color-gold-500: var(
-    --color-brand-gold
-  ); /* DS-aligned: oklch(0.75 0.12 80) */
+  --color-gold-500: var(--color-brand-gold, oklch(0.75 0.12 80));
   --color-gold-600: oklch(0.65 0.118 80);
   --color-gold-700: oklch(0.54 0.104 80);
   --color-gold-800: oklch(0.43 0.084 80);
@@ -87,7 +89,7 @@
     --color-navy-200: oklch(0.24 0.045 265);
     --color-navy-300: oklch(0.32 0.052 265);
     --color-navy-400: oklch(0.4 0.058 265);
-    --color-navy-500: var(--color-brand-navy);
+    --color-navy-500: var(--color-brand-navy, oklch(0.25 0.05 265));
     --color-navy-600: oklch(0.6 0.072 265);
     --color-navy-700: oklch(0.72 0.055 265);
     --color-navy-800: oklch(0.83 0.038 265);
@@ -99,7 +101,7 @@
     --color-gold-200: oklch(0.54 0.104 80);
     --color-gold-300: oklch(0.65 0.118 80);
     --color-gold-400: oklch(0.75 0.12 80);
-    --color-gold-500: var(--color-brand-gold);
+    --color-gold-500: var(--color-brand-gold, oklch(0.75 0.12 80));
     --color-gold-600: oklch(0.84 0.09 80);
     --color-gold-700: oklch(0.9 0.062 80);
     --color-gold-800: oklch(0.95 0.034 80);
