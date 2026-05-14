@@ -24,12 +24,14 @@
  * v0.0.1 release (2026-04-06) — the v0.0.1 dist predates brand-token-add by six
  * days and contains no brand custom properties, and no 0.0.2 or 0.0.3 tag/release
  * has been cut despite the source bumps (DS main package.json reads 0.0.2). The
- * LP's ^0.0.2 pin resolves to v0.0.1 in the registry — the only release that ever
- * successfully published — so the asymmetry is between DS source (brand tokens
- * present since a9207f55) and the v0.0.1 dist (brand tokens absent). Inline OKLCH
- * fallbacks on the var() references are therefore load-bearing for runtime brand
- * identity; they match DS source byte-for-byte and remain the canonical runtime
- * source until the DS publish pipeline is repaired.
+ * LP's ^0.0.2 pin resolves to a v0.0.2 artifact present on the registry (integrity-
+ * pinned in package-lock.json), but that artifact was published outside the recorded
+ * CI publish-run history and its dist contents are not auditable from origin — it
+ * may or may not include the brand custom properties depending on which source
+ * snapshot it was cut from. Inline OKLCH fallbacks on the var() references are
+ * therefore load-bearing for runtime brand identity; they match DS source byte-for-
+ * byte and remain the canonical runtime source until the DS publish pipeline is
+ * repaired.
  */
 
 @theme {
