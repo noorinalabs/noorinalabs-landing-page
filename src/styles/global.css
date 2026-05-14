@@ -19,11 +19,15 @@
  * Other scale steps stay LP-local since DS only ships three brand tones; the scale's
  * other rungs interpolate hue/chroma around those anchors.
  *
- * NOTE: --color-brand-navy and --color-brand-gold are shipped in DS 0.0.3+ but the
- * LP currently pins ^0.0.2. Inline OKLCH fallbacks on the var() references keep the
- * 500 tier resolving correctly at the pinned version; once #73 lands the DS 0.0.3
- * bump, the upstream tokens take over and the fallbacks become inert. Self-healing
- * transition — no follow-up sweep needed.
+ * NOTE: --color-brand-navy and --color-brand-gold exist in DS source (added at
+ * commit a9207f55, 2026-04-12, within the 0.0.2 source-add window) but the DS
+ * publish workflow has been broken since v0.0.1 — no verified successful CI publish
+ * run for 0.0.2, and no 0.0.3 tag/release exists despite package.json reading 0.0.3.
+ * The LP's ^0.0.2 pin therefore consumes a dist artifact that may not expose those
+ * brand custom properties. Inline OKLCH fallbacks on the var() references are the
+ * load-bearing source of brand identity at runtime; they match DS source byte-for-
+ * byte and absorb the source-vs-dist asymmetry until the DS publish pipeline is
+ * repaired.
  */
 
 @theme {
