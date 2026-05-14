@@ -21,13 +21,17 @@ test.describe("Responsive behavior", () => {
 
   test("capability cards are rendered", async ({ page }) => {
     await page.goto("/");
-    const cards = page.locator(".capability-card");
+    const cards = page.locator(
+      'section[aria-labelledby="capabilities-heading"] .card-surface',
+    );
     await expect(cards).toHaveCount(5);
   });
 
   test("partnership cards are rendered", async ({ page }) => {
     await page.goto("/");
-    const cards = page.locator(".partnership-card");
+    const cards = page.locator(
+      'section[aria-labelledby="partnership-heading"] .card-surface',
+    );
     await expect(cards).toHaveCount(3);
   });
 });
