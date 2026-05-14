@@ -3,10 +3,27 @@ import { readFileSync } from "fs";
 import { resolve } from "path";
 
 const distDir = resolve(import.meta.dirname, "../../dist");
+const srcDir = resolve(import.meta.dirname, "../../src");
 
 function readPage(path: string): string {
   return readFileSync(resolve(distDir, path), "utf-8");
 }
+
+function readSrc(path: string): string {
+  return readFileSync(resolve(srcDir, path), "utf-8");
+}
+
+describe("SEO — Astro.site fallback URL (#62)", () => {
+  const source = readSrc("components/SEO.astro");
+
+  it("falls back to https://www.noorinalabs.com when Astro.site is undefined", () => {
+    expect(source).toContain('"https://www.noorinalabs.com"');
+  });
+
+  it("does not fall back to the wrong .org domain", () => {
+    expect(source).not.toContain("https://noorinalabs.org");
+  });
+});
 
 describe("SEO — JSON-LD structured data", () => {
   const html = readPage("index.html");

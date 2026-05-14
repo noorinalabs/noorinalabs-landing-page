@@ -43,6 +43,27 @@ describe("Content collection — pages/about.mdx", () => {
   });
 });
 
+describe("Draft filtering (#62) — content consumers honor entry.data.draft", () => {
+  const pagesDir = resolve(contentDir, "../pages");
+
+  it("about.astro redirects drafts to /404", () => {
+    const raw = readFileSync(resolve(pagesDir, "about.astro"), "utf-8");
+    expect(raw).toContain(
+      'if (entry.data.draft) return Astro.redirect("/404")',
+    );
+  });
+
+  it("projects/isnad-graph.astro redirects drafts to /404", () => {
+    const raw = readFileSync(
+      resolve(pagesDir, "projects/isnad-graph.astro"),
+      "utf-8",
+    );
+    expect(raw).toContain(
+      'if (entry.data.draft) return Astro.redirect("/404")',
+    );
+  });
+});
+
 describe("Content config (content.config.ts)", () => {
   const raw = readFileSync(
     resolve(contentDir, "../content.config.ts"),
