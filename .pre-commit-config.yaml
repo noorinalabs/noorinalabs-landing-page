@@ -1,27 +1,50 @@
 # Pre-commit hooks for noorinalabs-landing-page
-# Install: pre-commit install
-# Docs: https://pre-commit.com/
+# Install:  pre-commit install && pre-commit install --hook-type pre-push
+# Docs:     https://pre-commit.com/
 #
-# Hook execution order (fail-fast, cheapest first):
-#   1. ESLint
-#   2. Prettier format check
-#   3. Astro type check
-#   4. Build + unit tests
+# This MIRRORS .github/workflows/ci.yml + docs.yml so local commits/pushes fail
+# fast instead of surfacing a lint/type/build/actionlint error only after a PR
+# is opened (Phase-3 end-state criterion #6 / #327).
+#
+# Stage split (cheapest first, fail-fast):
+#   pre-commit (fast, every commit) — gitleaks, ESLint, Prettier check,
+#     actionlint (workflow lint). Quick checks that catch the most common
+#     defects before a commit is recorded.
+#   pre-push   (heavier, every push) — Astro type check, build, unit tests.
+#     These run the whole compile+test surface, so they're push-time not
+#     commit-time to keep the commit loop snappy while still catching
+#     everything before it leaves the machine.
+#
+# The kind-level mirror (eslint, prettier, astro-check, build, actionlint,
+# gitleaks present on both sides) is enforced in CI by
+# `scripts/pre_commit_ci_sync.py` — if a future edit drops a check from one
+# side, that gate (the "Pre-commit <-> CI sync-drift gate" job in docs.yml)
+# fails the build.
 #
 # Prerequisites:
-#   - Node.js 22+ with npm
+#   - Node.js 22+ with npm (run `npm ci` once so node_modules is present)
 
 repos:
-  # --- Secret detection ---
+  # --- Secret detection (commit stage) ---
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.24.3
     hooks:
       - id: gitleaks
         name: gitleaks
+        stages: [pre-commit]
+
+  # --- Workflow lint (commit stage) — mirrors docs.yml actionlint job ---
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.12
+    hooks:
+      - id: actionlint
+        name: actionlint
+        stages: [pre-commit]
 
   # --- Local hooks ---
   - repo: local
     hooks:
+      # Commit stage: fast lint + format check (mirror ci.yml Lint + Format).
       - id: eslint
         name: eslint
         entry: npx eslint .
@@ -37,17 +60,29 @@ repos:
         pass_filenames: false
         stages: [pre-commit]
 
+      # Push stage: heavier compile + build + tests (mirror ci.yml Type check,
+      # Build, Unit tests). Run before code leaves the machine, not on every
+      # commit, to keep the commit loop snappy.
       - id: astro-check
-        name: astro-check
+        name: astro-check (pre-push)
         entry: npx astro check
         language: system
         pass_filenames: false
-        types_or: [ts, tsx]
-        stages: [pre-commit]
+        always_run: true
+        stages: [pre-push]
 
-      - id: build-and-test
-        name: build-and-test
-        entry: bash -c 'npm run build && npm test'
+      - id: build
+        name: build (pre-push)
+        entry: npm run build
         language: system
         pass_filenames: false
-        stages: [pre-commit]
+        always_run: true
+        stages: [pre-push]
+
+      - id: unit-tests
+        name: unit-tests (pre-push)
+        entry: npm test
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]

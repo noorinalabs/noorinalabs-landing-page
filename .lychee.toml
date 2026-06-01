@@ -1,0 +1,34 @@
+# lychee link-checker config for noorinalabs-landing-page docs (#326).
+#
+# Purpose: catch BROKEN INTERNAL cross-references between docs (e.g. the ADRs
+# and CLAUDE.md link to each other; a renamed or missing target is a real
+# defect). External-URL liveness is intentionally NOT gated here — it depends
+# on third-party uptime and would make CI flaky and non-deterministic (a 503 on
+# some unrelated site should never block a docs PR). External links are
+# excluded; internal/relative links are checked.
+
+# Only check local filesystem + relative links; skip all remote schemes.
+scheme = ["file"]
+
+# Treat these as offline-only — never make network requests.
+offline = true
+
+# Exclude link targets that are not real broken-link signals.
+exclude = [
+  # mailto / external hosts handled separately; bare example hosts in prose.
+  '^https?://',
+  '^mailto:',
+  # GitHub issue/PR shorthand like `#326` is not a URL.
+  '^#\d+$',
+]
+
+# Don't descend into generated/vendored trees.
+exclude_path = [
+  "node_modules",
+  "dist",
+  ".astro",
+  ".claude/worktrees",
+]
+
+# A relative link with no matching file is the failure we DO want to surface.
+require_https = false
