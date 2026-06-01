@@ -6,6 +6,15 @@
 # on third-party uptime and would make CI flaky and non-deterministic (a 503 on
 # some unrelated site should never block a docs PR). External links are
 # excluded; internal/relative links are checked.
+#
+# Cross-repo org-charter escapes are ALSO excluded (see the exclude list): this
+# repo's `.claude/team/charter.md` links to the SPLIT org charter via
+# `../../../.claude/team/charter/<file>.md`, which lives in the parent
+# noorinalabs-main repo (one directory up in the real org layout), NOT in this
+# repo's lone CI checkout. Those targets are out of scope for an in-repo link
+# gate for the same reason external URLs are — the gate can't assume a sibling
+# repo is present. The charter.md split links are the canonical, intended
+# cross-repo references, not defects.
 
 # Only check local filesystem + relative links; skip all remote schemes.
 scheme = ["file"]
@@ -20,6 +29,12 @@ exclude = [
   '^mailto:',
   # GitHub issue/PR shorthand like `#326` is not a URL.
   '^#\d+$',
+  # Cross-repo org-charter escapes — `.claude/team/charter/<file>.md` is the
+  # SPLIT org charter in the parent noorinalabs-main repo, reached via
+  # `../../../`; it is not present in this repo's standalone CI checkout. These
+  # are intended cross-repo refs, not broken links (see header note). Matches
+  # both the raw relative form and the resolved file:// path.
+  'charter/(agents|branching|commits|communication|hooks|issues|pull-requests|tech-decisions)\.md$',
 ]
 
 # Don't descend into generated/vendored trees.
