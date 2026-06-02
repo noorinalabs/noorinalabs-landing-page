@@ -8,6 +8,7 @@ import ProjectLayout from "../../layouts/ProjectLayout.astro";
 
 const entry = await getEntry("projects", "isnad-graph");
 if (!entry) throw new Error("Missing content entry: projects/isnad-graph");
+if (entry.data.draft) return Astro.redirect("/404");
 
 const { Content } = await render(entry);
 const { title, description, ogImage, features, cta } = entry.data;
