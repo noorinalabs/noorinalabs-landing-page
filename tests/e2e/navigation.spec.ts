@@ -1,4 +1,17 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
+
+/*
+ * On viewports below 640px the primary-nav list is collapsed behind a toggle
+ * (#60 mobile hamburger). Tests that exercise header links must first open
+ * the menu — except where they target the footer or the logo, which remain
+ * visible at all sizes.
+ */
+async function openMobileNavIfNeeded(page: Page) {
+  if ((page.viewportSize()?.width ?? 0) < 640) {
+    await page.locator("[data-nav-toggle]").click();
+    await expect(page.locator("#primary-nav")).toBeVisible();
+  }
+}
 
 test.describe("Page navigation", () => {
   test("homepage loads with correct title", async ({ page }) => {
@@ -8,7 +21,8 @@ test.describe("Page navigation", () => {
 
   test("navigate from homepage to about", async ({ page }) => {
     await page.goto("/");
-    await page.click('a[href="/about"]');
+    await openMobileNavIfNeeded(page);
+    await page.locator('#primary-nav a[href="/about"]').click();
     await expect(page).toHaveURL(/\/about/);
     await expect(page).toHaveTitle(/About.*Noorina Labs/);
   });

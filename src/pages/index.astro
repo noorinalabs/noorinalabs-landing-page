@@ -40,6 +40,7 @@ import SEO from "../components/SEO.astro";
   <!-- Guiding Principle -->
   <section class="section" aria-labelledby="principle-heading">
     <div class="section-container principle-container">
+      <h2 id="principle-heading" class="sr-only">Guiding Principle</h2>
       <blockquote class="principle-quote">
         <p>
           Noorina Labs will never privilege one school of thought, one
@@ -111,28 +112,28 @@ import SEO from "../components/SEO.astro";
         questions that existing tools cannot.
       </p>
       <div class="capabilities-grid">
-        <div class="capability-card">
+        <div class="card card-surface">
           <h3>Cross-Collection Search</h3>
           <p>
             Search narrators and hadith across major Sunni and Shia collections
             simultaneously — no more switching between siloed databases.
           </p>
         </div>
-        <div class="capability-card">
+        <div class="card card-surface">
           <h3>Graph Explorer</h3>
           <p>
             Visualize narrator networks as an interactive graph. Zoom, filter,
             and trace transmission paths between any two narrators.
           </p>
         </div>
-        <div class="capability-card">
+        <div class="card card-surface">
           <h3>Cross-Tradition Comparison</h3>
           <p>
             Compare narrator assessments across Sunni and Shia traditions
             side-by-side. Discover shared narrators and divergent evaluations.
           </p>
         </div>
-        <div class="capability-card">
+        <div class="card card-surface">
           <h3>Historical Context</h3>
           <p>
             Biographical profiles with teacher-student relationships,
@@ -140,7 +141,7 @@ import SEO from "../components/SEO.astro";
             rijal literature.
           </p>
         </div>
-        <div class="capability-card">
+        <div class="card card-surface">
           <h3>Collection-Level Analysis</h3>
           <p>
             Understand the structure of individual hadith collections — most
@@ -161,7 +162,7 @@ import SEO from "../components/SEO.astro";
     <div class="section-container">
       <h2 id="why-now-heading" class="section-title">Why Now</h2>
       <div class="why-now-grid">
-        <div class="why-now-card">
+        <div class="card card-center">
           <h3>Computational tools have matured</h3>
           <p>
             Graph databases, network analysis, and natural language processing
@@ -169,7 +170,7 @@ import SEO from "../components/SEO.astro";
             replace — hadith scholarship.
           </p>
         </div>
-        <div class="why-now-card">
+        <div class="card card-center">
           <h3>Open data is available</h3>
           <p>
             Digitized hadith collections and biographical dictionaries are now
@@ -177,7 +178,7 @@ import SEO from "../components/SEO.astro";
             possible for the first time.
           </p>
         </div>
-        <div class="why-now-card">
+        <div class="card card-center">
           <h3>Institutional appetite is growing</h3>
           <p>
             Universities, research centers, and Islamic institutions are
@@ -201,7 +202,7 @@ import SEO from "../components/SEO.astro";
         funders who share our commitment to open, rigorous, and inclusive tools.
       </p>
       <div class="partnership-grid">
-        <div class="partnership-card">
+        <div class="card card-surface">
           <h3>Research Partnership</h3>
           <p>
             Collaborate on data curation, scholarly review, and new analytical
@@ -209,7 +210,7 @@ import SEO from "../components/SEO.astro";
             meets the standards of the tradition.
           </p>
         </div>
-        <div class="partnership-card">
+        <div class="card card-surface">
           <h3>Institutional License</h3>
           <p>
             Integrate the Isnad Graph into your university or research center.
@@ -217,7 +218,7 @@ import SEO from "../components/SEO.astro";
             available for academic institutions.
           </p>
         </div>
-        <div class="partnership-card">
+        <div class="card card-surface">
           <h3>Grant & Philanthropic</h3>
           <p>
             Support open-source infrastructure for Islamic scholarship. Grants
@@ -387,98 +388,9 @@ import SEO from "../components/SEO.astro";
     justify-content: center;
   }
 
-  /* Buttons */
-  .btn-primary {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background: var(--color-gold-500);
-    color: var(--color-navy-950);
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 0.95rem;
-    border-radius: 0.375rem;
-    text-decoration: none;
-    transition:
-      background-color 0.2s ease,
-      transform 0.15s ease;
-  }
-
-  .btn-primary:hover {
-    background: var(--color-gold-400);
-  }
-
-  .btn-primary:focus-visible {
-    outline: 2px solid var(--color-gold-300);
-    outline-offset: 2px;
-  }
-
-  .btn-primary:active {
-    transform: scale(0.98);
-  }
-
-  .btn-secondary {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background: transparent;
-    color: var(--color-neutral-100);
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 0.95rem;
-    border: 1.5px solid var(--color-navy-300);
-    border-radius: 0.375rem;
-    text-decoration: none;
-    transition:
-      border-color 0.2s ease,
-      color 0.2s ease;
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--color-gold-400);
-    color: var(--color-gold-300);
-  }
-
-  .btn-secondary:focus-visible {
-    outline: 2px solid var(--color-gold-300);
-    outline-offset: 2px;
-  }
-
-  /* Sections */
-  .section {
-    padding: 5rem 1.5rem;
-  }
-
-  .section-alt {
-    background: var(--color-neutral-50);
-  }
-
-  .section-container {
-    max-width: 64rem;
-    margin: 0 auto;
-  }
-
-  .section-title {
-    font-family: var(--font-heading);
-    font-size: clamp(1.5rem, 3vw, 2.25rem);
-    font-weight: 700;
-    color: var(--color-navy-800);
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-
-  .section-intro {
-    font-family: var(--font-body);
-    font-size: 1.05rem;
-    line-height: 1.8;
-    color: var(--color-neutral-700);
-    text-align: center;
-    max-width: 48rem;
-    margin: 0 auto 2.5rem;
-  }
-
-  .section-cta {
-    text-align: center;
-    margin-top: 2.5rem;
-  }
+  /* Buttons, section helpers, and shared card primitives are defined globally
+     in src/styles/global.css (extracted in #59). Hero/principle/grid styles
+     and one-off page-specific styles remain scoped below. */
 
   /* Guiding Principle */
   .principle-container {
@@ -563,29 +475,8 @@ import SEO from "../components/SEO.astro";
     }
   }
 
-  .capability-card {
-    padding: 2rem;
-    background: var(--color-neutral-50);
-    border-radius: 0.75rem;
-    border: 1px solid var(--color-neutral-200);
-  }
-
-  .capability-card h3 {
-    font-family: var(--font-heading);
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--color-navy-800);
-    margin-bottom: 0.75rem;
-  }
-
-  .capability-card p {
-    font-family: var(--font-body);
-    font-size: 0.925rem;
-    line-height: 1.7;
-    color: var(--color-neutral-600);
-  }
-
-  /* Why Now Grid */
+  /* Why Now Grid — distinct breakpoint/gap from capabilities; card visuals
+     come from .card.card-center in global.css */
   .why-now-grid {
     display: grid;
     gap: 2rem;
@@ -598,27 +489,8 @@ import SEO from "../components/SEO.astro";
     }
   }
 
-  .why-now-card {
-    text-align: center;
-    padding: 2rem 1.5rem;
-  }
-
-  .why-now-card h3 {
-    font-family: var(--font-heading);
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--color-navy-800);
-    margin-bottom: 0.75rem;
-  }
-
-  .why-now-card p {
-    font-family: var(--font-body);
-    font-size: 0.925rem;
-    line-height: 1.7;
-    color: var(--color-neutral-600);
-  }
-
-  /* Partnership Grid */
+  /* Partnership Grid — same shape as why-now but card visuals come from
+     .card.card-surface in global.css */
   .partnership-grid {
     display: grid;
     gap: 2rem;
@@ -631,38 +503,8 @@ import SEO from "../components/SEO.astro";
     }
   }
 
-  .partnership-card {
-    padding: 2rem;
-    background: var(--color-neutral-50);
-    border-radius: 0.75rem;
-    border: 1px solid var(--color-neutral-200);
-  }
-
-  .partnership-card h3 {
-    font-family: var(--font-heading);
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--color-navy-800);
-    margin-bottom: 0.75rem;
-  }
-
-  .partnership-card p {
-    font-family: var(--font-body);
-    font-size: 0.925rem;
-    line-height: 1.7;
-    color: var(--color-neutral-600);
-  }
-
   /* Contact */
   .contact-container {
     text-align: center;
-  }
-
-  /* Reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    .btn-primary,
-    .btn-secondary {
-      transition: none;
-    }
   }
 </style>

@@ -5,46 +5,72 @@
  * ==================
  * The design system (@noorinalabs/design-system/styles.css) is imported in
  * BaseLayout.astro and provides semantic tokens (--color-primary, --color-background,
- * --font-heading, --font-body, etc.).
+ * --font-heading, --font-body, etc.) plus brand tokens (--color-brand-navy,
+ * --color-brand-gold) in OKLCH.
  *
- * The LP retains navy/gold/neutral as Tailwind @theme extensions so existing
- * utility classes (bg-navy-800, text-gold-400) continue to work.
+ * The LP retains its 11-step navy/gold/neutral scales as Tailwind @theme extensions
+ * so existing utility classes (bg-navy-800, text-gold-400) continue to work without
+ * touching ~130 call sites. Scales are expressed in OKLCH for perceptual uniformity;
+ * dark mode is a single-axis lightness flip rather than 30 paired hex literals.
+ *
+ * Brand alignment with DS:
+ *   --color-navy-500  ← --color-brand-navy   (oklch(0.25 0.05 265))
+ *   --color-gold-500  ← --color-brand-gold   (oklch(0.75 0.12 80))
+ * Other scale steps stay LP-local since DS only ships three brand tones; the scale's
+ * other rungs interpolate hue/chroma around those anchors.
+ *
+ * NOTE: --color-brand-navy and --color-brand-gold were added to DS source at commit
+ * a9207f55 (2026-04-12), but the DS publish workflow has been broken since the
+ * v0.0.1 release (2026-04-06) — the v0.0.1 dist predates brand-token-add by six
+ * days and contains no brand custom properties, and no 0.0.2 or 0.0.3 tag/release
+ * has been cut despite the source bumps (DS main package.json reads 0.0.2). The
+ * LP's ^0.0.2 pin resolves to a v0.0.2 artifact present on the registry (integrity-
+ * pinned in package-lock.json), but that artifact was published outside the recorded
+ * CI publish-run history and its dist contents are not auditable from origin — it
+ * may or may not include the brand custom properties depending on which source
+ * snapshot it was cut from. Inline OKLCH fallbacks on the var() references are
+ * therefore load-bearing for runtime brand identity; they match DS source byte-for-
+ * byte and remain the canonical runtime source until the DS publish pipeline is
+ * repaired.
  */
 
 @theme {
-  --color-navy-50: #f0f2f8;
-  --color-navy-100: #d9ddef;
-  --color-navy-200: #b3bce0;
-  --color-navy-300: #8d9ad0;
-  --color-navy-400: #6779c1;
-  --color-navy-500: #4157b1;
-  --color-navy-600: #34468e;
-  --color-navy-700: #27346a;
-  --color-navy-800: #1a2347;
-  --color-navy-900: #0d1123;
-  --color-navy-950: #070b16;
+  /* ----- Navy: brand-aligned at 500; OKLCH lightness ladder around hue 265 ----- */
+  --color-navy-50: oklch(0.97 0.012 265);
+  --color-navy-100: oklch(0.92 0.022 265);
+  --color-navy-200: oklch(0.83 0.038 265);
+  --color-navy-300: oklch(0.72 0.055 265);
+  --color-navy-400: oklch(0.6 0.072 265);
+  --color-navy-500: var(--color-brand-navy, oklch(0.25 0.05 265));
+  --color-navy-600: oklch(0.4 0.058 265);
+  --color-navy-700: oklch(0.32 0.052 265);
+  --color-navy-800: oklch(0.24 0.045 265);
+  --color-navy-900: oklch(0.16 0.034 265);
+  --color-navy-950: oklch(0.1 0.024 265);
 
-  --color-gold-50: #fdf9ef;
-  --color-gold-100: #faf0d5;
-  --color-gold-200: #f4dfab;
-  --color-gold-300: #edcc7a;
-  --color-gold-400: #e5b84a;
-  --color-gold-500: #d4a22e;
-  --color-gold-600: #b08424;
-  --color-gold-700: #8c671c;
-  --color-gold-800: #694c15;
-  --color-gold-900: #45310e;
+  /* ----- Gold: brand-aligned at 500; OKLCH lightness ladder around hue 80 ----- */
+  --color-gold-50: oklch(0.98 0.014 80);
+  --color-gold-100: oklch(0.95 0.034 80);
+  --color-gold-200: oklch(0.9 0.062 80);
+  --color-gold-300: oklch(0.84 0.09 80);
+  --color-gold-400: oklch(0.8 0.11 80);
+  --color-gold-500: var(--color-brand-gold, oklch(0.75 0.12 80));
+  --color-gold-600: oklch(0.65 0.118 80);
+  --color-gold-700: oklch(0.54 0.104 80);
+  --color-gold-800: oklch(0.43 0.084 80);
+  --color-gold-900: oklch(0.33 0.064 80);
 
-  --color-neutral-50: #fafaf9;
-  --color-neutral-100: #f5f5f4;
-  --color-neutral-200: #e7e5e4;
-  --color-neutral-300: #d6d3d1;
-  --color-neutral-400: #a8a29e;
-  --color-neutral-500: #78716c;
-  --color-neutral-600: #57534e;
-  --color-neutral-700: #44403c;
-  --color-neutral-800: #292524;
-  --color-neutral-900: #1c1917;
+  /* ----- Neutral: warm-grey ladder; hue 85 matches DS muted family ----- */
+  --color-neutral-50: oklch(0.98 0.004 85);
+  --color-neutral-100: oklch(0.95 0.006 85);
+  --color-neutral-200: oklch(0.9 0.008 85);
+  --color-neutral-300: oklch(0.83 0.01 85);
+  --color-neutral-400: oklch(0.7 0.01 85);
+  --color-neutral-500: oklch(0.55 0.01 85);
+  --color-neutral-600: oklch(0.45 0.01 85);
+  --color-neutral-700: oklch(0.36 0.009 85);
+  --color-neutral-800: oklch(0.25 0.008 85);
+  --color-neutral-900: oklch(0.18 0.006 85);
 
   /* Surface / text aliases for LP — maps to DS semantic tokens */
   --color-surface: var(--color-background);
@@ -52,47 +78,189 @@
 }
 
 /*
- * Dark mode overrides (#98)
- * The DS provides dark-mode semantic tokens via prefers-color-scheme.
- * Here we adjust the LP-specific navy/gold/neutral palette.
+ * Dark mode
+ * ---------
+ * Single-axis lightness flip across each scale: each step swaps with its
+ * mirror (50 <-> 950 for navy; 50 <-> 900 for gold/neutral). Because the
+ * light scale is now expressed in OKLCH, this can be done by symmetric
+ * lightness substitution while hue and chroma stay constant — preserving
+ * brand identity across modes. Visual parity with the previous hand-tuned
+ * hex inversion is maintained (same perceptual L values reused).
+ *
+ * The DS semantic surface/foreground tokens flip via the DS's own dark-mode
+ * block, so cards, text, and chrome remain consistent.
  */
 @media (prefers-color-scheme: dark) {
   @theme {
-    --color-navy-50: #070b16;
-    --color-navy-100: #0d1123;
-    --color-navy-200: #1a2347;
-    --color-navy-300: #27346a;
-    --color-navy-400: #34468e;
-    --color-navy-500: #4157b1;
-    --color-navy-600: #6779c1;
-    --color-navy-700: #8d9ad0;
-    --color-navy-800: #b3bce0;
-    --color-navy-900: #d9ddef;
-    --color-navy-950: #f0f2f8;
+    --color-navy-50: oklch(0.1 0.024 265);
+    --color-navy-100: oklch(0.16 0.034 265);
+    --color-navy-200: oklch(0.24 0.045 265);
+    --color-navy-300: oklch(0.32 0.052 265);
+    --color-navy-400: oklch(0.4 0.058 265);
+    --color-navy-500: var(--color-brand-navy, oklch(0.25 0.05 265));
+    --color-navy-600: oklch(0.6 0.072 265);
+    --color-navy-700: oklch(0.72 0.055 265);
+    --color-navy-800: oklch(0.83 0.038 265);
+    --color-navy-900: oklch(0.92 0.022 265);
+    --color-navy-950: oklch(0.97 0.012 265);
 
-    --color-gold-50: #45310e;
-    --color-gold-100: #694c15;
-    --color-gold-200: #8c671c;
-    --color-gold-300: #b08424;
-    --color-gold-400: #d4a22e;
-    --color-gold-500: #e5b84a;
-    --color-gold-600: #edcc7a;
-    --color-gold-700: #f4dfab;
-    --color-gold-800: #faf0d5;
-    --color-gold-900: #fdf9ef;
+    --color-gold-50: oklch(0.33 0.064 80);
+    --color-gold-100: oklch(0.43 0.084 80);
+    --color-gold-200: oklch(0.54 0.104 80);
+    --color-gold-300: oklch(0.65 0.118 80);
+    --color-gold-400: oklch(0.75 0.12 80);
+    --color-gold-500: var(--color-brand-gold, oklch(0.75 0.12 80));
+    --color-gold-600: oklch(0.84 0.09 80);
+    --color-gold-700: oklch(0.9 0.062 80);
+    --color-gold-800: oklch(0.95 0.034 80);
+    --color-gold-900: oklch(0.98 0.014 80);
 
-    --color-neutral-50: #1c1917;
-    --color-neutral-100: #292524;
-    --color-neutral-200: #44403c;
-    --color-neutral-300: #57534e;
-    --color-neutral-400: #78716c;
-    --color-neutral-500: #a8a29e;
-    --color-neutral-600: #d6d3d1;
-    --color-neutral-700: #e7e5e4;
-    --color-neutral-800: #f5f5f4;
-    --color-neutral-900: #fafaf9;
+    --color-neutral-50: oklch(0.18 0.006 85);
+    --color-neutral-100: oklch(0.25 0.008 85);
+    --color-neutral-200: oklch(0.36 0.009 85);
+    --color-neutral-300: oklch(0.45 0.01 85);
+    --color-neutral-400: oklch(0.55 0.01 85);
+    --color-neutral-500: oklch(0.7 0.01 85);
+    --color-neutral-600: oklch(0.83 0.01 85);
+    --color-neutral-700: oklch(0.9 0.008 85);
+    --color-neutral-800: oklch(0.95 0.006 85);
+    --color-neutral-900: oklch(0.98 0.004 85);
 
     --color-surface: var(--color-background);
     --color-text: var(--color-foreground);
   }
+}
+
+/*
+ * Shared primitives (#59)
+ * -----------------------
+ * Buttons, section helpers, and card typography extracted from
+ * src/pages/index.astro. These are page-agnostic — visual concerns live here;
+ * page-specific layout (hero, principle-container, contact-container, the
+ * three grid breakpoint specs) stays scoped to the consuming page.
+ *
+ * Card typography (.card h3, .card p) is shared across capability cards,
+ * why-now cards, and partnership cards; surface and alignment variants are
+ * applied via .card-surface and .card-center modifiers.
+ */
+
+/* Buttons */
+.btn-primary,
+.btn-secondary {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: 0.375rem;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--color-gold-500);
+  color: var(--color-navy-950);
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.btn-primary:hover {
+  background: var(--color-gold-400);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-neutral-100);
+  border: 1.5px solid var(--color-navy-300);
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-gold-400);
+  color: var(--color-gold-300);
+}
+
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible {
+  outline: 2px solid var(--color-gold-300);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary,
+  .btn-secondary {
+    transition: none;
+  }
+}
+
+/* Section helpers */
+.section {
+  padding: 5rem 1.5rem;
+}
+
+.section-alt {
+  background: var(--color-neutral-50);
+}
+
+.section-container {
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  color: var(--color-navy-800);
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-intro {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--color-neutral-700);
+  text-align: center;
+  max-width: 48rem;
+  margin: 0 auto 2.5rem;
+}
+
+.section-cta {
+  text-align: center;
+  margin-top: 2.5rem;
+}
+
+/* Card primitives — shared typography across capability/why-now/partnership */
+.card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-navy-800);
+  margin-bottom: 0.75rem;
+}
+
+.card p {
+  font-family: var(--font-body);
+  font-size: 0.925rem;
+  line-height: 1.7;
+  color: var(--color-neutral-600);
+}
+
+.card-surface {
+  padding: 2rem;
+  background: var(--color-neutral-50);
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-neutral-200);
+}
+
+.card-center {
+  text-align: center;
+  padding: 2rem 1.5rem;
 }
