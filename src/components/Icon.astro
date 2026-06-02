@@ -1,0 +1,83 @@
+---
+/**
+ * Icon — inline SVG icon set for the landing page.
+ *
+ * The design system ships its icons as React components
+ * (@noorinalabs/design-system peers on react/react-dom), but this site is
+ * pure Astro with no React renderer. Rather than pull in a React runtime for a
+ * handful of marketing icons, we inline a small set of SVGs that follow the
+ * same DS convention: 24×24, stroke-based, `currentColor`, inline-friendly.
+ *
+ * Names map 1:1 to the `icon` values in the project content collection
+ * frontmatter (src/content/projects/*.mdx). An unknown name renders nothing
+ * (the `aria-hidden` wrapper in the consuming layout still collapses cleanly).
+ */
+interface Props {
+  /** Icon name — must match a key in `paths` below. */
+  name: string;
+  /** Pixel size of the square viewport. */
+  size?: number;
+  /** Extra class names forwarded to the <svg>. */
+  class?: string;
+}
+
+const { name, size = 24, class: className } = Astro.props;
+
+/*
+ * Each entry is the inner markup of a 24×24 icon. Strokes use currentColor so
+ * the icon inherits the surrounding text colour and responds to theme changes.
+ */
+const paths: Record<string, string> = {
+  // graph — three connected nodes (transmission network)
+  graph: `
+    <circle cx="6" cy="6" r="2.2" />
+    <circle cx="18" cy="7" r="2.2" />
+    <circle cx="12" cy="18" r="2.2" />
+    <line x1="7.7" y1="7.3" x2="10.6" y2="16.4" />
+    <line x1="16.4" y1="8.5" x2="13.2" y2="16.5" />
+    <line x1="8" y1="6.4" x2="15.8" y2="6.8" />
+  `,
+  // user — narrator / person
+  user: `
+    <circle cx="12" cy="8" r="3.5" />
+    <path d="M5 20a7 7 0 0 1 14 0" />
+  `,
+  // search — magnifying glass
+  search: `
+    <circle cx="10.5" cy="10.5" r="6" />
+    <line x1="15" y1="15" x2="20" y2="20" />
+  `,
+  // compare — two overlapping panels (cross-tradition comparison)
+  compare: `
+    <rect x="3" y="5" width="9" height="14" rx="1.5" />
+    <path d="M14 7h5a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-3" />
+    <line x1="12" y1="3" x2="12" y2="21" />
+  `,
+  // book — scholarly source
+  book: `
+    <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H12v15H5.5A1.5 1.5 0 0 0 4 20.5Z" />
+    <path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H12v15h6.5A1.5 1.5 0 0 1 20 20.5Z" />
+  `,
+};
+
+const inner = paths[name] ?? "";
+---
+
+{
+  inner && (
+    <svg
+      class={className}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+      set:html={inner}
+    />
+  )
+}

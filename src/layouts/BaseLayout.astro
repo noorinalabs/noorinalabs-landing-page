@@ -1,6 +1,14 @@
 ---
-import "../styles/global.css";
+/*
+ * Import order is load-bearing (#69): the design system ships generic utility
+ * classes (.btn-primary, .feature-card, .section) that collide by name with the
+ * landing page's brand-styled equivalents. Importing the DS *first* lets
+ * global.css win at equal specificity, so brand buttons render gold (not the DS
+ * primary orange) and LP section spacing is preserved. The DS utility classes
+ * the LP does not redefine still apply.
+ */
 import "@noorinalabs/design-system/styles.css";
+import "../styles/global.css";
 
 /* Font loading (#99) — IBM Plex + Noto Naskh Arabic */
 import "@fontsource/ibm-plex-sans/400.css";
@@ -78,8 +86,9 @@ const resolvedOgImage = ogImage.startsWith("http")
     <meta name="twitter:image" content={resolvedOgImage} />
     <meta name="twitter:image:alt" content={ogImageAlt} />
 
-    <!-- Favicon (placeholder — replace with brand asset) -->
+    <!-- Favicon — brand mark (#69) -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="mask-icon" href="/favicon.svg" color="#16213e" />
 
     <!-- Slot for per-page <head> additions (structured data, preloads, etc.) -->
     <slot name="head" />
