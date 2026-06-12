@@ -64,6 +64,17 @@ const resolvedOgImage = ogImage.startsWith("http")
 <html lang="en" dir="ltr" data-theme="light">
   <head>
     <!--
+      charset MUST stay within the first 1024 bytes of the document so the
+      browser's encoding prescan finds it (nginx sets no charset header, so this
+      meta is the only encoding signal). Keep it — and viewport — as the first
+      children of <head>, ahead of the theme block below; otherwise multibyte
+      content (e.g. "Çelik" on /team) mojibakes. The theme init does not depend
+      on coming first — the charset prescan is independent of script position.
+    -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!--
       Theme init (#128) — resolve data-theme on <html> before first paint.
       The design system ships its base colour tokens only inside a Tailwind v4
       `@theme {}` block, which the browser ignores when the dist is imported as
@@ -90,9 +101,6 @@ const resolvedOgImage = ogImage.startsWith("http")
         }
       })();
     </script>
-
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>{title} | Noorina Labs</title>
     <meta name="description" content={description} />
