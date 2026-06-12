@@ -17,9 +17,15 @@ const description =
   "Meet the people behind Noorina Labs — the team building open tools for Islamic scholarly research.";
 
 /**
- * Build an inline SVG monogram avatar (navy field, gold ring, member initials)
- * as a data URI, so each member has a tasteful placeholder portrait with no
- * binary assets to manage. Returns a string usable as an <img> src.
+ * Build an inline SVG monogram avatar (sienna field, parchment ring, white
+ * member initials) as a data URI, so each member has a tasteful placeholder
+ * portrait with no binary assets to manage. Returns a string usable as an
+ * <img> src.
+ *
+ * Colours are literal sRGB approximations of the design-system warm palette
+ * (a data-URI SVG can't reference CSS tokens — same constrained class as the
+ * favicon mask-icon), keeping the monogram cohesive with the team page's
+ * sienna/parchment/ink surface (#127). White-on-sienna initials clear WCAG AA.
  */
 function avatarFor(name: string): string {
   const initials = name
@@ -32,9 +38,9 @@ function avatarFor(name: string): string {
     .join("");
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img">
-  <rect width="160" height="160" fill="#1a2347"/>
-  <circle cx="80" cy="80" r="62" fill="none" stroke="#d4a22e" stroke-width="3"/>
-  <text x="80" y="80" fill="#faf0d5" font-family="Georgia, 'IBM Plex Serif', serif" font-size="56" font-weight="700" text-anchor="middle" dominant-baseline="central">${initials}</text>
+  <rect width="160" height="160" fill="#a86a3a"/>
+  <circle cx="80" cy="80" r="62" fill="none" stroke="#f4f0e7" stroke-width="3"/>
+  <text x="80" y="80" fill="#ffffff" font-family="Georgia, 'IBM Plex Serif', serif" font-size="56" font-weight="700" text-anchor="middle" dominant-baseline="central">${initials}</text>
 </svg>`;
 
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
