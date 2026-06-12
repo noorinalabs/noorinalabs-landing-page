@@ -19,7 +19,7 @@ describe("Navigation", () => {
   it("renders primary navigation links", () => {
     expect(html).toContain('aria-label="Primary navigation"');
     expect(html).toContain(">Home</");
-    expect(html).toContain(">About</");
+    expect(html).toContain(">The Team</");
     expect(html).toContain(">Projects</");
   });
 

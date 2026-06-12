@@ -1,0 +1,186 @@
+---
+/**
+ * The Team page (/team) — replaces the former /about page.
+ *
+ * Renders one card per member from src/data/team.ts: a portrait on the left,
+ * name + title + bio on the right. Cards stack to a single column on mobile.
+ *
+ * Photos are generated monogram placeholders until real portraits are supplied
+ * (set a member's `photo` field in src/data/team.ts to override). Card styling
+ * is built on design-system tokens, matching the home page's card idiom.
+ */
+import PageLayout from "../layouts/PageLayout.astro";
+import { team } from "../data/team.ts";
+
+const title = "The Team";
+const description =
+  "Meet the people behind Noorina Labs — the team building open tools for Islamic scholarly research.";
+
+/**
+ * Build an inline SVG monogram avatar (navy field, gold ring, member initials)
+ * as a data URI, so each member has a tasteful placeholder portrait with no
+ * binary assets to manage. Returns a string usable as an <img> src.
+ */
+function avatarFor(name: string): string {
+  const initials = name
+    .replace(/\(.*?\)/g, " ") // drop parenthetical names like "(Yusuf)"
+    .trim()
+    .split(/\s+/)
+    .filter((part) => /[A-Za-z]/.test(part[0] ?? ""))
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("");
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img">
+  <rect width="160" height="160" fill="#1a2347"/>
+  <circle cx="80" cy="80" r="62" fill="none" stroke="#d4a22e" stroke-width="3"/>
+  <text x="80" y="80" fill="#faf0d5" font-family="Georgia, 'IBM Plex Serif', serif" font-size="56" font-weight="700" text-anchor="middle" dominant-baseline="central">${initials}</text>
+</svg>`;
+
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+---
+
+<PageLayout title={title} description={description}>
+  <section class="team-page" aria-labelledby="team-heading">
+    <div class="team-container">
+      <header class="team-intro">
+        <h1 id="team-heading" class="team-title">The Team</h1>
+        <p class="team-lead">
+          Noorina Labs is a community effort. These are the people guiding the
+          work — scholars, engineers, and builders committed to serving the
+          Islamic scholarly tradition through open, careful technology.
+        </p>
+      </header>
+
+      <ul class="team-grid" role="list">
+        {
+          team.map((member) => (
+            <li class="team-card">
+              <img
+                class="team-photo"
+                src={member.photo ?? avatarFor(member.name)}
+                alt={`Portrait of ${member.name}`}
+                width="160"
+                height="160"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="team-body">
+                <p class="team-bio">{member.bio}</p>
+                <p class="team-name">{member.name}</p>
+                <p class="team-role">{member.title}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .team-page {
+    padding: 8rem 1.5rem 5rem;
+    background: var(--color-navy-50);
+  }
+
+  .team-container {
+    max-width: 56rem;
+    margin: 0 auto;
+  }
+
+  .team-intro {
+    max-width: 40rem;
+    margin-bottom: 3rem;
+  }
+
+  .team-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: 700;
+    color: var(--color-navy-900);
+    margin-bottom: 1rem;
+  }
+
+  .team-lead {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--color-navy-700);
+  }
+
+  .team-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Card built on design-system surface tokens, matching the home page idiom. */
+  .team-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1.75rem;
+    background: var(--color-neutral-50);
+    border: 1px solid var(--color-neutral-200);
+    border-radius: var(--radius-xl, 0.75rem);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .team-photo {
+    flex-shrink: 0;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 9999px;
+    object-fit: cover;
+    background: var(--color-navy-800);
+  }
+
+  .team-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .team-bio {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-neutral-700);
+    margin-bottom: 1rem;
+  }
+
+  .team-name {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-navy-800);
+  }
+
+  .team-role {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-gold-600);
+    margin-top: 0.15rem;
+  }
+
+  /* Photo-left / text-right from the small-tablet breakpoint up; stacked below. */
+  @media (min-width: 640px) {
+    .team-card {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 1.75rem;
+    }
+
+    .team-photo {
+      width: 6.5rem;
+      height: 6.5rem;
+    }
+  }
+</style>

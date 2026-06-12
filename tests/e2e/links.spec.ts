@@ -18,8 +18,8 @@ test.describe("Link validation", () => {
     }
   });
 
-  test("no broken internal links on about page", async ({ page }) => {
-    await page.goto("/about");
+  test("no broken internal links on team page", async ({ page }) => {
+    await page.goto("/team");
     const links = page.locator('a[href^="/"]');
     const count = await links.count();
 
@@ -39,7 +39,7 @@ test.describe("Link validation", () => {
 test.describe("OG meta tags on all pages", () => {
   const pages = [
     { name: "homepage", url: "/" },
-    { name: "about", url: "/about" },
+    { name: "team", url: "/team" },
     { name: "isnad-graph", url: "/projects/isnad-graph" },
   ];
 

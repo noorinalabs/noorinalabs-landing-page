@@ -9,7 +9,8 @@ Documented route structure for the Noorina Labs landing page.
 | Route                   | Source                                 | Layout          | Collection | Description                                                          |
 | ----------------------- | -------------------------------------- | --------------- | ---------- | -------------------------------------------------------------------- |
 | `/`                     | `src/pages/index.astro`                | `PageLayout`    | —          | Homepage: hero, mission statement, project showcase cards            |
-| `/about`                | `src/pages/about.astro`                | `PageLayout`    | `pages`    | Mission page: renders `src/content/pages/about.mdx`                  |
+| `/team`                 | `src/pages/team.astro`                 | `PageLayout`    | —          | The Team: member bio cards (data in `src/data/team.ts`)              |
+| `/about`                | _redirect_                             | —               | —          | Redirects to `/team` (configured in `astro.config.mjs`)              |
 | `/projects/isnad-graph` | `src/pages/projects/isnad-graph.astro` | `ProjectLayout` | `projects` | Project feature page: renders `src/content/projects/isnad-graph.mdx` |
 
 ---
@@ -17,7 +18,7 @@ Documented route structure for the Noorina Labs landing page.
 ## Routing Strategy
 
 - **Static generation.** All routes are pre-rendered at build time (`output: "static"` in Astro config).
-- **Content-driven routes.** `/about` and `/projects/isnad-graph` are backed by MDX entries in content collections; each project page (e.g. `isnad-graph.astro`) renders its matching `projects` collection entry through `ProjectLayout`.
+- **Content-driven routes.** `/projects/isnad-graph` is backed by an MDX entry in the `projects` content collection; its page (`isnad-graph.astro`) renders the matching entry through `ProjectLayout`. `/team` is data-driven (`src/data/team.ts`), and `/about` redirects to `/team`.
 - **No client-side routing.** Standard anchor navigation between pages — no SPA behavior.
 
 ---
@@ -50,7 +51,7 @@ BaseLayout.astro
 | Label    | Href         | Notes                                           |
 | -------- | ------------ | ----------------------------------------------- |
 | Home     | `/`          | Always visible                                  |
-| About    | `/about`     |                                                 |
+| The Team | `/team`      | Member bio cards                                |
 | Projects | `/#projects` | Scrolls to project showcase section on homepage |
 
 ### Footer Links
@@ -64,7 +65,7 @@ BaseLayout.astro
 **Organization column:**
 | Label | Href |
 |-------|------|
-| About | `/about` |
+| The Team | `/team` |
 | GitHub | `https://github.com/noorinalabs` |
 
 ---

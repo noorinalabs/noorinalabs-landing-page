@@ -31,8 +31,8 @@ describe("Homepage (index.html)", () => {
 
   it("renders hero call-to-action links", () => {
     expect(html).toContain("Explore the Isnad Graph");
-    expect(html).toContain('href="/about"');
-    expect(html).toContain("Learn About Us");
+    expect(html).toContain('href="/team"');
+    expect(html).toContain("Meet the Team");
   });
 
   it("renders the guiding principle", () => {
