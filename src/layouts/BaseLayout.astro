@@ -61,8 +61,36 @@ const resolvedOgImage = ogImage.startsWith("http")
 ---
 
 <!doctype html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" data-theme="light">
   <head>
+    <!--
+      Theme init (#128) — resolve data-theme on <html> before first paint.
+      The design system ships its base colour tokens only inside a Tailwind v4
+      `@theme {}` block, which the browser ignores when the dist is imported as
+      plain CSS (BaseLayout's `@noorinalabs/design-system/styles.css` import);
+      the DS's real token values live under `[data-theme="light"|"dark"]`.
+      Without this attribute every `--color-*` var is unresolved and the page
+      renders unstyled. This honours a stored choice (the future toggle, #116)
+      then the OS preference; the server-rendered `data-theme="light"` above is
+      the no-JS fallback. The durable fix is DS-side (emit tokens to `:root`).
+    -->
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("theme");
+          const theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          document.documentElement.dataset.theme = theme;
+        } catch {
+          /* localStorage / matchMedia unavailable — keep the SSR light default */
+        }
+      })();
+    </script>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
