@@ -256,66 +256,72 @@ import SEO from "../components/SEO.astro";
     padding: 6rem 1.5rem 4rem;
     background: linear-gradient(
       135deg,
-      var(--color-navy-900) 0%,
-      var(--color-navy-800) 40%,
-      var(--color-navy-700) 100%
+      var(--color-background) 0%,
+      var(--color-muted) 100%
     );
-    color: var(--color-neutral-50);
+    color: var(--color-foreground);
+    border-bottom: 1px solid var(--color-border);
     overflow: hidden;
   }
 
+  /*
+   * Geometric accent — a subtle zellij-style tessellation rendered in the DS
+   * primary (sienna) at low opacity over the warm hero surface. Replaces the
+   * former gold-on-navy pattern so the hero reads in the same palette as the
+   * isnad-graph product.
+   */
   .hero-pattern {
     position: absolute;
     inset: 0;
-    opacity: 0.06;
+    opacity: 0.05;
     background-image:
       linear-gradient(
         30deg,
-        var(--color-gold-400) 12%,
+        var(--color-primary) 12%,
         transparent 12.5%,
         transparent 87%,
-        var(--color-gold-400) 87.5%,
-        var(--color-gold-400)
+        var(--color-primary) 87.5%,
+        var(--color-primary)
       ),
       linear-gradient(
         150deg,
-        var(--color-gold-400) 12%,
+        var(--color-primary) 12%,
         transparent 12.5%,
         transparent 87%,
-        var(--color-gold-400) 87.5%,
-        var(--color-gold-400)
+        var(--color-primary) 87.5%,
+        var(--color-primary)
       ),
       linear-gradient(
         30deg,
-        var(--color-gold-400) 12%,
+        var(--color-primary) 12%,
         transparent 12.5%,
         transparent 87%,
-        var(--color-gold-400) 87.5%,
-        var(--color-gold-400)
+        var(--color-primary) 87.5%,
+        var(--color-primary)
       ),
       linear-gradient(
         150deg,
-        var(--color-gold-400) 12%,
+        var(--color-primary) 12%,
         transparent 12.5%,
         transparent 87%,
-        var(--color-gold-400) 87.5%,
-        var(--color-gold-400)
+        var(--color-primary) 87.5%,
+        var(--color-primary)
       ),
       linear-gradient(
         60deg,
-        var(--color-gold-300) 25%,
+        var(--color-primary) 25%,
         transparent 25.5%,
         transparent 75%,
-        var(--color-gold-300) 75%,
-        var(--color-gold-300)
+        var(--color-primary) 75%,
+        var(--color-primary)
       ),
       linear-gradient(
         60deg,
-        var(--color-gold-300) 25%,
+        var(--color-primary) 25%,
         transparent 25.5%,
         transparent 75%,
-        var(--color-gold-300) 75%,
-        var(--color-gold-300)
+        var(--color-primary) 75%,
+        var(--color-primary)
       );
     background-size: 80px 140px;
     background-position:
@@ -354,7 +360,7 @@ import SEO from "../components/SEO.astro";
     font-family: var(--font-body);
     font-size: clamp(1rem, 2vw, 1.25rem);
     line-height: 1.7;
-    color: var(--color-navy-100);
+    color: var(--color-muted-foreground);
     max-width: 38rem;
     margin: 0 auto 2rem;
   }
@@ -371,14 +377,14 @@ import SEO from "../components/SEO.astro";
     font-family: var(--font-body);
     font-size: 0.85rem;
     font-weight: 600;
-    color: var(--color-gold-300);
+    color: var(--color-primary);
     letter-spacing: 0.02em;
   }
 
   .hero-pillars .pillar:not(:last-child)::after {
     content: "\00b7";
     margin-left: 0.75rem;
-    color: var(--color-navy-400);
+    color: var(--color-border);
   }
 
   .hero-actions {
@@ -398,10 +404,10 @@ import SEO from "../components/SEO.astro";
   }
 
   .principle-quote {
-    border-left: 3px solid var(--color-gold-500);
+    border-left: 3px solid var(--color-primary);
     padding: 1.5rem 1.5rem 1.5rem 2rem;
-    background: var(--color-navy-50);
-    border-radius: 0 0.5rem 0.5rem 0;
+    background: var(--color-muted);
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
   }
 
   .principle-quote p {
@@ -409,7 +415,7 @@ import SEO from "../components/SEO.astro";
     font-size: 1.15rem;
     font-style: italic;
     line-height: 1.7;
-    color: var(--color-navy-700);
+    color: var(--color-foreground);
   }
 
   /* Problem Section */
@@ -426,7 +432,7 @@ import SEO from "../components/SEO.astro";
     font-family: var(--font-body);
     font-size: 1rem;
     line-height: 1.7;
-    color: var(--color-neutral-700);
+    color: var(--color-muted-foreground);
   }
 
   .problem-stats {
@@ -446,14 +452,14 @@ import SEO from "../components/SEO.astro";
     font-family: var(--font-heading);
     font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 700;
-    color: var(--color-navy-800);
+    color: var(--color-primary);
     line-height: 1.1;
   }
 
   .stat-label {
     font-family: var(--font-body);
     font-size: 0.875rem;
-    color: var(--color-neutral-500);
+    color: var(--color-muted-foreground);
   }
 
   /* Capabilities Grid */
