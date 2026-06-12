@@ -1,12 +1,25 @@
 ---
 /**
- * Icon — inline SVG icon set for the landing page.
+ * Icon — the landing page's marketing icon set.
  *
- * The design system ships its icons as React components
- * (@noorinalabs/design-system peers on react/react-dom), but this site is
- * pure Astro with no React renderer. Rather than pull in a React runtime for a
- * handful of marketing icons, we inline a small set of SVGs that follow the
- * same DS convention: 24×24, stroke-based, `currentColor`, inline-friendly.
+ * Geometry is a byte-for-byte mirror of the design system's Qalam icon set
+ * (@noorinalabs/design-system), so the landing page renders the SAME shapes the
+ * isnad-graph product does. The LP names map onto the DS icons as:
+ *
+ *     graph    →  GraphExplorerIcon   (network constellation)
+ *     user     →  NarratorsIcon       (scholar + geometric collar accent)
+ *     search   →  SearchIcon          (lens + 4-fold star)
+ *     compare  →  CompareIcon         (split panels + diamond separator)
+ *     book     →  HadithsIcon         (open manuscript)
+ *
+ * Why mirror instead of import: the DS ships its icons only as React components
+ * (its `icons` entry compiles to `React.createElement`), and this site is pure
+ * Astro with no React renderer. Until the DS exposes a framework-neutral
+ * icon-geometry export, the LP cannot `import` the icons, so it reproduces their
+ * markup here. That export is tracked in noorinalabs-design-system#103; once it
+ * ships, this file should be replaced by a direct import of the shared geometry
+ * (issue landing-page#119). The base attributes below match the DS `IconBase`
+ * exactly: 24×24 viewport, `currentColor`, 1.5px stroke, round caps/joins.
  *
  * Names map 1:1 to the `icon` values in the project content collection
  * frontmatter (src/content/projects/*.mdx). An unknown name renders nothing
@@ -24,39 +37,54 @@ interface Props {
 const { name, size = 24, class: className } = Astro.props;
 
 /*
- * Each entry is the inner markup of a 24×24 icon. Strokes use currentColor so
- * the icon inherits the surrounding text colour and responds to theme changes.
+ * Each entry is the inner markup of a 24×24 icon, copied verbatim from the
+ * corresponding design-system Qalam icon. Strokes use currentColor so the icon
+ * inherits the surrounding text colour and responds to theme changes; the few
+ * filled accents (`fill="currentColor"`) follow the DS originals.
  */
 const paths: Record<string, string> = {
-  // graph — three connected nodes (transmission network)
+  // graph ← GraphExplorerIcon: central node + four outer nodes, edges, dashed cross-link
   graph: `
-    <circle cx="6" cy="6" r="2.2" />
-    <circle cx="18" cy="7" r="2.2" />
-    <circle cx="12" cy="18" r="2.2" />
-    <line x1="7.7" y1="7.3" x2="10.6" y2="16.4" />
-    <line x1="16.4" y1="8.5" x2="13.2" y2="16.5" />
-    <line x1="8" y1="6.4" x2="15.8" y2="6.8" />
+    <circle cx="12" cy="12" r="2.5" />
+    <circle cx="5" cy="6" r="1.5" />
+    <circle cx="19" cy="6" r="1.5" />
+    <circle cx="5" cy="18" r="1.5" />
+    <circle cx="19" cy="18" r="1.5" />
+    <path d="M6.3 7.2L9.7 10.2" />
+    <path d="M17.7 7.2L14.3 10.2" />
+    <path d="M6.3 16.8L9.7 13.8" />
+    <path d="M17.7 16.8L14.3 13.8" />
+    <path d="M6.5 6h11" stroke-dasharray="2 2" stroke-width="1" opacity="0.3" />
   `,
-  // user — narrator / person
+  // user ← NarratorsIcon: head, shoulders, diamond collar accent
   user: `
-    <circle cx="12" cy="8" r="3.5" />
-    <path d="M5 20a7 7 0 0 1 14 0" />
+    <circle cx="12" cy="7" r="4" />
+    <path d="M5 21v-2a7 7 0 0 1 14 0v2" />
+    <path d="M12 15l1.2 1.2L12 17.4l-1.2-1.2z" fill="currentColor" stroke="none" />
   `,
-  // search — magnifying glass
+  // search ← SearchIcon: lens, handle, 4-pointed star motif
   search: `
-    <circle cx="10.5" cy="10.5" r="6" />
-    <line x1="15" y1="15" x2="20" y2="20" />
+    <circle cx="11" cy="11" r="7" />
+    <path d="M21 21l-4.35-4.35" />
+    <path d="M11 7l1 2.5L14.5 11l-2.5 1L11 14.5l-1-2.5L7.5 11l2.5-1z" fill="currentColor" stroke="none" opacity="0.35" />
   `,
-  // compare — two overlapping panels (cross-tradition comparison)
+  // compare ← CompareIcon: two panels, connecting arrows, diamond separator
   compare: `
-    <rect x="3" y="5" width="9" height="14" rx="1.5" />
-    <path d="M14 7h5a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-3" />
-    <line x1="12" y1="3" x2="12" y2="21" />
+    <rect x="2" y="3" width="8" height="18" rx="1" />
+    <rect x="14" y="3" width="8" height="18" rx="1" />
+    <path d="M10 8h4" />
+    <path d="M14 8l-1.5-1.5M14 8l-1.5 1.5" />
+    <path d="M14 16h-4" />
+    <path d="M10 16l1.5-1.5M10 16l1.5 1.5" />
+    <path d="M12 11l1 1-1 1-1-1z" fill="currentColor" stroke="none" opacity="0.5" />
   `,
-  // book — scholarly source
+  // book ← HadithsIcon: open manuscript, spine, text lines
   book: `
-    <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H12v15H5.5A1.5 1.5 0 0 0 4 20.5Z" />
-    <path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H12v15h6.5A1.5 1.5 0 0 1 20 20.5Z" />
+    <path d="M2 4s2-1 5-1 5 1 5 1v16s-2-1-5-1-5 1-5 1z" />
+    <path d="M12 4s2-1 5-1 5 1 5 1v16s-2-1-5-1-5 1-5 1z" />
+    <path d="M12 4v16" />
+    <path d="M5 8h3" stroke-width="1" opacity="0.5" />
+    <path d="M5 11h3" stroke-width="1" opacity="0.5" />
   `,
 };
 
@@ -72,7 +100,7 @@ const inner = paths[name] ?? "";
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="1.6"
+      stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
       aria-hidden="true"
