@@ -63,7 +63,16 @@ const resolvedOgImage = ogImage.startsWith("http")
 <!doctype html>
 <html lang="en" dir="ltr" data-theme="light">
   <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <!--
+      charset/viewport are the first children of <head> with nothing ahead of
+      them (not even this comment), so <meta charset> stays well within the
+      WHATWG 1024-byte encoding-prescan window. nginx sends no charset header,
+      so the meta is the only encoding signal; a late charset mojibakes
+      multibyte content such as "Çelik" on /team. Keep the theme block below.
+
       Theme init (#128) — resolve data-theme on <html> before first paint.
       The design system ships its base colour tokens only inside a Tailwind v4
       `@theme {}` block, which the browser ignores when the dist is imported as
@@ -71,8 +80,9 @@ const resolvedOgImage = ogImage.startsWith("http")
       the DS's real token values live under `[data-theme="light"|"dark"]`.
       Without this attribute every `--color-*` var is unresolved and the page
       renders unstyled. This honours a stored choice (the future toggle, #116)
-      then the OS preference; the server-rendered `data-theme="light"` above is
-      the no-JS fallback. The durable fix is DS-side (emit tokens to `:root`).
+      then the OS preference; the server-rendered `data-theme="light"` on <html>
+      is the no-JS fallback. The durable fix is DS-side (emit tokens to `:root`).
+      The init does not depend on coming first — prescan ignores script position.
     -->
     <script is:inline>
       (() => {
@@ -90,9 +100,6 @@ const resolvedOgImage = ogImage.startsWith("http")
         }
       })();
     </script>
-
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>{title} | Noorina Labs</title>
     <meta name="description" content={description} />
