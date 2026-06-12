@@ -1,275 +1,37 @@
 @import "tailwindcss";
 
 /*
- * Landing-page theme
- * ==================
- * The design system (@noorinalabs/design-system/styles.css) is imported in
- * BaseLayout.astro and provides semantic tokens (--color-primary, --color-background,
- * --font-heading, --font-body, etc.) plus brand tokens (--color-brand-navy,
- * --color-brand-gold) in OKLCH.
+ * Landing-page theme (#118 — match isnad-graph look & feel)
+ * =========================================================
+ * The landing page now consumes the design system's SEMANTIC tokens directly,
+ * exactly as the isnad-graph app does (see noorinalabs-isnad-graph
+ * frontend/src/styles/theme.css). There is no LP-local colour ladder: every
+ * surface, text, and accent colour resolves to a `@noorinalabs/design-system`
+ * token (--color-primary, --color-background, --color-foreground, --color-card,
+ * --color-muted, --color-border, …), imported in BaseLayout.astro.
  *
- * The LP retains its 11-step navy/gold/neutral scales as Tailwind @theme extensions
- * so existing utility classes (bg-navy-800, text-gold-400) continue to work without
- * touching ~130 call sites. Scales are expressed in OKLCH for perceptual uniformity;
- * dark mode is a single-axis lightness flip rather than 30 paired hex literals.
+ * Why this changed: the LP previously defined a bespoke navy/gold/neutral OKLCH
+ * ladder, which rendered as a cool navy-and-gold marketing site visually
+ * disjoint from isnad-graph's warm parchment/sienna/ink product palette. Folding
+ * the LP onto the same semantic tokens gives one cohesive brand and — because
+ * the DS tokens already flip on `prefers-color-scheme` and the `[data-theme]`
+ * JS toggle — dark mode now comes for free with no LP-side machinery to keep in
+ * sync (the old ~150-line --dm-* mirror is gone).
  *
- * Brand alignment with DS:
- *   --color-navy-500  ← --color-brand-navy   (oklch(0.25 0.05 265))
- *   --color-gold-500  ← --color-brand-gold   (oklch(0.75 0.12 80))
- * Other scale steps stay LP-local since DS only ships three brand tones; the scale's
- * other rungs interpolate hue/chroma around those anchors.
+ * Token cheat-sheet (DS semantic → LP usage):
+ *   --color-background / --color-muted  surfaces (page, alt sections, footer)
+ *   --color-card                        raised card surfaces
+ *   --color-foreground                  headings, strong text
+ *   --color-muted-foreground            body copy, captions, labels
+ *   --color-border                      hairlines, card/border edges
+ *   --color-primary / -hover / -foreground   primary actions, accents (sienna)
+ *   --color-accent / --color-accent-foreground   tinted icon chips
+ *   --color-ring                        focus outlines
+ *   --radius-* / --shadow-*             DS radii + elevation
  *
- * NOTE: --color-brand-navy and --color-brand-gold were added to DS source at commit
- * a9207f55 (2026-04-12), but the DS publish workflow has been broken since the
- * v0.0.1 release (2026-04-06) — the v0.0.1 dist predates brand-token-add by six
- * days and contains no brand custom properties, and no 0.0.2 or 0.0.3 tag/release
- * has been cut despite the source bumps (DS main package.json reads 0.0.2). The
- * LP's ^0.0.2 pin resolves to a v0.0.2 artifact present on the registry (integrity-
- * pinned in package-lock.json), but that artifact was published outside the recorded
- * CI publish-run history and its dist contents are not auditable from origin — it
- * may or may not include the brand custom properties depending on which source
- * snapshot it was cut from. Inline OKLCH fallbacks on the var() references are
- * therefore load-bearing for runtime brand identity; they match DS source byte-for-
- * byte and remain the canonical runtime source until the DS publish pipeline is
- * repaired.
+ * If a needed value is missing from the DS, add it to the DS first and consume
+ * it here — do not reintroduce a bespoke scale (issue #118 hard constraint).
  */
-
-@theme {
-  /* ----- Navy: brand-aligned at 500; OKLCH lightness ladder around hue 265 ----- */
-  --color-navy-50: oklch(0.97 0.012 265);
-  --color-navy-100: oklch(0.92 0.022 265);
-  --color-navy-200: oklch(0.83 0.038 265);
-  --color-navy-300: oklch(0.72 0.055 265);
-  --color-navy-400: oklch(0.6 0.072 265);
-  --color-navy-500: var(--color-brand-navy, oklch(0.25 0.05 265));
-  --color-navy-600: oklch(0.4 0.058 265);
-  --color-navy-700: oklch(0.32 0.052 265);
-  --color-navy-800: oklch(0.24 0.045 265);
-  --color-navy-900: oklch(0.16 0.034 265);
-  --color-navy-950: oklch(0.1 0.024 265);
-
-  /* ----- Gold: brand-aligned at 500; OKLCH lightness ladder around hue 80 ----- */
-  --color-gold-50: oklch(0.98 0.014 80);
-  --color-gold-100: oklch(0.95 0.034 80);
-  --color-gold-200: oklch(0.9 0.062 80);
-  --color-gold-300: oklch(0.84 0.09 80);
-  --color-gold-400: oklch(0.8 0.11 80);
-  --color-gold-500: var(--color-brand-gold, oklch(0.75 0.12 80));
-  --color-gold-600: oklch(0.65 0.118 80);
-  --color-gold-700: oklch(0.54 0.104 80);
-  --color-gold-800: oklch(0.43 0.084 80);
-  --color-gold-900: oklch(0.33 0.064 80);
-
-  /* ----- Neutral: warm-grey ladder; hue 85 matches DS muted family ----- */
-  --color-neutral-50: oklch(0.98 0.004 85);
-  --color-neutral-100: oklch(0.95 0.006 85);
-  --color-neutral-200: oklch(0.9 0.008 85);
-  --color-neutral-300: oklch(0.83 0.01 85);
-  --color-neutral-400: oklch(0.7 0.01 85);
-  --color-neutral-500: oklch(0.55 0.01 85);
-  --color-neutral-600: oklch(0.45 0.01 85);
-  --color-neutral-700: oklch(0.36 0.009 85);
-  --color-neutral-800: oklch(0.25 0.008 85);
-  --color-neutral-900: oklch(0.18 0.006 85);
-
-  /* Surface / text aliases for LP — maps to DS semantic tokens */
-  --color-surface: var(--color-background);
-  --color-text: var(--color-foreground);
-}
-
-/*
- * Dark mode
- * ---------
- * Single-axis lightness flip across each scale: each step swaps with its
- * mirror (50 <-> 950 for navy; 50 <-> 900 for gold/neutral). Because the
- * light scale is now expressed in OKLCH, this can be done by symmetric
- * lightness substitution while hue and chroma stay constant — preserving
- * brand identity across modes. Visual parity with the previous hand-tuned
- * hex inversion is maintained (same perceptual L values reused).
- *
- * The DS semantic surface/foreground tokens flip via the DS's own dark-mode
- * block, so cards, text, and chrome remain consistent.
- *
- * isnad-graph parity (#43): the design system flips on TWO axes — the OS
- * `prefers-color-scheme` media query AND a JS `[data-theme="dark"|"light"]`
- * attribute toggle on <html> (see DS src/tokens/colors.css). Previously the
- * LP brand scales flipped only on the media query, so under a future
- * `data-theme` toggle the DS semantic surface/foreground would invert while
- * the LP navy/gold/neutral scales stayed in their light values — a split
- * theme. The dark scale is therefore emitted under both the media query and
- * `[data-theme="dark"]`; `[data-theme="light"]` pins the scales back to the
- * light values so an explicit light toggle overrides a dark OS preference,
- * exactly as the DS does for its semantic tokens.
- *
- * The flipped values are shared via the `--dm-*` reference custom properties
- * below so the two dark triggers (the media query and `[data-theme="dark"]`)
- * reuse one definition rather than two hand-maintained copies.
- */
-@theme {
-  /* Dark-mode scale values — single source, referenced by every dark trigger */
-  --dm-navy-50: oklch(0.1 0.024 265);
-  --dm-navy-100: oklch(0.16 0.034 265);
-  --dm-navy-200: oklch(0.24 0.045 265);
-  --dm-navy-300: oklch(0.32 0.052 265);
-  --dm-navy-400: oklch(0.4 0.058 265);
-  --dm-navy-500: var(--color-brand-navy, oklch(0.25 0.05 265));
-  --dm-navy-600: oklch(0.6 0.072 265);
-  --dm-navy-700: oklch(0.72 0.055 265);
-  --dm-navy-800: oklch(0.83 0.038 265);
-  --dm-navy-900: oklch(0.92 0.022 265);
-  --dm-navy-950: oklch(0.97 0.012 265);
-
-  --dm-gold-50: oklch(0.33 0.064 80);
-  --dm-gold-100: oklch(0.43 0.084 80);
-  --dm-gold-200: oklch(0.54 0.104 80);
-  --dm-gold-300: oklch(0.65 0.118 80);
-  --dm-gold-400: oklch(0.75 0.12 80);
-  --dm-gold-500: var(--color-brand-gold, oklch(0.75 0.12 80));
-  --dm-gold-600: oklch(0.84 0.09 80);
-  --dm-gold-700: oklch(0.9 0.062 80);
-  --dm-gold-800: oklch(0.95 0.034 80);
-  --dm-gold-900: oklch(0.98 0.014 80);
-
-  --dm-neutral-50: oklch(0.18 0.006 85);
-  --dm-neutral-100: oklch(0.25 0.008 85);
-  --dm-neutral-200: oklch(0.36 0.009 85);
-  --dm-neutral-300: oklch(0.45 0.01 85);
-  --dm-neutral-400: oklch(0.55 0.01 85);
-  --dm-neutral-500: oklch(0.7 0.01 85);
-  --dm-neutral-600: oklch(0.83 0.01 85);
-  --dm-neutral-700: oklch(0.9 0.008 85);
-  --dm-neutral-800: oklch(0.95 0.006 85);
-  --dm-neutral-900: oklch(0.98 0.004 85);
-}
-
-/*
- * Dark-mode application — shared by the OS media query and the
- * `[data-theme="dark"]` JS toggle. Both reassign the scale custom properties
- * to the `--dm-*` dark values, so the two triggers can never drift apart.
- */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-navy-50: var(--dm-navy-50);
-    --color-navy-100: var(--dm-navy-100);
-    --color-navy-200: var(--dm-navy-200);
-    --color-navy-300: var(--dm-navy-300);
-    --color-navy-400: var(--dm-navy-400);
-    --color-navy-500: var(--dm-navy-500);
-    --color-navy-600: var(--dm-navy-600);
-    --color-navy-700: var(--dm-navy-700);
-    --color-navy-800: var(--dm-navy-800);
-    --color-navy-900: var(--dm-navy-900);
-    --color-navy-950: var(--dm-navy-950);
-
-    --color-gold-50: var(--dm-gold-50);
-    --color-gold-100: var(--dm-gold-100);
-    --color-gold-200: var(--dm-gold-200);
-    --color-gold-300: var(--dm-gold-300);
-    --color-gold-400: var(--dm-gold-400);
-    --color-gold-500: var(--dm-gold-500);
-    --color-gold-600: var(--dm-gold-600);
-    --color-gold-700: var(--dm-gold-700);
-    --color-gold-800: var(--dm-gold-800);
-    --color-gold-900: var(--dm-gold-900);
-
-    --color-neutral-50: var(--dm-neutral-50);
-    --color-neutral-100: var(--dm-neutral-100);
-    --color-neutral-200: var(--dm-neutral-200);
-    --color-neutral-300: var(--dm-neutral-300);
-    --color-neutral-400: var(--dm-neutral-400);
-    --color-neutral-500: var(--dm-neutral-500);
-    --color-neutral-600: var(--dm-neutral-600);
-    --color-neutral-700: var(--dm-neutral-700);
-    --color-neutral-800: var(--dm-neutral-800);
-    --color-neutral-900: var(--dm-neutral-900);
-  }
-}
-
-/*
- * JS toggle override (isnad-graph / DS parity). `[data-theme="dark"]` forces
- * the dark scales regardless of OS preference; `[data-theme="light"]` forces
- * the light scales back. Because these are attribute selectors on <html> they
- * carry higher specificity than the `:root` media-query block above, so an
- * explicit toggle always wins over the OS default — matching the DS semantic
- * tokens' behavior and keeping brand + chrome in the same mode.
- */
-[data-theme="dark"] {
-  --color-navy-50: var(--dm-navy-50);
-  --color-navy-100: var(--dm-navy-100);
-  --color-navy-200: var(--dm-navy-200);
-  --color-navy-300: var(--dm-navy-300);
-  --color-navy-400: var(--dm-navy-400);
-  --color-navy-500: var(--dm-navy-500);
-  --color-navy-600: var(--dm-navy-600);
-  --color-navy-700: var(--dm-navy-700);
-  --color-navy-800: var(--dm-navy-800);
-  --color-navy-900: var(--dm-navy-900);
-  --color-navy-950: var(--dm-navy-950);
-
-  --color-gold-50: var(--dm-gold-50);
-  --color-gold-100: var(--dm-gold-100);
-  --color-gold-200: var(--dm-gold-200);
-  --color-gold-300: var(--dm-gold-300);
-  --color-gold-400: var(--dm-gold-400);
-  --color-gold-500: var(--dm-gold-500);
-  --color-gold-600: var(--dm-gold-600);
-  --color-gold-700: var(--dm-gold-700);
-  --color-gold-800: var(--dm-gold-800);
-  --color-gold-900: var(--dm-gold-900);
-
-  --color-neutral-50: var(--dm-neutral-50);
-  --color-neutral-100: var(--dm-neutral-100);
-  --color-neutral-200: var(--dm-neutral-200);
-  --color-neutral-300: var(--dm-neutral-300);
-  --color-neutral-400: var(--dm-neutral-400);
-  --color-neutral-500: var(--dm-neutral-500);
-  --color-neutral-600: var(--dm-neutral-600);
-  --color-neutral-700: var(--dm-neutral-700);
-  --color-neutral-800: var(--dm-neutral-800);
-  --color-neutral-900: var(--dm-neutral-900);
-}
-
-/*
- * `[data-theme="light"]` pins the LP scales to their light @theme values so an
- * explicit light toggle overrides a dark OS preference. (The @theme block at
- * the top already defines the light values on :root; this selector re-pins
- * them at attribute-selector specificity to beat the media query.)
- */
-[data-theme="light"] {
-  --color-navy-50: oklch(0.97 0.012 265);
-  --color-navy-100: oklch(0.92 0.022 265);
-  --color-navy-200: oklch(0.83 0.038 265);
-  --color-navy-300: oklch(0.72 0.055 265);
-  --color-navy-400: oklch(0.6 0.072 265);
-  --color-navy-500: var(--color-brand-navy, oklch(0.25 0.05 265));
-  --color-navy-600: oklch(0.4 0.058 265);
-  --color-navy-700: oklch(0.32 0.052 265);
-  --color-navy-800: oklch(0.24 0.045 265);
-  --color-navy-900: oklch(0.16 0.034 265);
-  --color-navy-950: oklch(0.1 0.024 265);
-
-  --color-gold-50: oklch(0.98 0.014 80);
-  --color-gold-100: oklch(0.95 0.034 80);
-  --color-gold-200: oklch(0.9 0.062 80);
-  --color-gold-300: oklch(0.84 0.09 80);
-  --color-gold-400: oklch(0.8 0.11 80);
-  --color-gold-500: var(--color-brand-gold, oklch(0.75 0.12 80));
-  --color-gold-600: oklch(0.65 0.118 80);
-  --color-gold-700: oklch(0.54 0.104 80);
-  --color-gold-800: oklch(0.43 0.084 80);
-  --color-gold-900: oklch(0.33 0.064 80);
-
-  --color-neutral-50: oklch(0.98 0.004 85);
-  --color-neutral-100: oklch(0.95 0.006 85);
-  --color-neutral-200: oklch(0.9 0.008 85);
-  --color-neutral-300: oklch(0.83 0.01 85);
-  --color-neutral-400: oklch(0.7 0.01 85);
-  --color-neutral-500: oklch(0.55 0.01 85);
-  --color-neutral-600: oklch(0.45 0.01 85);
-  --color-neutral-700: oklch(0.36 0.009 85);
-  --color-neutral-800: oklch(0.25 0.008 85);
-  --color-neutral-900: oklch(0.18 0.006 85);
-}
 
 /*
  * Shared primitives (#59)
@@ -292,20 +54,20 @@
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 0.95rem;
-  border-radius: 0.375rem;
+  border-radius: var(--radius-md);
   text-decoration: none;
 }
 
 .btn-primary {
-  background: var(--color-gold-500);
-  color: var(--color-navy-950);
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
   transition:
     background-color 0.2s ease,
     transform 0.15s ease;
 }
 
 .btn-primary:hover {
-  background: var(--color-gold-400);
+  background: var(--color-primary-hover);
 }
 
 .btn-primary:active {
@@ -314,21 +76,21 @@
 
 .btn-secondary {
   background: transparent;
-  color: var(--color-neutral-100);
-  border: 1.5px solid var(--color-navy-300);
+  color: var(--color-foreground);
+  border: 1.5px solid var(--color-border);
   transition:
     border-color 0.2s ease,
     color 0.2s ease;
 }
 
 .btn-secondary:hover {
-  border-color: var(--color-gold-400);
-  color: var(--color-gold-300);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 .btn-primary:focus-visible,
 .btn-secondary:focus-visible {
-  outline: 2px solid var(--color-gold-300);
+  outline: 2px solid var(--color-ring);
   outline-offset: 2px;
 }
 
@@ -345,7 +107,7 @@
 }
 
 .section-alt {
-  background: var(--color-neutral-50);
+  background: var(--color-muted);
 }
 
 .section-container {
@@ -357,7 +119,7 @@
   font-family: var(--font-heading);
   font-size: clamp(1.5rem, 3vw, 2.25rem);
   font-weight: 700;
-  color: var(--color-navy-800);
+  color: var(--color-foreground);
   text-align: center;
   margin-bottom: 3rem;
 }
@@ -366,7 +128,7 @@
   font-family: var(--font-body);
   font-size: 1.05rem;
   line-height: 1.8;
-  color: var(--color-neutral-700);
+  color: var(--color-muted-foreground);
   text-align: center;
   max-width: 48rem;
   margin: 0 auto 2.5rem;
@@ -382,7 +144,7 @@
   font-family: var(--font-heading);
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--color-navy-800);
+  color: var(--color-foreground);
   margin-bottom: 0.75rem;
 }
 
@@ -390,14 +152,14 @@
   font-family: var(--font-body);
   font-size: 0.925rem;
   line-height: 1.7;
-  color: var(--color-neutral-600);
+  color: var(--color-muted-foreground);
 }
 
 .card-surface {
   padding: 2rem;
-  background: var(--color-neutral-50);
-  border-radius: 0.75rem;
-  border: 1px solid var(--color-neutral-200);
+  background: var(--color-card);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
 }
 
 .card-center {
