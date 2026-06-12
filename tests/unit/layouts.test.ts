@@ -13,7 +13,9 @@ describe("BaseLayout", () => {
 
   it("renders valid HTML5 document", () => {
     expect(html).toContain("<!DOCTYPE html>");
-    expect(html).toContain('<html lang="en" dir="ltr">');
+    // data-theme is the server-rendered no-JS default (#128); the pre-paint
+    // init script may upgrade it to the OS/stored preference at runtime.
+    expect(html).toContain('<html lang="en" dir="ltr" data-theme="light">');
     expect(html).toContain('<meta charset="utf-8">');
     expect(html).toContain("viewport");
   });
