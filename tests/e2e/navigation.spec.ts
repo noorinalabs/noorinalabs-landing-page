@@ -19,12 +19,12 @@ test.describe("Page navigation", () => {
     await expect(page).toHaveTitle(/Home.*Noorina Labs/);
   });
 
-  test("navigate from homepage to about", async ({ page }) => {
+  test("navigate from homepage to the team page", async ({ page }) => {
     await page.goto("/");
     await openMobileNavIfNeeded(page);
-    await page.locator('#primary-nav a[href="/about"]').click();
-    await expect(page).toHaveURL(/\/about/);
-    await expect(page).toHaveTitle(/About.*Noorina Labs/);
+    await page.locator('#primary-nav a[href="/team"]').click();
+    await expect(page).toHaveURL(/\/team/);
+    await expect(page).toHaveTitle(/The Team.*Noorina Labs/);
   });
 
   test("navigate from homepage to isnad-graph project", async ({ page }) => {
@@ -35,7 +35,7 @@ test.describe("Page navigation", () => {
   });
 
   test("logo links back to homepage", async ({ page }) => {
-    await page.goto("/about");
+    await page.goto("/team");
     await page.click('a[aria-label="Noorina Labs home"]');
     await expect(page).toHaveURL("/");
   });

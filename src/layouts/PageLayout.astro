@@ -7,7 +7,7 @@
  *   - <main> landmark with id for skip-link
  *   - Site footer with secondary links
  *
- * Used by: Homepage (/), About (/about), and any general page.
+ * Used by: Homepage (/), The Team (/team), and any general page.
  */
 import BaseLayout from "./BaseLayout.astro";
 
@@ -26,7 +26,7 @@ const { title, description, ogImage, ogImageAlt } = Astro.props;
 
 const headerNav = [
   { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
+  { label: "The Team", href: "/team" },
   { label: "Projects", href: "/#projects" },
 ];
 
@@ -36,7 +36,7 @@ const footerNav = {
     { label: "About the Isnad Graph", href: "/projects/isnad-graph" },
   ],
   organization: [
-    { label: "About", href: "/about" },
+    { label: "The Team", href: "/team" },
     { label: "GitHub", href: "https://github.com/noorinalabs" },
   ],
 };

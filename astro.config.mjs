@@ -10,6 +10,11 @@ export default defineConfig({
   // canonical link, og:url, sitemap entry, and JSON-LD url emit a redirect hop
   // instead of the served origin (#120).
   site: "https://noorinalabs.com",
+  // The former /about page was replaced by /team (issue #46). Redirect old
+  // links/bookmarks so they land on the page that took its place.
+  redirects: {
+    "/about": "/team",
+  },
   integrations: [mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],

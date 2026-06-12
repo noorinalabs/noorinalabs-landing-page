@@ -62,7 +62,7 @@ describe("SEO — Isnad Graph project page JSON-LD", () => {
 describe("SEO — Open Graph meta tags", () => {
   const pages = [
     { name: "homepage", path: "index.html" },
-    { name: "about", path: "about/index.html" },
+    { name: "team", path: "team/index.html" },
     { name: "isnad-graph", path: "projects/isnad-graph/index.html" },
   ];
 
@@ -96,7 +96,7 @@ describe("SEO — Open Graph meta tags", () => {
 describe("SEO — canonical URLs", () => {
   const pages = [
     { name: "homepage", path: "index.html" },
-    { name: "about", path: "about/index.html" },
+    { name: "team", path: "team/index.html" },
     { name: "isnad-graph", path: "projects/isnad-graph/index.html" },
   ];
 
@@ -111,7 +111,7 @@ describe("SEO — canonical URLs", () => {
 describe("SEO — meta descriptions", () => {
   const pages = [
     { name: "homepage", path: "index.html" },
-    { name: "about", path: "about/index.html" },
+    { name: "team", path: "team/index.html" },
     { name: "isnad-graph", path: "projects/isnad-graph/index.html" },
   ];
 
