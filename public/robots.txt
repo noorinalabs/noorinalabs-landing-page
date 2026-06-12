@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.noorinalabs.com/sitemap-index.xml
+Sitemap: https://noorinalabs.com/sitemap-index.xml

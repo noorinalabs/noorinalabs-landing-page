@@ -6,18 +6,19 @@ Documented route structure for the Noorina Labs landing page.
 
 ## Route Map
 
-| Route                   | Source                               | Layout          | Collection | Description                                                          |
-| ----------------------- | ------------------------------------ | --------------- | ---------- | -------------------------------------------------------------------- |
-| `/`                     | `src/pages/index.astro`              | `PageLayout`    | —          | Homepage: hero, mission statement, project showcase cards            |
-| `/about`                | `src/pages/about.astro`              | `PageLayout`    | `pages`    | Mission page: renders `src/content/pages/about.mdx`                  |
-| `/projects/isnad-graph` | `src/pages/projects/[...slug].astro` | `ProjectLayout` | `projects` | Project feature page: renders `src/content/projects/isnad-graph.mdx` |
+| Route                   | Source                                 | Layout          | Collection | Description                                                          |
+| ----------------------- | -------------------------------------- | --------------- | ---------- | -------------------------------------------------------------------- |
+| `/`                     | `src/pages/index.astro`                | `PageLayout`    | —          | Homepage: hero, mission statement, project showcase cards            |
+| `/team`                 | `src/pages/team.astro`                 | `PageLayout`    | —          | The Team: member bio cards (data in `src/data/team.ts`)              |
+| `/about`                | _redirect_                             | —               | —          | Redirects to `/team` (configured in `astro.config.mjs`)              |
+| `/projects/isnad-graph` | `src/pages/projects/isnad-graph.astro` | `ProjectLayout` | `projects` | Project feature page: renders `src/content/projects/isnad-graph.mdx` |
 
 ---
 
 ## Routing Strategy
 
 - **Static generation.** All routes are pre-rendered at build time (`output: "static"` in Astro config).
-- **Content-driven routes.** `/about` and `/projects/*` are backed by MDX entries in content collections. The `[...slug].astro` dynamic route generates pages from the `projects` collection.
+- **Content-driven routes.** `/projects/isnad-graph` is backed by an MDX entry in the `projects` content collection; its page (`isnad-graph.astro`) renders the matching entry through `ProjectLayout`. `/team` is data-driven (`src/data/team.ts`), and `/about` redirects to `/team`.
 - **No client-side routing.** Standard anchor navigation between pages — no SPA behavior.
 
 ---
@@ -50,20 +51,21 @@ BaseLayout.astro
 | Label    | Href         | Notes                                           |
 | -------- | ------------ | ----------------------------------------------- |
 | Home     | `/`          | Always visible                                  |
-| About    | `/about`     |                                                 |
+| The Team | `/team`      | Member bio cards                                |
 | Projects | `/#projects` | Scrolls to project showcase section on homepage |
 
 ### Footer Links
 
 **Projects column:**
-| Label | Href |
-|-------|------|
-| Isnad Graph | `/projects/isnad-graph` |
+| Label | Href | Notes |
+|-------|------|-------|
+| Isnad Graph | `https://isnad-graph.noorinalabs.com` | The live product (app) |
+| About the Isnad Graph | `/projects/isnad-graph` | The project feature page on this site |
 
 **Organization column:**
 | Label | Href |
 |-------|------|
-| About | `/about` |
+| The Team | `/team` |
 | GitHub | `https://github.com/noorinalabs` |
 
 ---

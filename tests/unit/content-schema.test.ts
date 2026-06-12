@@ -27,31 +27,8 @@ describe("Content collection — projects/isnad-graph.mdx", () => {
   });
 });
 
-describe("Content collection — pages/about.mdx", () => {
-  const raw = readFileSync(resolve(contentDir, "pages/about.mdx"), "utf-8");
-
-  it("has a title in frontmatter", () => {
-    expect(raw).toMatch(/^title:\s*.+/m);
-  });
-
-  it("has a description in frontmatter", () => {
-    expect(raw).toMatch(/^description:\s*.+/m);
-  });
-
-  it("has a publishDate in frontmatter", () => {
-    expect(raw).toMatch(/^publishDate:\s*.+/m);
-  });
-});
-
 describe("Draft filtering (#62) — content consumers honor entry.data.draft", () => {
   const pagesDir = resolve(contentDir, "../pages");
-
-  it("about.astro redirects drafts to /404", () => {
-    const raw = readFileSync(resolve(pagesDir, "about.astro"), "utf-8");
-    expect(raw).toContain(
-      'if (entry.data.draft) return Astro.redirect("/404")',
-    );
-  });
 
   it("projects/isnad-graph.astro redirects drafts to /404", () => {
     const raw = readFileSync(
