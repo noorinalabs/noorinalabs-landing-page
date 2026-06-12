@@ -11,12 +11,16 @@ import { test, expect } from "@playwright/test";
  * Each test below asserts the *specific* symptom (not a tautology) and is
  * written to FAIL against the pre-#112 tree:
  *   1. Favicon present + a real SVG document (was 404 — no asset in public/)
- *   2. .btn-primary computed background is brand gold, not the design-system
- *      primary-orange (the import-order cascade bug)
+ *   2. .btn-primary computed background matches the design-system primary
+ *      token, not a cascade fallback (the import-order cascade bug)
  *   3. Project feature icons render as inline <svg>, not the literal icon name
  *      ("graph", "user", …) as text
- *   4. Subroutes ship their per-component CSS (ProjectLayout / about.astro had
- *      no <style> block, so component styles were absent)
+ *   4. Subroutes ship their per-component CSS (ProjectLayout / the page wrapper
+ *      had no <style> block, so component styles were absent)
+ *
+ * Token/route note: #125 re-themed the LP onto the design-system semantic
+ * palette and #123 replaced /about with /team, so symptom-4's probe targets
+ * --color-primary and symptom-1's second leg guards /team's scoped wrapper.
  */
 
 test.describe("lp#69 regression — visible polish symptom classes", () => {
@@ -46,13 +50,16 @@ test.describe("lp#69 regression — visible polish symptom classes", () => {
     ).toBe(true);
   });
 
-  // Symptom 4: design-system .btn-primary loaded *after* global.css and won the
-  // cascade at equal specificity → brand-gold buttons rendered DS orange. The
-  // fix swaps the import order so the LP brand rule wins. We assert the computed
-  // background equals the brand --color-gold-500 token (resolved through a probe
-  // so both values serialize in the same colour space). If the DS rule wins
-  // again, the computed background is orange and this comparison fails.
-  test(".btn-primary renders brand gold, not design-system orange (#69 symptom 4)", async ({
+  // Symptom 4: the design-system's generic .btn-primary utility loaded *after*
+  // global.css and won the cascade at equal specificity, so the LP's brand
+  // button rendered the wrong colour. The fix swaps the import order so the LP
+  // brand rule wins. Since #125 re-themed the LP button onto the design-system
+  // semantic palette, the brand button is now the DS primary (sienna): we
+  // assert the computed background equals the --color-primary token (resolved
+  // through a probe so both values serialize in the same colour space). If the
+  // cascade regresses and the generic DS utility wins again, the computed
+  // background differs from --color-primary and this comparison fails.
+  test(".btn-primary renders the DS primary token, not a cascade fallback (#69 symptom 4)", async ({
     page,
   }) => {
     await page.goto("/");
@@ -60,22 +67,22 @@ test.describe("lp#69 regression — visible polish symptom classes", () => {
     const btn = page.locator(".btn-primary").first();
     await expect(btn).toBeVisible();
 
-    const { btnBg, goldToken } = await btn.evaluate((el) => {
+    const { btnBg, primaryToken } = await btn.evaluate((el) => {
       const probe = document.createElement("span");
-      probe.style.backgroundColor = "var(--color-gold-500)";
+      probe.style.backgroundColor = "var(--color-primary)";
       document.body.appendChild(probe);
-      const gold = getComputedStyle(probe).backgroundColor;
+      const primary = getComputedStyle(probe).backgroundColor;
       probe.remove();
       return {
         btnBg: getComputedStyle(el).backgroundColor,
-        goldToken: gold,
+        primaryToken: primary,
       };
     });
 
     expect(
       btnBg,
-      `.btn-primary background ${btnBg} must equal brand gold ${goldToken} (DS orange means the cascade regressed)`,
-    ).toBe(goldToken);
+      `.btn-primary background ${btnBg} must equal the DS primary ${primaryToken} (a different colour means the cascade regressed)`,
+    ).toBe(primaryToken);
   });
 
   // Symptom 2: feature icons rendered as literal text ("graph", "user", …)
@@ -108,7 +115,9 @@ test.describe("lp#69 regression — visible polish symptom classes", () => {
   // Symptom 1: ProjectLayout and about.astro shipped no <style> block, so
   // /projects/[slug] and /about rendered with their component CSS missing. We
   // assert a component-only computed property on each route — values that can
-  // only come from the per-component <style> blocks added in #112.
+  // only come from the per-component <style> blocks added in #112. (#123
+  // replaced /about with /team, so the second leg now guards the equivalent
+  // scoped wrapper on the team page.)
   test("subroutes ship their per-component CSS (#69 symptom 1)", async ({
     page,
   }) => {
@@ -131,18 +140,18 @@ test.describe("lp#69 regression — visible polish symptom classes", () => {
       ".feature-card must have a component border (ProjectLayout CSS present)",
     ).not.toBe("none");
 
-    // /about — about.astro's scoped .about-page wrapper styling.
-    await page.goto("/about");
+    // /team — team.astro's scoped .team-container wrapper styling.
+    await page.goto("/team");
 
-    const about = page.locator(".about-page");
-    await expect(about).toHaveCount(1);
+    const teamContainer = page.locator(".team-container");
+    await expect(teamContainer).toHaveCount(1);
 
-    const maxWidth = await about.evaluate(
+    const maxWidth = await teamContainer.evaluate(
       (el) => getComputedStyle(el).maxWidth,
     );
     expect(
       maxWidth,
-      ".about-page must have a component max-width (about.astro CSS present)",
+      ".team-container must have a component max-width (team.astro CSS present)",
     ).not.toBe("none");
   });
 });
