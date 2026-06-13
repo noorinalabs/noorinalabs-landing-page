@@ -1,0 +1,35 @@
+---
+/**
+ * ScrollReveal — wraps content so it fades + rises into view on scroll.
+ *
+ * A thin convenience wrapper over the motion primitives in
+ * src/styles/motion.css (which are built on the design system's motion tokens).
+ * The wrapped element renders fully visible with JS disabled or when the user
+ * prefers reduced motion — the hidden pre-reveal state is gated on
+ * `html.motion-ready`, set by src/scripts/motion.ts only when motion is allowed.
+ *
+ * The underlying primitive is the `.reveal` class + `data-reveal` attribute, so
+ * elements that cannot take an extra wrapper (e.g. CSS-grid children) can opt in
+ * directly with `class="… reveal" data-reveal` instead of using this component.
+ *
+ * Props:
+ *   as     — wrapper tag (default `div`)
+ *   delay  — stagger step 1–3 (maps to DS --duration-fast/normal/slow); 0 = none
+ *   class  — extra classes forwarded to the wrapper
+ */
+interface Props {
+  as?: keyof HTMLElementTagNameMap;
+  delay?: 0 | 1 | 2 | 3;
+  class?: string;
+}
+
+const { as = "div", delay = 0, class: className } = Astro.props;
+const Tag = as;
+---
+
+<Tag
+  class:list={["reveal", delay > 0 && `reveal-delay-${delay}`, className]}
+  data-reveal
+>
+  <slot />
+</Tag>

@@ -9,6 +9,9 @@
  */
 import "@noorinalabs/design-system/styles.css";
 import "../styles/global.css";
+/* Motion primitives (#121) — scroll-reveal + parallax, built on the DS motion
+   tokens. Loaded after global.css; the runtime lives in src/scripts/motion.ts. */
+import "../styles/motion.css";
 
 /* Font loading (#99) — IBM Plex + Noto Naskh Arabic */
 import "@fontsource/ibm-plex-sans/400.css";
@@ -102,6 +105,30 @@ const resolvedOgImage = ogImage.startsWith("http")
       })();
     </script>
 
+    <!--
+      Motion gate (#121) — set `motion-ready` on <html> BEFORE first paint when
+      motion is allowed, so scroll-reveal elements start hidden without a
+      visible→hidden flash on the above-the-fold hero. Mirrors the theme-init
+      pattern above. The deferred runtime (src/scripts/motion.ts) re-applies the
+      same guard and is the behavioural authority (observers + parallax); this
+      inline pass only avoids the paint flash. With JS off or reduced-motion,
+      `motion-ready` is never added and all content stays visible (motion.css).
+    -->
+    <script is:inline>
+      (() => {
+        try {
+          if (
+            !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
+            "IntersectionObserver" in window
+          ) {
+            document.documentElement.classList.add("motion-ready");
+          }
+        } catch {
+          /* matchMedia unavailable — leave content visible (no motion-ready) */
+        }
+      })();
+    </script>
+
     <title>{title} | Noorina Labs</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -137,6 +164,16 @@ const resolvedOgImage = ogImage.startsWith("http")
 
     <!-- Slot for page-level scripts -->
     <slot name="scripts" />
+
+    <!--
+      Motion runtime (#121) — scroll-reveal + parallax. Bails immediately on
+      `prefers-reduced-motion: reduce` or missing APIs, leaving content visible.
+      See src/scripts/motion.ts and src/styles/motion.css.
+    -->
+    <script>
+      import { initMotion } from "../scripts/motion";
+      initMotion();
+    </script>
   </body>
 </html>
 
