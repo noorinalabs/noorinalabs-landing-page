@@ -1,6 +1,7 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import SEO from "../components/SEO.astro";
+import ScrollReveal from "../components/ScrollReveal.astro";
 ---
 
 <PageLayout
@@ -11,8 +12,14 @@ import SEO from "../components/SEO.astro";
 
   <!-- Hero -->
   <section class="hero" aria-labelledby="hero-heading">
-    <div class="hero-pattern" aria-hidden="true"></div>
-    <div class="hero-content">
+    <div
+      class="hero-pattern"
+      aria-hidden="true"
+      data-parallax
+      data-parallax-speed="0.18"
+    >
+    </div>
+    <div class="hero-content reveal" data-reveal>
       <h1 id="hero-heading" class="hero-title">
         Illuminating Fourteen Centuries<br />of Islamic Scholarship
       </h1>
@@ -41,7 +48,7 @@ import SEO from "../components/SEO.astro";
   <section class="section" aria-labelledby="principle-heading">
     <div class="section-container principle-container">
       <h2 id="principle-heading" class="sr-only">Guiding Principle</h2>
-      <blockquote class="principle-quote">
+      <blockquote class="principle-quote reveal" data-reveal>
         <p>
           Noorina Labs will never privilege one school of thought, one
           collection, or one interpretive tradition over another. Our platform
@@ -54,8 +61,10 @@ import SEO from "../components/SEO.astro";
   <!-- The Problem -->
   <section class="section section-alt" aria-labelledby="problem-heading">
     <div class="section-container">
-      <h2 id="problem-heading" class="section-title">The Problem</h2>
-      <p class="section-intro">
+      <h2 id="problem-heading" class="section-title reveal" data-reveal>
+        The Problem
+      </h2>
+      <p class="section-intro reveal reveal-delay-1" data-reveal>
         Despite fourteen centuries of meticulous scholarship and 1.9 billion
         Muslims worldwide, there are zero cross-tradition graph tools for
         studying hadith transmission. Existing digital resources remain siloed
@@ -85,15 +94,15 @@ import SEO from "../components/SEO.astro";
         </li>
       </ol>
       <div class="problem-stats">
-        <div class="stat">
+        <div class="stat reveal" data-reveal>
           <span class="stat-number">1.9B</span>
           <span class="stat-label">Muslims worldwide</span>
         </div>
-        <div class="stat">
+        <div class="stat reveal reveal-delay-1" data-reveal>
           <span class="stat-number">14+</span>
           <span class="stat-label">centuries of scholarship</span>
         </div>
-        <div class="stat">
+        <div class="stat reveal reveal-delay-2" data-reveal>
           <span class="stat-number">0</span>
           <span class="stat-label">cross-tradition graph tools</span>
         </div>
@@ -104,36 +113,38 @@ import SEO from "../components/SEO.astro";
   <!-- Isnad Graph Capabilities -->
   <section id="projects" class="section" aria-labelledby="capabilities-heading">
     <div class="section-container">
-      <h2 id="capabilities-heading" class="section-title">The Isnad Graph</h2>
-      <p class="section-intro">
+      <h2 id="capabilities-heading" class="section-title reveal" data-reveal>
+        The Isnad Graph
+      </h2>
+      <p class="section-intro reveal reveal-delay-1" data-reveal>
         A computational hadith analysis platform that maps chains of narration (<span
           lang="ar">أسانيد</span
         >) as an interactive, searchable graph. Our first product answers the
         questions that existing tools cannot.
       </p>
       <div class="capabilities-grid">
-        <div class="card card-surface">
+        <div class="card card-surface reveal" data-reveal>
           <h3>Cross-Collection Search</h3>
           <p>
             Search narrators and hadith across major Sunni and Shia collections
             simultaneously — no more switching between siloed databases.
           </p>
         </div>
-        <div class="card card-surface">
+        <div class="card card-surface reveal reveal-delay-1" data-reveal>
           <h3>Graph Explorer</h3>
           <p>
             Visualize narrator networks as an interactive graph. Zoom, filter,
             and trace transmission paths between any two narrators.
           </p>
         </div>
-        <div class="card card-surface">
+        <div class="card card-surface reveal reveal-delay-2" data-reveal>
           <h3>Cross-Tradition Comparison</h3>
           <p>
             Compare narrator assessments across Sunni and Shia traditions
             side-by-side. Discover shared narrators and divergent evaluations.
           </p>
         </div>
-        <div class="card card-surface">
+        <div class="card card-surface reveal" data-reveal>
           <h3>Historical Context</h3>
           <p>
             Biographical profiles with teacher-student relationships,
@@ -141,7 +152,7 @@ import SEO from "../components/SEO.astro";
             rijal literature.
           </p>
         </div>
-        <div class="card card-surface">
+        <div class="card card-surface reveal reveal-delay-1" data-reveal>
           <h3>Collection-Level Analysis</h3>
           <p>
             Understand the structure of individual hadith collections — most
@@ -149,20 +160,22 @@ import SEO from "../components/SEO.astro";
           </p>
         </div>
       </div>
-      <div class="section-cta">
+      <ScrollReveal class="section-cta" delay={1}>
         <a href="/projects/isnad-graph" class="btn-primary">
           Explore the Isnad Graph
         </a>
-      </div>
+      </ScrollReveal>
     </div>
   </section>
 
   <!-- Why Now -->
   <section class="section section-alt" aria-labelledby="why-now-heading">
     <div class="section-container">
-      <h2 id="why-now-heading" class="section-title">Why Now</h2>
+      <h2 id="why-now-heading" class="section-title reveal" data-reveal>
+        Why Now
+      </h2>
       <div class="why-now-grid">
-        <div class="card card-center">
+        <div class="card card-center reveal" data-reveal>
           <h3>Computational tools have matured</h3>
           <p>
             Graph databases, network analysis, and natural language processing
@@ -170,7 +183,7 @@ import SEO from "../components/SEO.astro";
             replace — hadith scholarship.
           </p>
         </div>
-        <div class="card card-center">
+        <div class="card card-center reveal reveal-delay-1" data-reveal>
           <h3>Open data is available</h3>
           <p>
             Digitized hadith collections and biographical dictionaries are now
@@ -178,7 +191,7 @@ import SEO from "../components/SEO.astro";
             possible for the first time.
           </p>
         </div>
-        <div class="card card-center">
+        <div class="card card-center reveal reveal-delay-2" data-reveal>
           <h3>Institutional appetite is growing</h3>
           <p>
             Universities, research centers, and Islamic institutions are
@@ -193,16 +206,16 @@ import SEO from "../components/SEO.astro";
   <!-- Partnership & Support -->
   <section class="section" aria-labelledby="partnership-heading">
     <div class="section-container">
-      <h2 id="partnership-heading" class="section-title">
+      <h2 id="partnership-heading" class="section-title reveal" data-reveal>
         Partnership & Support
       </h2>
-      <p class="section-intro">
+      <p class="section-intro reveal reveal-delay-1" data-reveal>
         Noorina Labs is building infrastructure for the next generation of
         Islamic scholarly research. We work with institutions, researchers, and
         funders who share our commitment to open, rigorous, and inclusive tools.
       </p>
       <div class="partnership-grid">
-        <div class="card card-surface">
+        <div class="card card-surface reveal" data-reveal>
           <h3>Research Partnership</h3>
           <p>
             Collaborate on data curation, scholarly review, and new analytical
@@ -210,7 +223,7 @@ import SEO from "../components/SEO.astro";
             meets the standards of the tradition.
           </p>
         </div>
-        <div class="card card-surface">
+        <div class="card card-surface reveal reveal-delay-1" data-reveal>
           <h3>Institutional License</h3>
           <p>
             Integrate the Isnad Graph into your university or research center.
@@ -218,7 +231,7 @@ import SEO from "../components/SEO.astro";
             available for academic institutions.
           </p>
         </div>
-        <div class="card card-surface">
+        <div class="card card-surface reveal reveal-delay-2" data-reveal>
           <h3>Grant & Philanthropic</h3>
           <p>
             Support open-source infrastructure for Islamic scholarship. Grants
@@ -233,14 +246,18 @@ import SEO from "../components/SEO.astro";
   <!-- Contact -->
   <section class="section section-alt" aria-labelledby="contact-heading">
     <div class="section-container contact-container">
-      <h2 id="contact-heading" class="section-title">Get in Touch</h2>
-      <p class="section-intro">
+      <h2 id="contact-heading" class="section-title reveal" data-reveal>
+        Get in Touch
+      </h2>
+      <p class="section-intro reveal reveal-delay-1" data-reveal>
         Whether you are a researcher, institution, funder, or curious learner,
         we would love to hear from you.
       </p>
-      <a href="mailto:info@noorinalabs.com" class="btn-primary">
-        info@noorinalabs.com
-      </a>
+      <ScrollReveal as="div" delay={2}>
+        <a href="mailto:info@noorinalabs.com" class="btn-primary">
+          info@noorinalabs.com
+        </a>
+      </ScrollReveal>
     </div>
   </section>
 </PageLayout>
@@ -272,7 +289,13 @@ import SEO from "../components/SEO.astro";
    */
   .hero-pattern {
     position: absolute;
-    inset: 0;
+    /*
+     * Extra bleed below the hero so the parallax drift (the layer translates
+     * up to ~18% of scroll via [data-parallax]) never exposes a gap at the
+     * bottom edge — the hero clips the overflow. With motion disabled the
+     * extra height is simply clipped and invisible.
+     */
+    inset: 0 0 -30% 0;
     opacity: 0.05;
     background-image:
       linear-gradient(

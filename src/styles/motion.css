@@ -1,0 +1,89 @@
+/*
+ * Motion primitives (#121)
+ * ========================
+ * Scroll-reveal + parallax utilities for the landing page, built entirely on
+ * the design system's MOTION TOKENS (--duration-*, --ease-*). The DS compiles
+ * those tokens to :root in its dist (DS #104), which BaseLayout pulls in via
+ * `@noorinalabs/design-system/styles.css`. No bespoke easing curves or
+ * durations live here — every timing value resolves to a DS token, per the
+ * #121 hard constraint ("consume DS tokens; where the DS lacks something, add
+ * it to the DS first, then consume — no bespoke one-off styles").
+ *
+ * DS gap flagged for follow-up: the design system ships motion *tokens* but not
+ * the scroll-reveal / parallax *primitives* (the utility classes + the
+ * IntersectionObserver / scroll mechanism). Until those land in the DS as
+ * framework-neutral CSS — so the React isnad-graph app can reuse the very same
+ * primitives — the landing page defines the consumption layer here against the
+ * DS tokens. Promoting these classes into the DS is the #121 acceptance item
+ * "reusable motion primitives landed in the design system" and is tracked as a
+ * DS follow-up.
+ *
+ * Accessibility / no-JS safety:
+ *   - Content is fully visible by DEFAULT. The hidden pre-reveal state applies
+ *     ONLY under `html.motion-ready` — a class src/scripts/motion.ts adds after
+ *     it confirms motion is allowed and supported. So with JS disabled, or when
+ *     the script bails on `prefers-reduced-motion: reduce`, every `.reveal`
+ *     element renders in its final, visible state with no transition.
+ *   - The `prefers-reduced-motion: reduce` block is a belt-and-braces guard for
+ *     the case where `.motion-ready` is ever present: it forces the visible
+ *     state and removes transitions / parallax transforms.
+ */
+
+/* ============================================================
+ * SCROLL-REVEAL — fade + rise as the element enters the viewport
+ * ============================================================ */
+
+/* Default (no-JS / reduced-motion / pre-script): fully visible, no transform. */
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+html.motion-ready .reveal {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition:
+    opacity var(--duration-slower) var(--ease-out),
+    transform var(--duration-slower) var(--ease-out);
+}
+
+html.motion-ready .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Stagger helpers — small, DS-token-derived delays for grouped reveals. */
+html.motion-ready .reveal-delay-1 {
+  transition-delay: var(--duration-fast);
+}
+html.motion-ready .reveal-delay-2 {
+  transition-delay: var(--duration-normal);
+}
+html.motion-ready .reveal-delay-3 {
+  transition-delay: var(--duration-slow);
+}
+
+/* ============================================================
+ * PARALLAX — decorative layers drift at a fraction of scroll
+ * src/scripts/motion.ts sets `--parallax-offset` (px) per element on scroll
+ * (rAF-throttled). The transform stays GPU-friendly (translate3d only) and the
+ * rule is inert until the script upgrades <html> to `.motion-ready`.
+ * ============================================================ */
+html.motion-ready [data-parallax] {
+  transform: translate3d(0, var(--parallax-offset, 0), 0);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  html.motion-ready .reveal,
+  html.motion-ready .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  html.motion-ready [data-parallax] {
+    transform: none;
+  }
+}
