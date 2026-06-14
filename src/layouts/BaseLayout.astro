@@ -174,6 +174,24 @@ const resolvedOgImage = ogImage.startsWith("http")
       import { initMotion } from "../scripts/motion";
       initMotion();
     </script>
+
+    <!--
+      Isnad app URL rewrite (#136) — runtime hostname derivation.
+      Static HTML renders the prod URL (https://isnad.noorinalabs.com) as the
+      href for all [data-isnad-app] links. This is correct for production, no-JS
+      visitors, and crawlers. On staging (stg.noorinalabs.com) the same Docker
+      image is promoted without a rebuild, so the prod URL is wrong; this script
+      rewrites those links to the staging isnad URL at runtime.
+    -->
+    <script>
+      import { isnadAppUrlFromHostname } from "../lib/isnad";
+      const resolved = isnadAppUrlFromHostname(window.location.hostname);
+      document
+        .querySelectorAll<HTMLAnchorElement>("[data-isnad-app]")
+        .forEach((el) => {
+          el.href = resolved;
+        });
+    </script>
   </body>
 </html>
 

@@ -12,6 +12,7 @@
  */
 import PageLayout from "./PageLayout.astro";
 import Icon from "../components/Icon.astro";
+import { PROD_ISNAD_URL } from "../lib/isnad";
 
 interface Feature {
   title: string;
@@ -58,7 +59,12 @@ const {
 
     {
       cta && (
-        <a href={cta.href} class="cta-button">
+        /* data-isnad-app marks isnad-app links for runtime hostname rewrite (#136) */
+        <a
+          href={cta.href}
+          class="cta-button"
+          {...(cta.href === PROD_ISNAD_URL ? { "data-isnad-app": true } : {})}
+        >
           {cta.label}
         </a>
       )
