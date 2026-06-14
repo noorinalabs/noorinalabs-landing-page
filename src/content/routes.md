@@ -59,7 +59,7 @@ BaseLayout.astro
 **Projects column:**
 | Label | Href | Notes |
 |-------|------|-------|
-| Isnad Graph | `https://isnad-graph.noorinalabs.com` | The live product (app) |
+| Isnad Graph | `https://isnad.noorinalabs.com` | The live product (app) |
 | About the Isnad Graph | `/projects/isnad-graph` | The project feature page on this site |
 
 **Organization column:**
