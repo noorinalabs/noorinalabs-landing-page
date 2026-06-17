@@ -64,7 +64,7 @@ const resolvedOgImage = ogImage.startsWith("http")
 ---
 
 <!doctype html>
-<html lang="en" dir="ltr" data-theme="light">
+<html lang="en" dir="ltr" data-theme="light" data-theme-choice="system">
   <head>
     <!--
       charset MUST stay within the first 1024 bytes of the document so the
@@ -78,29 +78,44 @@ const resolvedOgImage = ogImage.startsWith("http")
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!--
-      Theme init (#128) — resolve data-theme on <html> before first paint.
-      The design system ships its base colour tokens only inside a Tailwind v4
-      `@theme {}` block, which the browser ignores when the dist is imported as
-      plain CSS (BaseLayout's `@noorinalabs/design-system/styles.css` import);
-      the DS's real token values live under `[data-theme="light"|"dark"]`.
+      Theme init (#128, toggle #116) — resolve data-theme on <html> before first
+      paint. The design system ships its base colour tokens only inside a
+      Tailwind v4 `@theme {}` block, which the browser ignores when the dist is
+      imported as plain CSS (BaseLayout's `@noorinalabs/design-system/styles.css`
+      import); the DS's real token values live under `[data-theme="light"|"dark"]`.
       Without this attribute every `--color-*` var is unresolved and the page
-      renders unstyled. This honours a stored choice (the future toggle, #116)
-      then the OS preference; the server-rendered `data-theme="light"` above is
-      the no-JS fallback. The durable fix is DS-side (emit tokens to `:root`).
+      renders unstyled. The durable fix is DS-side (emit tokens to `:root`).
+
+      Two attributes are set, mirroring isnad-graph's model:
+        - data-theme        — the *resolved* light|dark actually painted, the
+                              only thing the DS [data-theme] selectors read.
+        - data-theme-choice — the user's *choice* light|dark|system, the source
+                              of truth the #116 header toggle reads/cycles and
+                              the CSS uses to show the matching toggle icon.
+      Resolution order: a stored choice, else the OS `prefers-color-scheme`. The
+      server-rendered `data-theme="light"`/`data-theme-choice="system"` above are
+      the no-JS fallback. `js` flags that the deferred runtime can take over — the
+      toggle is hidden until then, since it does nothing without JS.
     -->
     <script is:inline>
       (() => {
+        document.documentElement.classList.add("js");
         try {
           const stored = localStorage.getItem("theme");
-          const theme =
-            stored === "light" || stored === "dark"
+          const choice =
+            stored === "light" || stored === "dark" || stored === "system"
               ? stored
-              : window.matchMedia("(prefers-color-scheme: dark)").matches
+              : "system";
+          const resolved =
+            choice === "system"
+              ? window.matchMedia("(prefers-color-scheme: dark)").matches
                 ? "dark"
-                : "light";
-          document.documentElement.dataset.theme = theme;
+                : "light"
+              : choice;
+          document.documentElement.dataset.theme = resolved;
+          document.documentElement.dataset.themeChoice = choice;
         } catch {
-          /* localStorage / matchMedia unavailable — keep the SSR light default */
+          /* localStorage / matchMedia unavailable — keep the SSR defaults */
         }
       })();
     </script>
@@ -171,6 +186,18 @@ const resolvedOgImage = ogImage.startsWith("http")
 
     <!-- Slot for page-level scripts -->
     <slot name="scripts" />
+
+    <!--
+      Theme runtime (#116) — wire up the header dark-mode toggle. The pre-paint
+      inline init above already set data-theme/data-theme-choice (no FOUC); this
+      runtime makes the toggle interactive: cycle light→dark→system, persist the
+      choice, and live-update the resolved theme on OS change while in `system`.
+      See src/scripts/theme.ts and src/components/ThemeToggle.astro.
+    -->
+    <script>
+      import { initThemeToggle } from "../scripts/theme";
+      initThemeToggle();
+    </script>
 
     <!--
       Motion runtime (#121) — scroll-reveal + parallax. Bails immediately on

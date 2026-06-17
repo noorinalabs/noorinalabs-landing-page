@@ -10,6 +10,7 @@
  * Used by: Homepage (/), The Team (/team), and any general page.
  */
 import BaseLayout from "./BaseLayout.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
 import { PROD_ISNAD_URL } from "../lib/isnad";
 
 interface Props {
@@ -60,57 +61,61 @@ const footerNav = {
         Noorina Labs
       </a>
 
-      <button
-        type="button"
-        class="nav-toggle"
-        aria-controls="primary-nav"
-        aria-expanded="false"
-        aria-label="Open navigation menu"
-        data-nav-toggle
-      >
-        <svg
-          class="nav-toggle-icon"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-          focusable="false"
+      <div class="nav-controls">
+        <button
+          type="button"
+          class="nav-toggle"
+          aria-controls="primary-nav"
+          aria-expanded="false"
+          aria-label="Open navigation menu"
+          data-nav-toggle
         >
-          <line
-            class="nav-toggle-line nav-toggle-line-top"
-            x1="3"
-            y1="6"
-            x2="21"
-            y2="6"></line>
-          <line
-            class="nav-toggle-line nav-toggle-line-mid"
-            x1="3"
-            y1="12"
-            x2="21"
-            y2="12"></line>
-          <line
-            class="nav-toggle-line nav-toggle-line-bot"
-            x1="3"
-            y1="18"
-            x2="21"
-            y2="18"></line>
-        </svg>
-      </button>
+          <svg
+            class="nav-toggle-icon"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <line
+              class="nav-toggle-line nav-toggle-line-top"
+              x1="3"
+              y1="6"
+              x2="21"
+              y2="6"></line>
+            <line
+              class="nav-toggle-line nav-toggle-line-mid"
+              x1="3"
+              y1="12"
+              x2="21"
+              y2="12"></line>
+            <line
+              class="nav-toggle-line nav-toggle-line-bot"
+              x1="3"
+              y1="18"
+              x2="21"
+              y2="18"></line>
+          </svg>
+        </button>
 
-      <ul id="primary-nav" role="list" data-nav-list>
-        {
-          headerNav.map((item) => (
-            <li>
-              <a href={item.href}>{item.label}</a>
-            </li>
-          ))
-        }
-      </ul>
+        <ul id="primary-nav" role="list" data-nav-list>
+          {
+            headerNav.map((item) => (
+              <li>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+
+        <ThemeToggle />
+      </div>
     </nav>
   </header>
 
@@ -224,6 +229,14 @@ const footerNav = {
     right: 0;
     z-index: 10;
     padding: 1rem 1.5rem;
+  }
+
+  /* Right-hand controls group: nav links + theme toggle (+ mobile hamburger).
+     Keeps the logo flush-left and the controls together flush-right. */
+  .nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
 
   header nav {
