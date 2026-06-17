@@ -71,7 +71,7 @@ const resolvedOgImage = ogImage.startsWith("http")
       browser's encoding prescan finds it (nginx sets no charset header, so this
       meta is the only encoding signal). Keep it — and viewport — as the first
       children of <head>, ahead of the theme block below; otherwise multibyte
-      content (e.g. "Çelik" on /team) mojibakes. The theme init does not depend
+      content (e.g. em dashes, accented names, or Arabic text) mojibakes. The theme init does not depend
       on coming first — the charset prescan is independent of script position.
     -->
     <meta charset="utf-8" />
