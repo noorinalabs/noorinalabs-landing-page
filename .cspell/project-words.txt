@@ -170,3 +170,23 @@ Priya
 Sunita
 Yara
 gatekeep
+
+# --- visual-assets candidate doc (lp#139): art/architecture vocabulary,
+#     CC0/PD image-source names, and proper nouns of catalogued objects ---
+metmuseum
+Freepik
+Vecteezy
+rawpixel
+Pexels
+tilework
+tileable
+muqarnas
+Iznik
+Lajvardina
+Mantiq
+Tayr
+Jahan
+Jameh
+Yazd
+Hanifa
+Varamin
