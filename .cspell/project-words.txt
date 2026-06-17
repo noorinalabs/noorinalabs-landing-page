@@ -190,3 +190,8 @@ Jameh
 Yazd
 Hanifa
 Varamin
+
+# --- media provenance + Direction-C hero (docs/CREDITS.md, src/pages/index.astro, #144) ---
+Albers
+Dreirik
+parallaxed
