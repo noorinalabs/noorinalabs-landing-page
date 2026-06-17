@@ -2,12 +2,15 @@
 /**
  * The Team page (/team) — replaces the former /about page.
  *
- * Renders one card per member from src/data/team.ts: a portrait on the left,
- * name + title + bio on the right. Cards stack to a single column on mobile.
+ * Renders one card per entry from src/data/team.ts. Two card shapes:
+ *   - a filled member: portrait + name + title + bio, and
+ *   - an open role (#138): role title + "to be announced" status + a neutral
+ *     silhouette avatar, with no invented name, photo, or bio.
+ * Cards stack to a single column on mobile.
  *
- * Photos are generated monogram placeholders until real portraits are supplied
- * (set a member's `photo` field in src/data/team.ts to override). Card styling
- * is built on design-system tokens, matching the home page's card idiom.
+ * Filled-member photos are generated monogram placeholders until real portraits
+ * are supplied (set a member's `photo` field in src/data/team.ts to override).
+ * Card styling is built on design-system tokens, matching the home page idiom.
  */
 import PageLayout from "../layouts/PageLayout.astro";
 import { team } from "../data/team.ts";
@@ -45,6 +48,28 @@ function avatarFor(name: string): string {
 
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
+
+/**
+ * Build a neutral, person-free silhouette avatar for an open (unfilled) role.
+ * Deliberately muted (light parchment field, no initials) so it reads as an
+ * empty placeholder rather than a real person — it carries no identity. It is
+ * decorative: cards render it with empty alt + aria-hidden, since the role
+ * title and status text already convey the meaning.
+ *
+ * Colours are literal sRGB approximations of the design-system warm palette
+ * (a data-URI SVG can't reference CSS tokens), kept lighter than `avatarFor`
+ * so filled and open cards are visually distinct.
+ */
+function openAvatar(): string {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <rect width="160" height="160" fill="#efe9dd"/>
+  <circle cx="80" cy="80" r="62" fill="none" stroke="#cdbfa3" stroke-width="3"/>
+  <circle cx="80" cy="66" r="22" fill="#b39169"/>
+  <path d="M48 120 a32 28 0 0 1 64 0 Z" fill="#b39169"/>
+</svg>`;
+
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
 ---
 
 <PageLayout title={title} description={description}>
@@ -61,24 +86,43 @@ function avatarFor(name: string): string {
 
       <ul class="team-grid" role="list">
         {
-          team.map((member) => (
-            <li class="team-card">
-              <img
-                class="team-photo"
-                src={member.photo ?? avatarFor(member.name)}
-                alt={`Portrait of ${member.name}`}
-                width="160"
-                height="160"
-                loading="lazy"
-                decoding="async"
-              />
-              <div class="team-body">
-                <p class="team-bio">{member.bio}</p>
-                <p class="team-name">{member.name}</p>
-                <p class="team-role">{member.title}</p>
-              </div>
-            </li>
-          ))
+          team.map((member) =>
+            member.open ? (
+              <li class="team-card team-card--open">
+                <img
+                  class="team-photo"
+                  src={openAvatar()}
+                  alt=""
+                  aria-hidden="true"
+                  width="160"
+                  height="160"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="team-body">
+                  <p class="team-name">{member.title}</p>
+                  <p class="team-status">To be announced</p>
+                </div>
+              </li>
+            ) : (
+              <li class="team-card">
+                <img
+                  class="team-photo"
+                  src={member.photo ?? avatarFor(member.name)}
+                  alt={`Portrait of ${member.name}`}
+                  width="160"
+                  height="160"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="team-body">
+                  <p class="team-bio">{member.bio}</p>
+                  <p class="team-name">{member.name}</p>
+                  <p class="team-role">{member.title}</p>
+                </div>
+              </li>
+            ),
+          )
         }
       </ul>
     </div>
@@ -174,6 +218,23 @@ function avatarFor(name: string): string {
     letter-spacing: 0.05em;
     color: var(--color-primary);
     margin-top: 0.15rem;
+  }
+
+  /* Open-role status ("To be announced") — muted, so it reads as a placeholder
+     rather than an active person's title. */
+  .team-status {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-muted-foreground);
+    margin-top: 0.15rem;
+  }
+
+  /* Open-role cards centre their (text-only) body beside the silhouette. */
+  .team-card--open .team-body {
+    justify-content: center;
   }
 
   /* Photo-left / text-right from the small-tablet breakpoint up; stacked below. */
