@@ -30,7 +30,11 @@ test.describe("lp#69 regression — visible polish symptom classes", () => {
   }) => {
     await page.goto("/");
 
-    const icon = page.locator('link[rel="icon"]');
+    // Target the SVG favicon specifically — the symptom-3 guard is about the
+    // SVG mark being present and resolving (not 404). PNG fallbacks
+    // (favicon-16/32, apple-touch-icon) added in #37 also carry rel="icon", so
+    // scope the locator to the SVG document this test actually verifies.
+    const icon = page.locator('link[rel="icon"][type="image/svg+xml"]');
     await expect(icon).toHaveCount(1);
     await expect(icon).toHaveAttribute("type", "image/svg+xml");
 
