@@ -1,0 +1,132 @@
+---
+/**
+ * ThemeToggle — header control that cycles the colour theme light → dark →
+ * system. The interactive behaviour lives in src/scripts/theme.ts (wired once
+ * from BaseLayout); this component is just the markup + presentation.
+ *
+ * Which icon shows is driven entirely by `html[data-theme-choice]`, set
+ * pre-paint by the BaseLayout inline init, so the correct icon is painted with
+ * no flash. All three icons are rendered; CSS reveals the active one.
+ *
+ * Progressive enhancement: the button does nothing without JS, so it is hidden
+ * until the inline init adds `html.js` (also pre-paint, no layout shift). The
+ * server-rendered aria-label is a sensible default; theme.ts refines it to the
+ * live "Activate to switch to …" wording once it takes over.
+ */
+---
+
+<button
+  type="button"
+  class="theme-toggle"
+  aria-label="Switch color theme"
+  title="Switch color theme"
+  data-theme-toggle
+>
+  <!-- light → sun -->
+  <svg
+    class="theme-icon theme-icon-light"
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <circle cx="12" cy="12" r="5"></circle>
+    <line x1="12" y1="1" x2="12" y2="3"></line>
+    <line x1="12" y1="21" x2="12" y2="23"></line>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+    <line x1="1" y1="12" x2="3" y2="12"></line>
+    <line x1="21" y1="12" x2="23" y2="12"></line>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+  </svg>
+
+  <!-- dark → moon -->
+  <svg
+    class="theme-icon theme-icon-dark"
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+
+  <!-- system → monitor -->
+  <svg
+    class="theme-icon theme-icon-system"
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+    <line x1="8" y1="21" x2="16" y2="21"></line>
+    <line x1="12" y1="17" x2="12" y2="21"></line>
+  </svg>
+</button>
+
+<style>
+  /* Hidden until the inline init confirms JS — the button is inert without it. */
+  .theme-toggle {
+    display: none;
+  }
+
+  :global(html.js) .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
+    padding: 0.5rem;
+    margin: 0;
+    color: var(--color-foreground);
+    cursor: pointer;
+    line-height: 0;
+    border-radius: 0.25rem;
+  }
+
+  .theme-toggle:hover {
+    color: var(--color-primary);
+  }
+
+  .theme-toggle:focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+
+  /* Show only the icon matching the current choice; default hide all three. */
+  .theme-icon {
+    display: none;
+  }
+
+  :global(html[data-theme-choice="light"]) .theme-icon-light,
+  :global(html[data-theme-choice="dark"]) .theme-icon-dark,
+  :global(html[data-theme-choice="system"]) .theme-icon-system {
+    display: block;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme-toggle {
+      transition: none;
+    }
+  }
+</style>

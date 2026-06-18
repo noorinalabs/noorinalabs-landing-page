@@ -11,6 +11,7 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "assets:brand": "node scripts/generate-brand-assets.mjs",
     "lighthouse": "lighthouse http://localhost:4321 --output html --output-path ./lighthouse-report.html --chrome-flags=\"--headless --no-sandbox\""
   },
   "repository": {
@@ -46,6 +47,7 @@
     "lighthouse": "^13.0.3",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
+    "sharp": "^0.34.5",
     "typescript": "^6.0.2",
     "vitest": "^4.1.2"
   }

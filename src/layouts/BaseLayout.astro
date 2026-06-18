@@ -64,43 +64,58 @@ const resolvedOgImage = ogImage.startsWith("http")
 ---
 
 <!doctype html>
-<html lang="en" dir="ltr" data-theme="light">
+<html lang="en" dir="ltr" data-theme="light" data-theme-choice="system">
   <head>
     <!--
       charset MUST stay within the first 1024 bytes of the document so the
       browser's encoding prescan finds it (nginx sets no charset header, so this
       meta is the only encoding signal). Keep it — and viewport — as the first
       children of <head>, ahead of the theme block below; otherwise multibyte
-      content (e.g. "Çelik" on /team) mojibakes. The theme init does not depend
+      content (e.g. em dashes, accented names, or Arabic text) mojibakes. The theme init does not depend
       on coming first — the charset prescan is independent of script position.
     -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!--
-      Theme init (#128) — resolve data-theme on <html> before first paint.
-      The design system ships its base colour tokens only inside a Tailwind v4
-      `@theme {}` block, which the browser ignores when the dist is imported as
-      plain CSS (BaseLayout's `@noorinalabs/design-system/styles.css` import);
-      the DS's real token values live under `[data-theme="light"|"dark"]`.
+      Theme init (#128, toggle #116) — resolve data-theme on <html> before first
+      paint. The design system ships its base colour tokens only inside a
+      Tailwind v4 `@theme {}` block, which the browser ignores when the dist is
+      imported as plain CSS (BaseLayout's `@noorinalabs/design-system/styles.css`
+      import); the DS's real token values live under `[data-theme="light"|"dark"]`.
       Without this attribute every `--color-*` var is unresolved and the page
-      renders unstyled. This honours a stored choice (the future toggle, #116)
-      then the OS preference; the server-rendered `data-theme="light"` above is
-      the no-JS fallback. The durable fix is DS-side (emit tokens to `:root`).
+      renders unstyled. The durable fix is DS-side (emit tokens to `:root`).
+
+      Two attributes are set, mirroring isnad-graph's model:
+        - data-theme        — the *resolved* light|dark actually painted, the
+                              only thing the DS [data-theme] selectors read.
+        - data-theme-choice — the user's *choice* light|dark|system, the source
+                              of truth the #116 header toggle reads/cycles and
+                              the CSS uses to show the matching toggle icon.
+      Resolution order: a stored choice, else the OS `prefers-color-scheme`. The
+      server-rendered `data-theme="light"`/`data-theme-choice="system"` above are
+      the no-JS fallback. `js` flags that the deferred runtime can take over — the
+      toggle is hidden until then, since it does nothing without JS.
     -->
     <script is:inline>
       (() => {
+        document.documentElement.classList.add("js");
         try {
           const stored = localStorage.getItem("theme");
-          const theme =
-            stored === "light" || stored === "dark"
+          const choice =
+            stored === "light" || stored === "dark" || stored === "system"
               ? stored
-              : window.matchMedia("(prefers-color-scheme: dark)").matches
+              : "system";
+          const resolved =
+            choice === "system"
+              ? window.matchMedia("(prefers-color-scheme: dark)").matches
                 ? "dark"
-                : "light";
-          document.documentElement.dataset.theme = theme;
+                : "light"
+              : choice;
+          document.documentElement.dataset.theme = resolved;
+          document.documentElement.dataset.themeChoice = choice;
         } catch {
-          /* localStorage / matchMedia unavailable — keep the SSR light default */
+          /* localStorage / matchMedia unavailable — keep the SSR defaults */
         }
       })();
     </script>
@@ -139,6 +154,8 @@ const resolvedOgImage = ogImage.startsWith("http")
     <meta property="og:description" content={description} />
     <meta property="og:image" content={resolvedOgImage} />
     <meta property="og:image:alt" content={ogImageAlt} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content="Noorina Labs" />
 
@@ -149,9 +166,14 @@ const resolvedOgImage = ogImage.startsWith("http")
     <meta name="twitter:image" content={resolvedOgImage} />
     <meta name="twitter:image:alt" content={ogImageAlt} />
 
-    <!-- Favicon — brand mark (#69) -->
+    <!-- Favicon & app icons — brand mark (#69, #37) -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="mask-icon" href="/favicon.svg" color="#16213e" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#16213e" />
 
     <!-- Slot for per-page <head> additions (structured data, preloads, etc.) -->
     <slot name="head" />
@@ -164,6 +186,18 @@ const resolvedOgImage = ogImage.startsWith("http")
 
     <!-- Slot for page-level scripts -->
     <slot name="scripts" />
+
+    <!--
+      Theme runtime (#116) — wire up the header dark-mode toggle. The pre-paint
+      inline init above already set data-theme/data-theme-choice (no FOUC); this
+      runtime makes the toggle interactive: cycle light→dark→system, persist the
+      choice, and live-update the resolved theme on OS change while in `system`.
+      See src/scripts/theme.ts and src/components/ThemeToggle.astro.
+    -->
+    <script>
+      import { initThemeToggle } from "../scripts/theme";
+      initThemeToggle();
+    </script>
 
     <!--
       Motion runtime (#121) — scroll-reveal + parallax. Bails immediately on
