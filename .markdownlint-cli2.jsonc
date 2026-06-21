@@ -50,6 +50,9 @@
     "node_modules/**",
     "dist/**",
     ".astro/**",
-    ".claude/worktrees/**"
+    ".claude/worktrees/**",
+    // Project memory: dense append-only note prose with names, SHAs, and
+    // [[wikilinks]] — same exclusion call as the parent org corpus.
+    ".claude/memory/**"
   ]
 }

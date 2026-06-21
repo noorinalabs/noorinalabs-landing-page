@@ -43,6 +43,9 @@ exclude_path = [
   "dist",
   ".astro",
   ".claude/worktrees",
+  # Project memory: append-only notes use [[wikilinks]], not markdown links —
+  # excluded from the internal link gate, same call as the parent org corpus.
+  ".claude/memory",
 ]
 
 # A relative link with no matching file is the failure we DO want to surface.

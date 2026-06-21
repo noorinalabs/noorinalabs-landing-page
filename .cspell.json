@@ -29,6 +29,7 @@
     "node_modules/**",
     "dist/**",
     ".astro/**",
-    ".claude/worktrees/**"
+    ".claude/worktrees/**",
+    ".claude/memory/**"
   ]
 }
