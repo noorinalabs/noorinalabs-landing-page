@@ -47,3 +47,13 @@ See the org-level charter at `noorinalabs-main/.claude/team/charter.md` and this
 ## Status
 
 Project not yet scaffolded. Team roster and charter established. Ready for PRD and initial scaffolding phase.
+
+## Project Memory
+
+Project memory is **version-controlled in this repo** at `.claude/memory/`, not in the user-space auto-memory directory. This makes the accumulated state **transferable**: a developer who pulls a branch gets the memory with it, with zero per-machine setup. The index below is auto-loaded into every session via the committed import line at the end of this section.
+
+`MEMORY.md` is the always-loaded index (one line per memory); the individual topic files in `.claude/memory/*.md` are read on demand when a line looks relevant. To record a memory, create or edit `.claude/memory/<kebab-slug>.md` with the standard frontmatter (`name`, `description`, `metadata.type`), add a one-line pointer to `MEMORY.md`, and **commit it** so it travels with the branch.
+
+> `.claude/memory/**` is excluded from the markdown/cspell/lychee linters (dense append-only note prose with names, SHAs, and `[[wikilinks]]`). The Stop-hook `session_handoff.md` is gitignored (per-session, machine-local churn).
+
+@.claude/memory/MEMORY.md

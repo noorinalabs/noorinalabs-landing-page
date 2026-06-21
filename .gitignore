@@ -22,6 +22,9 @@ Thumbs.db
 # Claude Code — local-only consultation sentinels
 .claude/.consulted/
 
+# Claude Code — per-session, machine-local memory handoff (Stop hook)
+.claude/memory/session_handoff.md
+
 # Lighthouse reports
 lighthouse-report.html
 
