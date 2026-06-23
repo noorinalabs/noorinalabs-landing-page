@@ -41,6 +41,10 @@ yarn-debug.log*
 .eslintcache
 *.tsbuildinfo
 
+# Python (scripts/ CI helpers)
+__pycache__/
+*.pyc
+
 # Logs
 *.log
 

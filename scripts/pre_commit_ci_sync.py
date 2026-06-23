@@ -23,7 +23,8 @@ step vs a `ruff` pre-commit `id:`). We normalize both sides to a small set of
 kind tokens so they compare:
 
     ruff-lint, ruff-format, mypy, pytest, eslint, typescript, prettier,
-    terraform-fmt, gitleaks, actionlint, astro-check, pip-audit, build
+    terraform-fmt, gitleaks, actionlint, astro-check, pip-audit, build,
+    dockerfile-base-pin
 
 Unknown tools are ignored (neither side gates on a kind we can't classify),
 which keeps the gate conservative — it never fails on something it doesn't
@@ -64,6 +65,14 @@ _KIND_PATTERNS: dict[str, tuple[str, ...]] = {
     "actionlint": ("actionlint",),
     "pip-audit": ("pip-audit", "pip audit"),
     "build": ("build-and-validate", "build-and-test", "npm run build", "docker build"),
+    # `dockerfile-base-pin` is the charter-prose→code base-image gate
+    # (noorinalabs-main#735/#744): a `scripts/check_dockerfile_base_pin.py` run
+    # invoked identically by a CI job and a pre-commit hook. Classifying it makes
+    # the sync-drift gate DEMAND the mirror (#684) — a CI base-pin job with no
+    # pre-commit hook is harmful drift, not a silently-ignored unknown. Patterns
+    # match the script basename (present on both sides' invoke line) and the
+    # hook id / job name.
+    "dockerfile-base-pin": ("check_dockerfile_base_pin", "dockerfile-base-pin"),
 }
 
 # `ruff-lint` is a substring of nothing problematic, but `ruff format` also

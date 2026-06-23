@@ -93,3 +93,33 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 14
+
+  dockerfile-base-pin:
+    name: Dockerfile base-image pinning lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # Charter-prose→code gate (noorinalabs-main#735/#744, tech-decisions.md
+      # § Base Image Pinning). Asserts every Dockerfile FROM is digest-pinned
+      # (image:tag@sha256:<digest>) AND carries the matching distro upgrade.
+      # Mirrors the `dockerfile-base-pin` pre-commit hook (the sync-drift gate
+      # classifies the kind, so the mirror is mandatory). Lives in ci.yml (not
+      # docs.yml) so it has no path filter — a Dockerfile-only edit still gates.
+      - name: dockerfile-base-pin — Dockerfile FROM digest-pin + distro upgrade
+        run: |
+          files=$(find . \( -path ./node_modules -o -path ./dist -o -path ./.astro \
+            -o -path ./.claude/worktrees \) -prune -o \
+            \( -name 'Dockerfile' -o -name 'Dockerfile.*' -o -name '*.dockerfile' \) -print)
+          if [ -z "$files" ]; then
+            echo "No Dockerfiles found — base-pin lint is a no-op here."
+            exit 0
+          fi
+          # shellcheck disable=SC2086  # word-splitting is intended (one path per arg)
+          python3 scripts/check_dockerfile_base_pin.py $files
