@@ -2,7 +2,7 @@
 
 Organization landing page — Astro.
 
-The public marketing site for NoorinALabs: a statically generated Astro + Tailwind site whose pages, layouts, and content collections live under `src/`. It is built to static HTML at deploy time and served from an Nginx container.
+The public marketing site for Noorina Labs: a statically generated Astro + Tailwind site whose pages, layouts, and content collections live under `src/`. It is built to static HTML at deploy time and served from an Nginx container.
 
 ## Git hooks (required)
 
@@ -13,7 +13,7 @@ pre-commit install                       # commit-stage checks
 pre-commit install --hook-type pre-push  # push-stage checks
 ```
 
-- **Commit stage** runs: gitleaks (secret detection), actionlint (workflow lint), ESLint, and Prettier `--check`.
+- **Commit stage** runs: gitleaks (secret detection), actionlint (workflow lint), ESLint, Prettier `--check`, and the Dockerfile base-image-pinning lint (`scripts/check_dockerfile_base_pin.py` — every `FROM` must be digest-pinned with the matching distro upgrade; noorinalabs-main#735/#744).
 - **Pre-push stage** runs: `astro check` (type check), `npm run build`, and unit tests (`npm test`).
 
 The commit stage stays fast so the commit loop is snappy; the heavier compile, build, and test surface runs at push time, before code leaves the machine. Run `npm ci` once after cloning so `node_modules` is present for the local hooks.
