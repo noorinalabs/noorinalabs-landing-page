@@ -1,0 +1,8 @@
+# Merge driver for structural ontology code-graph.json.
+# The union merge driver (owned by noorinalabs-main/.claude/lib/ontology_gen/merge_driver.py)
+# performs a conflict-free union merge on the JSON node/edge arrays rather than a
+# line-level git merge, so parallel branches adding different nodes never conflict.
+# Registration: python3 scripts/structural_ontology.py register-merge-driver
+# (the driver attribute here is committed; the git config entry is per-clone
+# local state -- run the register-merge-driver subcommand after cloning).
+ontology/structural/code-graph.json merge=ontology-codegraph
