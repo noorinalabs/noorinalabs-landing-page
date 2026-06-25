@@ -24,7 +24,7 @@ kind tokens so they compare:
 
     ruff-lint, ruff-format, mypy, pytest, eslint, typescript, prettier,
     terraform-fmt, gitleaks, actionlint, astro-check, pip-audit, build,
-    dockerfile-base-pin
+    dockerfile-base-pin, structural-ontology
 
 Unknown tools are ignored (neither side gates on a kind we can't classify),
 which keeps the gate conservative — it never fails on something it doesn't
@@ -73,6 +73,13 @@ _KIND_PATTERNS: dict[str, tuple[str, ...]] = {
     # match the script basename (present on both sides' invoke line) and the
     # hook id / job name.
     "dockerfile-base-pin": ("check_dockerfile_base_pin", "dockerfile-base-pin"),
+    # `structural-ontology` is the C×T2 per-repo structural index staleness gate
+    # (noorinalabs-main#820/#855, landing-page wiring #155). Classifying it makes
+    # the sync-drift gate DEMAND the local mirror -- a CI structural-ontology job
+    # with no pre-commit hook is harmful drift, not a silently-ignored unknown.
+    # Patterns match the wrapper script name (used on both sides) and the hook /
+    # workflow id.
+    "structural-ontology": ("structural_ontology", "structural-ontology"),
 }
 
 # `ruff-lint` is a substring of nothing problematic, but `ruff format` also
